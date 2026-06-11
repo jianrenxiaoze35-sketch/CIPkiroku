@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CIP 洗浄記録</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#07090f;--s0:#0d0f18;--s1:#121520;--s2:#181b26;--s3:#1d2130;--s4:#232738;--s5:#2b3050;
+  --rim:#2b3050;--rim2:#3a4268;
+  --tx:#cdd5f0;--tx2:#7a85aa;--tx3:#4a527a;--tx4:#2e355a;
+  --cy:#14b0cc;--cl:rgba(20,176,204,.1);--cb:rgba(20,176,204,.3);
+  --gr:#1fc47a;--gl:rgba(31,196,122,.1);--gb:rgba(31,196,122,.28);
+  --rd:#d94040;--rl:rgba(217,64,64,.11);--rb:rgba(217,64,64,.3);
+  --am:#e09818;--al:rgba(224,152,24,.12);--ab:rgba(224,152,24,.3);
+  --blu:#3672e0;--pur:#7c52f0;
+  --r:10px;--r2:7px;--r3:4px;
+  --ff:'Noto Sans JP',sans-serif;--fm:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--tx);font-family:var(--ff);font-size:13px;display:flex;flex-direction:column}
+body::before{content:'';position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);
+  pointer-events:none;z-index:9999}
+
+/* TOP */
+.top{display:flex;align-items:center;gap:11px;padding:9px 20px;
+  background:linear-gradient(180deg,var(--s1),var(--s0));
+  border-bottom:1px solid var(--rim);flex-shrink:0;position:relative}
+.top::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--cy),transparent);opacity:.5}
+.badge{font-family:var(--fm);font-size:9px;color:var(--cy);
+  background:var(--cl);border:1px solid var(--cb);border-radius:3px;
+  padding:2px 8px;letter-spacing:.1em;text-transform:uppercase}
+.title{font-size:15px;font-weight:600;color:#fff}
+.sub{font-size:9px;color:var(--tx3);font-family:var(--fm);margin-top:1px}
+.sp{flex:1}
+.nav{display:flex;gap:1px;background:var(--rim);border-radius:var(--r2);padding:2px}
+.nb{padding:5px 14px;font-size:11px;cursor:pointer;border-radius:5px;
+  color:var(--tx2);transition:all .15s;font-weight:500;white-space:nowrap}
+.nb.on{background:var(--s3);color:var(--tx);box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.led-w{display:flex;align-items:center;gap:5px}
+.led{width:6px;height:6px;border-radius:50%;background:var(--tx4);transition:background .3s}
+.led.on{background:var(--gr);box-shadow:0 0 5px var(--gr)}
+.led-t{font-family:var(--fm);font-size:9px;color:var(--tx3)}
+
+/* LAYOUT */
+.body{display:flex;flex:1;overflow:hidden}
+.main{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--s5) transparent}
+.panel{display:none}.panel.on{display:block}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-thumb{background:var(--s5);border-radius:3px}
+
+/* ═══════ DASHBOARD ═══════ */
+.dash{padding:16px 20px}
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px}
+.kpi{background:var(--s1);border:1px solid var(--rim);border-radius:var(--r2);
+  padding:11px 13px;position:relative;overflow:hidden}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.kpi.c-cy::before{background:var(--cy)}.kpi.c-gr::before{background:var(--gr)}
+.kpi.c-rd::before{background:var(--rd)}.kpi.c-am::before{background:var(--am)}
+.kpi.c-pu::before{background:var(--pur)}
+.kpi-n{font-size:24px;font-weight:500;font-family:var(--fm);line-height:1}
+.kpi-l{font-size:10px;color:var(--tx3);margin-top:3px}
+.kpi.c-cy .kpi-n{color:var(--cy)}.kpi.c-gr .kpi-n{color:var(--gr)}
+.kpi.c-rd .kpi-n{color:var(--rd)}.kpi.c-am .kpi-n{color:var(--am)}
+.kpi.c-pu .kpi-n{color:var(--pur)}
+
+.chart-row1{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-bottom:10px}
+.chart-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cc{background:var(--s1);border:1px solid var(--rim);border-radius:var(--r);padding:13px 15px}
+.cc-title{font-size:9px;font-weight:600;color:var(--tx3);
+  text-transform:uppercase;letter-spacing:.08em;font-family:var(--fm);margin-bottom:10px}
+.cc canvas{display:block}
+
+/* HEATMAP */
+.hm{display:flex;flex-direction:column;gap:5px}
+.hm-row{display:flex;align-items:center;gap:5px}
+.hm-lbl{font-family:var(--fm);font-size:9px;color:var(--tx3);width:66px;text-align:right;flex-shrink:0}
+.hm-cells{display:flex;gap:3px}
+.hm-cell{width:20px;height:20px;border-radius:3px;cursor:pointer;
+  transition:transform .12s;position:relative;flex-shrink:0}
+.hm-cell:hover{transform:scale(1.25);z-index:10}
+.hm-cell.pass{background:var(--gr)}.hm-cell.fail{background:var(--rd)}
+.hm-cell.empty{background:var(--s4);opacity:.5}.hm-cell.nodata{background:var(--s3);opacity:.3}
+.hm-tip{position:absolute;bottom:calc(100%+4px);left:50%;transform:translateX(-50%);
+  background:var(--s0);border:1px solid var(--rim2);border-radius:3px;
+  padding:3px 7px;font-family:var(--fm);font-size:9px;color:var(--tx2);
+  white-space:nowrap;pointer-events:none;z-index:100;display:none}
+.hm-cell:hover .hm-tip{display:block}
+.hm-legend{display:flex;align-items:center;gap:8px;margin-top:5px;
+  font-family:var(--fm);font-size:9px;color:var(--tx3)}
+.hm-legend span{display:inline-flex;align-items:center;gap:3px}
+.hm-swatch{width:12px;height:12px;border-radius:2px}
+
+/* ═══════ ENTRY ═══════ */
+.entry{padding:16px 20px;max-width:900px}
+
+/* 日付バー */
+.date-bar{display:flex;align-items:center;gap:12px;
+  padding:12px 16px;background:var(--s1);border:1px solid var(--rim);
+  border-radius:var(--r);margin-bottom:14px}
+.date-bar input[type=date]{
+  background:var(--s2);border:1px solid var(--rim2);border-radius:var(--r2);
+  color:var(--tx);padding:7px 11px;font-size:14px;font-family:var(--fm);
+  outline:none;transition:border-color .15s}
+.date-bar input[type=date]:focus{border-color:var(--cy)}
+.date-name{font-size:12px;color:var(--tx2);font-family:var(--fm)}
+
+/* 共通バー */
+.common-bar{display:grid;grid-template-columns:2fr 1fr 1fr 2fr auto;gap:8px;align-items:end;
+  padding:11px 14px;background:var(--s2);border:1px solid var(--rim);
+  border-radius:var(--r2);margin-bottom:14px}
+.fg{display:flex;flex-direction:column;gap:4px}
+.fl{font-size:9px;font-weight:600;color:var(--tx3);text-transform:uppercase;
+  letter-spacing:.06em;font-family:var(--fm)}
+input,select,textarea{
+  background:var(--s2);border:1px solid var(--rim);border-radius:var(--r2);
+  color:var(--tx);padding:7px 10px;font-size:12.5px;font-family:var(--ff);
+  outline:none;transition:border-color .15s;width:100%}
+input:focus,select:focus,textarea:focus{border-color:var(--cy)}
+select option{background:var(--s2)}
+
+/* エリアセクション */
+.area{margin-bottom:14px}
+.area-hd{display:flex;align-items:center;gap:9px;
+  padding:9px 13px;background:var(--s2);border:1px solid var(--rim2);
+  border-radius:var(--r2) var(--r2) 0 0;cursor:pointer;user-select:none}
+.area-hd:hover{background:var(--s3)}
+.area-icon{font-size:14px}
+.area-title{font-size:13px;font-weight:600;color:var(--tx)}
+.area-tag{font-size:9px;padding:1px 8px;border-radius:999px;font-family:var(--fm);font-weight:600}
+.a-brew{background:var(--cl);border:1px solid var(--cb);color:var(--cy)}
+.a-fill{background:var(--rl);border:1px solid var(--rb);color:var(--rd)}
+.area-note{font-size:10px;color:var(--tx3);font-family:var(--fm)}
+.area-caret{margin-left:auto;color:var(--tx3);transition:transform .2s}
+.area-caret.open{transform:rotate(180deg)}
+.area-bd{border:1px solid var(--rim2);border-top:none;
+  border-radius:0 0 var(--r2) var(--r2);background:var(--s1);
+  padding:12px;display:none}
+.area-bd.open{display:block}
+
+/* 設備グリッド */
+.eq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.eq-card{background:var(--s2);border:1px solid var(--rim);border-radius:var(--r2);
+  padding:10px 11px;transition:border-color .15s}
+.eq-card.ok{border-color:var(--gb)}.eq-card.ng{border-color:var(--rb)}
+.eq-name{font-size:11.5px;font-weight:500;color:var(--tx);
+  display:flex;align-items:center;gap:5px;margin-bottom:7px}
+.eq-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.eq-inp-row{display:flex;align-items:center;gap:4px}
+.eq-inp{background:var(--s3);border:1px solid var(--rim);border-radius:3px;
+  color:var(--tx);padding:6px 7px;font-size:13px;font-family:var(--fm);
+  outline:none;transition:border-color .15s;width:100%}
+.eq-inp:focus{border-color:var(--cy)}
+.eq-unit{font-family:var(--fm);font-size:10px;color:var(--tx3);white-space:nowrap}
+.eq-judge{font-size:10px;margin-top:4px;font-family:var(--fm);font-weight:600;min-height:14px}
+.eq-judge.ok{color:var(--gr)}.eq-judge.ng{color:var(--rd)}
+.eq-limit{font-size:9px;color:var(--tx4);font-family:var(--fm);margin-top:1px}
+
+/* 一括チェック行 */
+.batch-ck{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;
+  padding:8px 12px;background:var(--s2);border:1px solid var(--rim);border-radius:3px}
+.ck{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--tx2)}
+.ck input[type=checkbox]{width:14px;height:14px;accent-color:var(--cy);cursor:pointer}
+
+/* 保存バー */
+.save-bar{display:flex;align-items:center;gap:10px;
+  padding:12px 14px;background:var(--s1);border:1px solid var(--rim);
+  border-radius:var(--r2);margin-top:14px}
+.prog-w{flex:1;background:var(--s4);border-radius:3px;height:4px;overflow:hidden;display:none}
+.prog-f{height:100%;background:var(--cy);border-radius:3px;transition:width .25s}
+.save-st{font-family:var(--fm);font-size:10px;color:var(--tx3)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:var(--r2);
+  border:1px solid var(--rim2);background:var(--s3);color:var(--tx);font-size:12px;
+  cursor:pointer;transition:all .15s;font-family:var(--ff);white-space:nowrap}
+.btn:hover{border-color:var(--cy);color:var(--cy)}
+.btn:disabled{opacity:.4;pointer-events:none}
+.btn-cy{background:var(--cl);border-color:var(--cb);color:var(--cy)}
+.btn-cy:hover{background:rgba(20,176,204,.18)}
+.btn-lg{padding:10px 22px;font-size:13px;font-weight:600}
+
+/* LOG */
+.log-wrap{padding:16px 20px}
+.log-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.log-section-title{font-size:10px;color:var(--tx3);font-family:var(--fm);
+  margin:12px 0 5px;letter-spacing:.04em}
+.log-row{display:grid;grid-template-columns:auto 1fr auto auto auto;gap:8px;align-items:center;
+  padding:7px 11px;background:var(--s1);border:1px solid var(--rim);
+  border-radius:var(--r2);margin-bottom:4px;cursor:pointer;transition:all .12s}
+.log-row:hover{background:var(--s2);border-color:var(--rim2)}
+.log-row.pass{border-left:3px solid var(--gr)}
+.log-row.fail{border-left:3px solid var(--rd)}
+.log-row.na{border-left:3px solid var(--rim2)}
+.log-name{font-size:12.5px;font-weight:500}
+.log-sub{font-size:10px;color:var(--tx3);font-family:var(--fm)}
+.bsm{font-size:10px;padding:1px 7px;border-radius:999px;font-family:var(--fm);font-weight:600;white-space:nowrap}
+.b-pass{background:var(--gl);border:1px solid var(--gb);color:var(--gr)}
+.b-fail{background:var(--rl);border:1px solid var(--rb);color:var(--rd)}
+.b-na{background:var(--s3);border:1px solid var(--rim);color:var(--tx3)}
+.rlu-v{font-family:var(--fm);font-size:11px;font-weight:600}
+.rlu-v.pass{color:var(--gr)}.rlu-v.fail{color:var(--rd)}.rlu-v.na{color:var(--tx3)}
+
+/* TOAST */
+.toast{position:fixed;bottom:18px;right:18px;background:var(--s2);border:1px solid var(--rim2);
+  border-radius:var(--r2);padding:10px 16px;font-size:12px;z-index:300;display:none;
+  align-items:center;gap:8px;box-shadow:0 6px 24px rgba(0,0,0,.5);font-family:var(--fm)}
+.toast.on{display:flex}
+.toast.ok{border-color:var(--gb);color:var(--gr)}.toast.er{border-color:var(--rb);color:var(--rd)}
+.spin{display:inline-block;width:11px;height:11px;border:2px solid var(--rim2);
+  border-top-color:var(--cy);border-radius:50%;animation:sp .6s linear infinite;
+  vertical-align:middle;margin-right:4px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:34px;color:var(--tx3);font-size:12px}
+</style>
+</head>
+<body>
+
+<!-- TOP -->
+<div class="top">
+  <span class="badge">CIP / ATP</span>
+  <div>
+    <div class="title">🧼 CIP 洗浄記録</div>
+    <div class="sub">HACCP 洗浄・殺菌確認記録 ／ 日付ベース一括入力</div>
+  </div>
+  <div class="sp"></div>
+  <div class="nav">
+    <div class="nb on" id="nb-dash"   onclick="goTab('dash')">📊 ダッシュボード</div>
+    <div class="nb"    id="nb-entry"  onclick="goTab('entry')">📝 一括記録</div>
+    <div class="nb"    id="nb-single" onclick="goTab('single')">✏️ 個別記録</div>
+    <div class="nb"    id="nb-log"    onclick="goTab('log')">📋 記録一覧</div>
+  </div>
+  <div class="led-w">
+    <div class="led" id="ledDot"></div>
+    <span class="led-t" id="ledTxt">接続中…</span>
+  </div>
+</div>
+
+<div class="body">
+<div class="main">
+
+<!-- ════ DASHBOARD ════ -->
+<div class="panel on" id="panel-dash">
+<div class="dash">
+  <div class="kpi-row">
+    <div class="kpi c-cy"><div class="kpi-n" id="k-total">—</div><div class="kpi-l">総CIP件数</div></div>
+    <div class="kpi c-gr"><div class="kpi-n" id="k-pass">—</div><div class="kpi-l">ATP合格</div></div>
+    <div class="kpi c-rd"><div class="kpi-n" id="k-fail">—</div><div class="kpi-l">ATP不合格</div></div>
+    <div class="kpi c-am"><div class="kpi-n" id="k-avg">—</div><div class="kpi-l">平均RLU</div></div>
+    <div class="kpi c-pu"><div class="kpi-n" id="k-rate">—</div><div class="kpi-l">合格率</div></div>
+  </div>
+
+  <div class="chart-row1">
+    <div class="cc">
+      <div class="cc-title">RLU 推移（直近40件）</div>
+      <div style="height:190px"><canvas id="cRlu"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cc-title">ATP 判定内訳</div>
+      <div style="height:190px"><canvas id="cJudge"></canvas></div>
+    </div>
+  </div>
+
+  <div class="chart-row2">
+    <div class="cc">
+      <div class="cc-title">設備別 平均RLU ／ 基準値</div>
+      <div style="height:200px"><canvas id="cEquip"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cc-title">直近14日 合否ヒートマップ</div>
+      <div class="hm" id="heatmap"></div>
+      <div class="hm-legend">
+        <span><div class="hm-swatch" style="background:var(--gr)"></div>合格</span>
+        <span><div class="hm-swatch" style="background:var(--rd)"></div>不合格</span>
+        <span><div class="hm-swatch" style="background:var(--s4)"></div>記録なし</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ════ ENTRY ════ -->
+<div class="panel" id="panel-entry">
+<div class="entry">
+
+  <!-- 日付 -->
+  <div class="date-bar">
+    <span style="font-family:var(--fm);font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em">実施日</span>
+    <input type="date" id="eDate" oninput="onDateChange()">
+    <span class="date-name" id="dateName"></span>
+    <div class="sp"></div>
+    <button class="btn" onclick="setToday()">今日</button>
+  </div>
+
+  <!-- 共通設定 -->
+  <div style="font-size:9px;font-weight:600;color:var(--tx3);text-transform:uppercase;
+    letter-spacing:.08em;font-family:var(--fm);margin-bottom:6px">
+    共通設定（全設備に適用）
+  </div>
+  <div class="common-bar">
+    <div class="fg">
+      <div class="fl">CIPプログラム</div>
+      <select id="cProg">
+        <option>フルCIP（苛性→酸→殺菌） / Full CIP</option>
+        <option>苛性洗浄 / Caustic Wash</option>
+        <option>酸洗浄 / Acid Wash</option>
+        <option>温水リンス / Hot Water Rinse</option>
+        <option>殺菌工程後 / Post-Sanitation</option>
+        <option>その他 / Other</option>
+      </select>
+    </div>
+    <div class="fg">
+      <div class="fl">洗浄温度 ℃</div>
+      <input id="cTemp" type="number" placeholder="例: 80">
+    </div>
+    <div class="fg">
+      <div class="fl">循環時間 分</div>
+      <input id="cCirc" type="number" placeholder="例: 30">
+    </div>
+    <div class="fg">
+      <div class="fl">前工程バッチ</div>
+      <input id="cPrev" type="text" placeholder="例: ペールエール L-042">
+    </div>
+    <div style="display:flex;align-items:flex-end;padding-bottom:2px">
+      <label class="ck" style="font-size:12px">
+        <input type="checkbox" id="cRinse" checked style="width:14px;height:14px;accent-color:var(--cy)">
+        すすぎ確認
+      </label>
+    </div>
+  </div>
+
+  <!-- 醸造エリア一括 -->
+  <div class="area">
+    <div class="area-hd" onclick="toggleArea('brew')">
+      <span class="area-icon">🍺</span>
+      <span class="area-title">醸造エリア</span>
+      <span class="area-tag a-brew">一括記録</span>
+      <span class="area-note">仕込釜・糖化槽・煮沸釜・ワールプール・発酵タンク・ブライトタンク・ホース配管</span>
+      <span class="area-caret open" id="cr-brew">▾</span>
+    </div>
+    <div class="area-bd open" id="bd-brew">
+      <div class="eq-grid" id="brewGrid"></div>
+      <div class="batch-ck">
+        <label class="ck"><input type="checkbox" id="brewAtp" checked> ATP検査実施</label>
+        <label class="ck"><input type="checkbox" id="brewRinse" checked> すすぎ確認</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 充填ライン個別 -->
+  <div class="area">
+    <div class="area-hd" onclick="toggleArea('fill')">
+      <span class="area-icon">🥫</span>
+      <span class="area-title">充填ライン</span>
+      <span class="area-tag a-fill">個別記録 ≤50 RLU</span>
+      <span class="area-caret open" id="cr-fill">▾</span>
+    </div>
+    <div class="area-bd open" id="bd-fill">
+      <div class="eq-grid" id="fillGrid"></div>
+      <div style="margin-top:10px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <div class="fg" style="flex:none">
+          <div class="fl" style="margin-bottom:4px">採取ポイント</div>
+          <select id="fillPoint" style="width:200px">
+            <option>充填ノズル / Fill Nozzle</option>
+            <option>タンク内面 / Tank Interior</option>
+            <option>排出口 / Outlet</option>
+            <option>バルブ周辺 / Valve Area</option>
+            <option>ホース接続部 / Hose Connection</option>
+          </select>
+        </div>
+        <label class="ck" style="align-self:flex-end;padding-bottom:2px">
+          <input type="checkbox" id="fillAtp" checked> ATP検査実施
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 備考 -->
+  <div class="fg" style="margin-bottom:14px">
+    <div class="fl" style="margin-bottom:4px">共通備考・異常メモ</div>
+    <textarea id="cNote" placeholder="異常・特記事項（全設備共通で付記）" style="min-height:50px"></textarea>
+  </div>
+
+  <!-- 保存バー -->
+  <div class="save-bar">
+    <button class="btn btn-cy btn-lg" id="saveBtn" onclick="saveAll()">
+      💾 チェックした設備を保存
+    </button>
+    <button class="btn" onclick="checkAllEquips(true)">全選択</button>
+    <button class="btn" onclick="checkAllEquips(false)">全解除</button>
+    <button class="btn" onclick="resetEntry()">↺ リセット</button>
+    <div class="prog-w" id="progW"><div class="prog-f" id="progF"></div></div>
+    <span class="save-st" id="saveSt"></span>
+  </div>
+
+</div>
+</div>
+
+<!-- ════ SINGLE ENTRY ════ -->
+<div class="panel" id="panel-single">
+<div class="entry">
+
+  <div style="font-size:14px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px">
+    ✏️ 個別記録
+    <span style="font-size:11px;color:var(--tx3);font-weight:400">1設備ずつ詳細に記録</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+    <div class="fg">
+      <div class="fl">記録名</div>
+      <input id="s-name" type="text" placeholder="例: CIP-2026-0611 発酵タンクBT1">
+    </div>
+    <div class="fg">
+      <div class="fl">対象設備 <span style="color:var(--rd)">*</span></div>
+      <select id="s-equip" onchange="onSingleEquipChange()">
+        <option value="">選択してください</option>
+        <option>仕込釜 / Mash Tun</option>
+        <option>糖化槽 / Lauter Tun</option>
+        <option>煮沸釜 / Brew Kettle</option>
+        <option>ワールプール / Whirlpool</option>
+        <option>発酵タンク / Fermentation Tank</option>
+        <option>ブライトタンク / Bright Tank</option>
+        <option>充填ライン / Filling Line</option>
+        <option>ホース・配管 / Hoses & Pipes</option>
+        <option>その他 / Other</option>
+      </select>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:10px;margin-bottom:10px">
+    <div class="fg">
+      <div class="fl">CIPプログラム <span style="color:var(--rd)">*</span></div>
+      <select id="s-prog">
+        <option>フルCIP（苛性→酸→殺菌） / Full CIP</option>
+        <option>苛性洗浄 / Caustic Wash</option>
+        <option>酸洗浄 / Acid Wash</option>
+        <option>温水リンス / Hot Water Rinse</option>
+        <option>殺菌工程後 / Post-Sanitation</option>
+        <option>その他 / Other</option>
+      </select>
+    </div>
+    <div class="fg">
+      <div class="fl">実施日時 <span style="color:var(--rd)">*</span></div>
+      <input id="s-start" type="datetime-local">
+    </div>
+    <div class="fg">
+      <div class="fl">終了日時</div>
+      <input id="s-end" type="datetime-local">
+    </div>
+    <div class="fg">
+      <div class="fl">洗浄温度 ℃</div>
+      <input id="s-temp" type="number" placeholder="80">
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px">
+    <div class="fg">
+      <div class="fl">循環時間 分</div>
+      <input id="s-circ" type="number" placeholder="30">
+    </div>
+    <div class="fg">
+      <div class="fl">前工程バッチ</div>
+      <input id="s-prev" type="text" placeholder="ペールエール L-042">
+    </div>
+    <div class="fg" style="justify-content:flex-end;padding-bottom:4px">
+      <label class="ck">
+        <input type="checkbox" id="s-rinse" checked style="width:14px;height:14px;accent-color:var(--cy)">
+        すすぎ確認
+      </label>
+    </div>
+  </div>
+
+  <!-- ATP -->
+  <div style="background:var(--s2);border:1px solid var(--rim);border-radius:var(--r2);padding:12px;margin-bottom:10px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+      <label class="ck" style="font-size:13px;font-weight:500">
+        <input type="checkbox" id="s-atp" onchange="toggleSingleAtp()"
+          style="width:14px;height:14px;accent-color:var(--cy)">
+        ATP検査実施
+      </label>
+    </div>
+    <div id="s-atp-fields" style="display:none">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:10px">
+        <div class="fg">
+          <div class="fl">検査日時</div>
+          <input id="s-atp-dt" type="datetime-local">
+        </div>
+        <div class="fg">
+          <div class="fl">採取ポイント</div>
+          <select id="s-point">
+            <option>タンク内面 / Tank Interior</option>
+            <option>排出口 / Outlet</option>
+            <option>バルブ周辺 / Valve Area</option>
+            <option>ホース接続部 / Hose Connection</option>
+            <option>配管出口 / Pipe Outlet</option>
+            <option>充填ノズル / Fill Nozzle</option>
+            <option>床・排水周辺 / Floor & Drain</option>
+            <option>その他 / Other</option>
+          </select>
+        </div>
+        <div class="fg">
+          <div class="fl">RLU値</div>
+          <input id="s-rlu" type="number" placeholder="例: 85" min="0" oninput="updSingleJudge()">
+        </div>
+        <div class="fg">
+          <div class="fl">基準値RLU</div>
+          <input id="s-lim" type="number" placeholder="自動入力" min="0" oninput="updSingleJudge()">
+        </div>
+      </div>
+      <div id="s-judge-result" style="padding:8px 12px;border-radius:var(--r3);font-size:12px;
+        background:var(--s3);border:1px solid var(--rim);color:var(--tx3)">
+        RLU値と基準値を入力すると自動判定されます
+      </div>
+      <!-- 不合格時 -->
+      <div id="s-fail-fields" style="display:none;margin-top:10px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="fg">
+            <div class="fl">ATP是正内容</div>
+            <textarea id="s-correction" placeholder="再洗浄の内容・対応詳細" style="min-height:55px"></textarea>
+          </div>
+          <div class="fg">
+            <div class="fl">再検査結果</div>
+            <select id="s-recheck">
+              <option value="未実施 / Not Done">未実施</option>
+              <option value="合格 / Pass">合格</option>
+              <option value="不合格 / Fail">不合格</option>
+            </select>
+            <label class="ck" style="margin-top:8px">
+              <input type="checkbox" id="s-reclean" style="width:13px;height:13px;accent-color:var(--rd)">
+              <span style="color:var(--rd)">再洗浄が必要</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fg" style="margin-bottom:14px">
+    <div class="fl" style="margin-bottom:4px">異常・備考</div>
+    <textarea id="s-note" placeholder="洗浄中の異常・気づき・特記事項" style="min-height:50px"></textarea>
+  </div>
+
+  <div class="save-bar">
+    <button class="btn btn-cy btn-lg" id="s-saveBtn" onclick="saveSingle()">
+      💾 この記録をNotionへ保存
+    </button>
+    <button class="btn" onclick="resetSingle()">↺ リセット</button>
+    <span class="save-st" id="s-saveSt"></span>
+  </div>
+
+</div>
+</div>
+
+<!-- ════ LOG ════ -->
+<div class="panel" id="panel-log">
+<div class="log-wrap">
+  <div class="log-toolbar">
+    <div style="font-size:14px;font-weight:600">記録一覧</div>
+    <div class="sp"></div>
+    <button class="btn" onclick="loadData()">↺ 更新</button>
+    <a href="https://app.notion.com/p/367f5289a51c81ddb500ee2d0c569f4f"
+       target="_blank" class="btn">Notionで開く ↗</a>
+  </div>
+  <div id="logBody" class="empty"><span class="spin"></span>読み込み中…</div>
+</div>
+</div>
+
+</div><!-- /main -->
+</div><!-- /body -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ══ CONFIG ══
+const CIP_DB  = "c42a4c69-5c37-4f25-be39-32a309f586b0";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbxBg7BkaVOk_hF3uiEMdX1YVNsKipEZyXbbDKyrNEv5p9F0GdTQg6nezPGSGRGg7UBC/exec";
+
+const BREW_EQ = [
+  {key:"mash",  name:"仕込釜",      en:"仕込釜 / Mash Tun",              lim:200, dot:"#e07020", pt:"タンク内面 / Tank Interior"},
+  {key:"laut",  name:"糖化槽",      en:"糖化槽 / Lauter Tun",            lim:200, dot:"#e8c020", pt:"タンク内面 / Tank Interior"},
+  {key:"kett",  name:"煮沸釜",      en:"煮沸釜 / Brew Kettle",           lim:200, dot:"#d94040", pt:"タンク内面 / Tank Interior"},
+  {key:"whirl", name:"ワールプール", en:"ワールプール / Whirlpool",        lim:200, dot:"#7c52f0", pt:"排出口 / Outlet"},
+  {key:"ferm",  name:"発酵タンク",   en:"発酵タンク / Fermentation Tank", lim:100, dot:"#3672e0", pt:"タンク内面 / Tank Interior"},
+  {key:"brig",  name:"ブライトタンク",en:"ブライトタンク / Bright Tank",  lim:100, dot:"#1fc47a", pt:"排出口 / Outlet"},
+  {key:"hose",  name:"ホース・配管", en:"ホース・配管 / Hoses & Pipes",   lim:100, dot:"#4a527a", pt:"ホース接続部 / Hose Connection"},
+];
+const FILL_EQ = [
+  {key:"fill", name:"充填ライン", en:"充填ライン / Filling Line", lim:50, dot:"#d94040", pt:"充填ノズル / Fill Nozzle"},
+];
+const ALL_EQ = [...BREW_EQ, ...FILL_EQ];
+
+// ══ STATE ══
+let logs=[], charts={};
+
+// ══ JSONP ══
+function jsonp(params){
+  return new Promise((res,rej)=>{
+    const cb="_cb"+Date.now()+Math.floor(Math.random()*9999);
+    const qs=Object.entries({...params,callback:cb})
+      .map(([k,v])=>k+"="+encodeURIComponent(typeof v==="object"?JSON.stringify(v):String(v)))
+      .join("&");
+    let sc;
+    const to=setTimeout(()=>{delete window[cb];sc?.remove();rej(new Error("timeout"));},30000);
+    window[cb]=d=>{clearTimeout(to);delete window[cb];sc?.remove();
+      d.ok===false?rej(new Error(d.error||"GAS err")):res(d);};
+    sc=document.createElement("script");
+    sc.src=GAS_URL+"?"+qs;
+    sc.onerror=()=>{clearTimeout(to);delete window[cb];rej(new Error("接続エラー"));};
+    document.head.appendChild(sc);
+  });
+}
+const nPost=(path,body)=>jsonp({action:"relay",method:"POST",path,body:JSON.stringify(body)});
+const nAll =dbId=>jsonp({action:"queryAll",dbId}).then(d=>d.results||[]);
+
+// ══ LOAD ══
+async function loadData(){
+  setLed(false,"読み込み中…");
+  try{
+    const pages=await nAll(CIP_DB);
+    logs=pages.map(p=>{
+      const pr=p.properties||{};
+      const rlu=pr["RLU"]?.number;
+      const lim=pr["基準値RLU"]?.number;
+      const atp=pr["ATP検査実施"]?.checkbox;
+      const judge=atp&&rlu!=null&&lim!=null?(rlu<=lim?"pass":"fail"):"none";
+      return{
+        id:p.id,
+        name:(pr["記録名"]?.title||[{}])[0]?.plain_text||"",
+        equip:pr["対象設備"]?.select?.name||"",
+        prog:pr["CIPプログラム"]?.select?.name||"",
+        start:pr["実施日時"]?.date?.start||"",
+        rlu,lim,atp,judge,
+        note:(pr["異常・備考"]?.rich_text||[{}])[0]?.plain_text||"",
+      };
+    });
+    setLed(true,"Notion 接続済");
+    renderDash();
+    renderLog();
+  }catch(e){setLed(false,"接続エラー");toast(e.message,"er");}
+}
+
+// ══ DASHBOARD ══
+function renderDash(){
+  const atp=logs.filter(l=>l.atp);
+  const pass=atp.filter(l=>l.judge==="pass").length;
+  const fail=atp.filter(l=>l.judge==="fail").length;
+  const rlus=atp.filter(l=>l.rlu!=null).map(l=>l.rlu);
+  const avg=rlus.length?Math.round(rlus.reduce((a,b)=>a+b,0)/rlus.length):0;
+  const rate=atp.length?Math.round(pass/atp.length*100):0;
+  document.getElementById("k-total").textContent=logs.length;
+  document.getElementById("k-pass").textContent=pass;
+  document.getElementById("k-fail").textContent=fail;
+  document.getElementById("k-avg").textContent=avg||"—";
+  document.getElementById("k-rate").textContent=atp.length?(rate+"%"):"—";
+  drawRlu();drawJudge(pass,fail,logs.filter(l=>!l.atp).length);
+  drawEquip();drawHeatmap();
+}
+
+function drawRlu(){
+  const data=logs.filter(l=>l.rlu!=null).slice(-40);
+  if(charts.rlu)charts.rlu.destroy();
+  charts.rlu=new Chart(document.getElementById("cRlu").getContext("2d"),{
+    data:{
+      labels:data.map(l=>l.start?l.start.slice(5,10):""),
+      datasets:[
+        {type:"bar",data:data.map(l=>l.rlu),
+          backgroundColor:data.map(l=>l.judge==="pass"?"rgba(31,196,122,.75)":"rgba(217,64,64,.75)"),
+          borderRadius:3,label:"RLU"},
+        {type:"line",data:data.map(l=>l.lim),
+          borderColor:"rgba(224,152,24,.55)",borderDash:[4,3],borderWidth:1.5,
+          pointRadius:0,label:"基準値",fill:false},
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{color:"#4a527a",font:{size:9}},grid:{color:"rgba(255,255,255,.03)"}},
+        y:{ticks:{color:"#4a527a",font:{size:9}},grid:{color:"rgba(255,255,255,.05)"},beginAtZero:true},
+      }}
+  });
+}
+
+function drawJudge(pass,fail,na){
+  if(charts.judge)charts.judge.destroy();
+  charts.judge=new Chart(document.getElementById("cJudge").getContext("2d"),{
+    type:"doughnut",
+    data:{labels:["合格","不合格","ATP未"],
+      datasets:[{data:[pass,fail,na],
+        backgroundColor:["rgba(31,196,122,.75)","rgba(217,64,64,.75)","rgba(42,47,66,.9)"],
+        borderColor:["#1fc47a","#d94040","#2a2f42"],borderWidth:1}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:"65%",
+      plugins:{legend:{position:"bottom",labels:{color:"#7a85aa",font:{size:10},padding:8,boxWidth:10}}}}
+  });
+}
+
+function drawEquip(){
+  const d=ALL_EQ.map(eq=>{
+    const rows=logs.filter(l=>l.equip===eq.en&&l.rlu!=null);
+    const avg=rows.length?Math.round(rows.reduce((s,l)=>s+l.rlu,0)/rows.length):0;
+    return{name:eq.name,avg,lim:eq.lim,color:eq.dot};
+  });
+  if(charts.equip)charts.equip.destroy();
+  charts.equip=new Chart(document.getElementById("cEquip").getContext("2d"),{
+    type:"bar",
+    data:{
+      labels:d.map(e=>e.name),
+      datasets:[
+        {label:"平均RLU",data:d.map(e=>e.avg),
+          backgroundColor:d.map(e=>e.avg>0&&e.avg>e.lim?"rgba(217,64,64,.7)":"rgba(31,196,122,.7)"),
+          borderRadius:3},
+        {label:"基準値",type:"line",data:d.map(e=>e.lim),
+          borderColor:"rgba(224,152,24,.5)",borderDash:[4,3],borderWidth:1.5,
+          pointRadius:0,backgroundColor:"transparent"},
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{color:"#4a527a",font:{size:9}},grid:{color:"rgba(255,255,255,.03)"}},
+        y:{ticks:{color:"#4a527a",font:{size:9}},grid:{color:"rgba(255,255,255,.05)"},beginAtZero:true},
+      }}
+  });
+}
+
+function drawHeatmap(){
+  const wrap=document.getElementById("heatmap");
+  wrap.innerHTML="";
+  const today=new Date();
+  const DAYS=14;
+
+  // 日付ヘッダー行
+  const hRow=document.createElement("div");
+  hRow.className="hm-row";
+  const hLbl=document.createElement("div");
+  hLbl.className="hm-lbl";
+  hRow.appendChild(hLbl);
+  const hCells=document.createElement("div");
+  hCells.className="hm-cells";
+  for(let d=DAYS-1;d>=0;d--){
+    const dt=new Date(today);dt.setDate(today.getDate()-d);
+    const cell=document.createElement("div");
+    cell.style.cssText="width:20px;height:14px;display:flex;align-items:center;justify-content:center;";
+    cell.innerHTML=`<span style="font-family:var(--fm);font-size:8px;color:var(--tx4)">${dt.getDate()}</span>`;
+    hCells.appendChild(cell);
+  }
+  hRow.appendChild(hCells);
+  wrap.appendChild(hRow);
+
+  ALL_EQ.forEach(eq=>{
+    const row=document.createElement("div");
+    row.className="hm-row";
+    const lbl=document.createElement("div");
+    lbl.className="hm-lbl";
+    lbl.textContent=eq.name;
+    row.appendChild(lbl);
+    const cells=document.createElement("div");
+    cells.className="hm-cells";
+    for(let d=DAYS-1;d>=0;d--){
+      const dt=new Date(today);dt.setDate(today.getDate()-d);
+      const ds=dt.toISOString().slice(0,10);
+      const recs=logs.filter(l=>l.equip===eq.en&&l.start&&l.start.startsWith(ds));
+      const cell=document.createElement("div");
+      cell.className="hm-cell";
+      if(!recs.length){cell.classList.add("nodata");}
+      else{
+        const hasFail=recs.some(l=>l.judge==="fail");
+        cell.classList.add(hasFail?"fail":"pass");
+        const rlus=recs.filter(l=>l.rlu!=null).map(l=>l.rlu);
+        const rluTxt=rlus.length?" RLU:"+rlus.join("/"):"";
+        const tip=document.createElement("div");
+        tip.className="hm-tip";
+        tip.textContent=ds+" "+recs.length+"件"+rluTxt;
+        cell.appendChild(tip);
+      }
+      cells.appendChild(cell);
+    }
+    row.appendChild(cells);
+    wrap.appendChild(row);
+  });
+}
+
+// ══ ENTRY ══
+function buildGrids(){
+  ["brew","fill"].forEach(area=>{
+    const eqs=area==="brew"?BREW_EQ:FILL_EQ;
+    const grid=document.getElementById(area+"Grid");
+    grid.innerHTML="";
+    eqs.forEach(eq=>{
+      const c=document.createElement("div");
+      c.className="eq-card";c.id="ec-"+eq.key;
+      c.innerHTML=`<div class="eq-name" style="justify-content:space-between">
+        <span style="display:flex;align-items:center;gap:5px">
+          <div class="eq-dot" style="background:${eq.dot}"></div>${eq.name}
+        </span>
+        <label style="display:flex;align-items:center;gap:4px;cursor:pointer;
+          font-family:var(--fm);font-size:9px;color:var(--tx3)">
+          <input type="checkbox" id="chk-${eq.key}" checked
+            style="width:12px;height:12px;accent-color:var(--cy)"
+            onchange="toggleEqCard('${eq.key}')">
+          記録する
+        </label>
+      </div>
+      <div class="eq-inp-row">
+        <input class="eq-inp" type="number" id="rlu-${eq.key}" placeholder="RLU"
+          min="0" oninput="updCard('${eq.key}',${eq.lim})">
+        <span class="eq-unit">RLU</span>
+      </div>
+      <div class="eq-judge" id="jd-${eq.key}"></div>
+      <div class="eq-limit">基準 ≤${eq.lim} RLU</div>`;
+      grid.appendChild(c);
+    });
+  });
+}
+
+function updCard(key,lim){
+  const v=parseFloat(document.getElementById("rlu-"+key).value);
+  const jEl=document.getElementById("jd-"+key);
+  const card=document.getElementById("ec-"+key);
+  if(isNaN(v)){jEl.className="eq-judge";jEl.textContent="";
+    card.classList.remove("ok","ng");return;}
+  const ok=v<=lim;
+  jEl.className="eq-judge "+(ok?"ok":"ng");
+  jEl.textContent=ok?"✅ 合格":"❌ NG (+"+Math.round(v-lim)+")";
+  card.classList.toggle("ok",ok);card.classList.toggle("ng",!ok);
+}
+
+function toggleArea(area){
+  const bd=document.getElementById("bd-"+area);
+  const cr=document.getElementById("cr-"+area);
+  const open=bd.classList.toggle("open");
+  cr.classList.toggle("open",open);
+}
+
+function setToday(){
+  const d=new Date();
+  document.getElementById("eDate").value=d.toISOString().slice(0,10);
+  onDateChange();
+}
+
+function onDateChange(){
+  const v=document.getElementById("eDate").value;
+  if(!v)return;
+  const d=new Date(v);
+  document.getElementById("dateName").textContent=
+    d.toLocaleDateString("ja-JP",{year:"numeric",month:"long",day:"numeric",weekday:"short"})+" の記録";
+}
+
+// ══ 設備カード チェック切替 ══
+function toggleEqCard(key){
+  const chk=document.getElementById("chk-"+key);
+  const card=document.getElementById("ec-"+key);
+  const inp=document.getElementById("rlu-"+key);
+  const on=chk.checked;
+  card.style.opacity=on?"1":"0.4";
+  inp.disabled=!on;
+}
+
+function checkAllEquips(state){
+  ALL_EQ.forEach(eq=>{
+    const chk=document.getElementById("chk-"+eq.key);
+    if(chk){chk.checked=state;toggleEqCard(eq.key);}
+  });
+}
+
+// ══ SAVE ALL（チェック済み設備のみ・GAS一括送信）══
+async function saveAll(){
+  const date=document.getElementById("eDate").value;
+  if(!date){toast("実施日を選択してください","er");return;}
+
+  const prog =document.getElementById("cProg").value;
+  const temp =parseFloat(document.getElementById("cTemp").value)||null;
+  const circ =parseFloat(document.getElementById("cCirc").value)||null;
+  const prev =document.getElementById("cPrev").value;
+  const note =document.getElementById("cNote").value;
+  const rinse=document.getElementById("cRinse").checked;
+  const brewAtp=document.getElementById("brewAtp").checked;
+  const fillAtp=document.getElementById("fillAtp").checked;
+  const fillPt =document.getElementById("fillPoint").value;
+  const dt=date+"T09:00:00";
+  const rt=v=>[{text:{content:String(v||"")}}];
+
+  // チェックされている設備だけ収集
+  const entries=ALL_EQ
+    .filter(eq=>document.getElementById("chk-"+eq.key)?.checked)
+    .map(eq=>{
+      const isBrew=BREW_EQ.some(e=>e.key===eq.key);
+      const rluVal=parseFloat(document.getElementById("rlu-"+eq.key).value);
+      const atpOn=isBrew?brewAtp:fillAtp;
+      const pt=isBrew?eq.pt:fillPt;
+      return{eq,rluVal,atpOn,pt};
+    });
+
+  if(!entries.length){toast("記録する設備を1つ以上チェックしてください","er");return;}
+
+  const btn=document.getElementById("saveBtn");
+  btn.disabled=true;
+  const pw=document.getElementById("progW");
+  const pf=document.getElementById("progF");
+  pw.style.display="block";
+  document.getElementById("saveSt").textContent=`0 / ${entries.length}`;
+
+  // GAS saveBatch アクションでまとめて送信
+  const pages=entries.map(({eq,rluVal,atpOn,pt})=>{
+    const mmdd=date.slice(5).replace("-","");
+    const recName=`CIP-${date.slice(0,4)}-${mmdd} ${eq.name}`;
+    const props={
+      "記録名":        {title:rt(recName)},
+      "対象設備":      {select:{name:eq.en}},
+      "CIPプログラム": {select:{name:prog}},
+      "実施日時":      {date:{start:dt,is_datetime:true}},
+      "ATP検査実施":   {checkbox:atpOn},
+      "すすぎ確認":    {checkbox:rinse},
+      "基準値RLU":     {number:eq.lim},
+    };
+    if(temp!=null) props["洗浄温度（℃）"]={number:temp};
+    if(circ!=null) props["循環時間（分）"]={number:circ};
+    if(prev) props["前工程（直前バッチ）"]={rich_text:rt(prev)};
+    if(note) props["異常・備考"]={rich_text:rt(note)};
+    if(atpOn&&!isNaN(rluVal)){
+      props["RLU"]          ={number:rluVal};
+      props["検査日時"]     ={date:{start:dt,is_datetime:true}};
+      props["採取ポイント"] ={select:{name:pt}};
+      if(rluVal>eq.lim) props["再洗浄要"]={checkbox:true};
+    }
+    return{parent:{database_id:CIP_DB},properties:props};
+  });
+
+  try{
+    // GASのsaveBatchアクション（複数ページを1リクエストで送信）
+    const result=await jsonp({action:"saveBatch",pages:JSON.stringify(pages)});
+    pw.style.display="none";
+    pf.style.width="100%";
+    const done=result.created||pages.length;
+    const failed=result.failed||0;
+    document.getElementById("saveSt").textContent=`✓ ${done}件完了 ${new Date().toLocaleTimeString("ja-JP")}`;
+    if(failed===0){
+      toast(`✅ ${done}件を保存しました`,"ok");
+      await loadData();goTab("dash");
+    }else{
+      toast(`${done}件保存 / ${failed}件失敗`,"er");
+    }
+  }catch(e){
+    // saveBatch未対応GASの場合はフォールバック：順次送信
+    console.warn("saveBatch fallback:",e.message);
+    let done=0,failed=0;
+    for(const page of pages){
+      try{
+        await nPost("/v1/pages",page);
+        done++;
+      }catch(e2){failed++;console.error(e2.message);}
+      pf.style.width=Math.round((done+failed)/pages.length*100)+"%";
+      document.getElementById("saveSt").textContent=`${done+failed} / ${pages.length}`;
+      await new Promise(r=>setTimeout(r,220));
+    }
+    pw.style.display="none";
+    document.getElementById("saveSt").textContent=`✓ ${done}件完了`;
+    if(failed===0){toast(`✅ ${done}件を保存しました`,"ok");await loadData();goTab("dash");}
+    else toast(`${done}件保存 / ${failed}件失敗`,"er");
+  }
+  btn.disabled=false;
+}
+
+function resetEntry(){
+  ALL_EQ.forEach(eq=>{
+    const el=document.getElementById("rlu-"+eq.key);
+    if(el)el.value="";
+    const chk=document.getElementById("chk-"+eq.key);
+    if(chk){chk.checked=true;toggleEqCard(eq.key);}
+    updCard(eq.key,eq.lim);
+  });
+  ["cTemp","cCirc","cPrev","cNote"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
+  document.getElementById("saveSt").textContent="";
+}
+
+// ══ SINGLE ENTRY ══
+const SINGLE_LIMITS={
+  "仕込釜 / Mash Tun":200,"糖化槽 / Lauter Tun":200,
+  "煮沸釜 / Brew Kettle":200,"ワールプール / Whirlpool":200,
+  "発酵タンク / Fermentation Tank":100,"ブライトタンク / Bright Tank":100,
+  "充填ライン / Filling Line":50,"ホース・配管 / Hoses & Pipes":100,
+  "その他 / Other":200,
+};
+
+function onSingleEquipChange(){
+  const eq=document.getElementById("s-equip").value;
+  const lim=SINGLE_LIMITS[eq];
+  if(lim) document.getElementById("s-lim").value=lim;
+  // 記録名を自動生成
+  const dateEl=document.getElementById("s-start");
+  const d=dateEl.value?dateEl.value.slice(0,10):new Date().toISOString().slice(0,10);
+  const shortName=eq.split(" / ")[0]||eq;
+  if(shortName)
+    document.getElementById("s-name").value=
+      `CIP-${d.slice(0,4)}-${d.slice(5,7)}${d.slice(8,10)} ${shortName}`;
+  updSingleJudge();
+}
+
+function toggleSingleAtp(){
+  const on=document.getElementById("s-atp").checked;
+  document.getElementById("s-atp-fields").style.display=on?"block":"none";
+  if(on){
+    const now=new Date();
+    now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
+    document.getElementById("s-atp-dt").value=now.toISOString().slice(0,16);
+  }
+}
+
+function updSingleJudge(){
+  const rlu=parseFloat(document.getElementById("s-rlu").value);
+  const lim=parseFloat(document.getElementById("s-lim").value);
+  const el=document.getElementById("s-judge-result");
+  const ff=document.getElementById("s-fail-fields");
+  if(isNaN(rlu)||isNaN(lim)){
+    el.style.cssText="padding:8px 12px;border-radius:var(--r3);font-size:12px;background:var(--s3);border:1px solid var(--rim);color:var(--tx3)";
+    el.textContent="RLU値と基準値を入力すると自動判定されます";
+    ff.style.display="none";return;
+  }
+  const ok=rlu<=lim;
+  el.style.cssText=`padding:8px 12px;border-radius:var(--r3);font-size:12px;font-weight:500;border:1px solid;
+    background:${ok?"var(--gl)":"var(--rl)"};border-color:${ok?"var(--gb)":"var(--rb)"};color:${ok?"var(--gr)":"var(--rd)"}`;
+  el.textContent=ok
+    ?`✅ 合格 — RLU ${rlu} ≤ 基準値 ${lim}`
+    :`❌ 不合格 — RLU ${rlu} が基準値 ${lim} を超過（+${Math.round(rlu-lim)}）`;
+  ff.style.display=ok?"none":"block";
+}
+
+async function saveSingle(){
+  const equip=document.getElementById("s-equip").value;
+  const prog =document.getElementById("s-prog").value;
+  const start=document.getElementById("s-start").value;
+  if(!equip||!start){toast("対象設備と実施日時は必須です","er");return;}
+
+  const rt=v=>[{text:{content:String(v||"")}}];
+  const atpOn=document.getElementById("s-atp").checked;
+  const rluVal=parseFloat(document.getElementById("s-rlu").value);
+  const limVal=parseFloat(document.getElementById("s-lim").value);
+  const name=document.getElementById("s-name").value.trim()||`CIP-${start.slice(0,10).replace(/-/g,"")} ${equip.split(" / ")[0]}`;
+
+  const props={
+    "記録名":        {title:rt(name)},
+    "対象設備":      {select:{name:equip}},
+    "CIPプログラム": {select:{name:prog}},
+    "実施日時":      {date:{start:start.replace("T"," ").length<16?start+"T09:00":start,is_datetime:true}},
+    "ATP検査実施":   {checkbox:atpOn},
+    "すすぎ確認":    {checkbox:document.getElementById("s-rinse").checked},
+  };
+  const end =document.getElementById("s-end").value;
+  const temp=parseFloat(document.getElementById("s-temp").value);
+  const circ=parseFloat(document.getElementById("s-circ").value);
+  const prev=document.getElementById("s-prev").value;
+  const note=document.getElementById("s-note").value;
+  if(end)          props["終了日時"]={date:{start:end,is_datetime:true}};
+  if(!isNaN(temp)) props["洗浄温度（℃）"]={number:temp};
+  if(!isNaN(circ)) props["循環時間（分）"]={number:circ};
+  if(prev)         props["前工程（直前バッチ）"]={rich_text:rt(prev)};
+  if(note)         props["異常・備考"]={rich_text:rt(note)};
+  if(!isNaN(limVal)) props["基準値RLU"]={number:limVal};
+  if(atpOn){
+    if(!isNaN(rluVal)){
+      props["RLU"]={number:rluVal};
+      if(rluVal>(isNaN(limVal)?9999:limVal)) props["再洗浄要"]={checkbox:true};
+    }
+    const atpDt=document.getElementById("s-atp-dt").value;
+    if(atpDt) props["検査日時"]={date:{start:atpDt,is_datetime:true}};
+    const pt=document.getElementById("s-point").value;
+    if(pt) props["採取ポイント"]={select:{name:pt}};
+    const cor=document.getElementById("s-correction").value;
+    if(cor) props["ATP是正内容"]={rich_text:rt(cor)};
+    const rck=document.getElementById("s-recheck").value;
+    if(rck) props["再検査結果"]={select:{name:rck}};
+    props["再洗浄要"]={checkbox:document.getElementById("s-reclean").checked};
+  }
+
+  const btn=document.getElementById("s-saveBtn");
+  btn.disabled=true;
+  document.getElementById("s-saveSt").textContent="保存中…";
+  try{
+    await nPost("/v1/pages",{parent:{database_id:CIP_DB},properties:props});
+    toast("✅ 保存しました","ok");
+    document.getElementById("s-saveSt").textContent=`✓ ${new Date().toLocaleTimeString("ja-JP")}`;
+    await loadData();
+  }catch(e){
+    toast("保存エラー: "+e.message,"er");
+    document.getElementById("s-saveSt").textContent="";
+  }finally{btn.disabled=false;}
+}
+
+function resetSingle(){
+  ["s-name","s-temp","s-circ","s-prev","s-note","s-rlu","s-lim","s-correction"].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.value="";
+  });
+  document.getElementById("s-equip").selectedIndex=0;
+  document.getElementById("s-prog").selectedIndex=0;
+  document.getElementById("s-recheck").selectedIndex=0;
+  document.getElementById("s-rinse").checked=true;
+  document.getElementById("s-atp").checked=false;
+  document.getElementById("s-reclean").checked=false;
+  document.getElementById("s-atp-fields").style.display="none";
+  document.getElementById("s-fail-fields").style.display="none";
+  document.getElementById("s-saveSt").textContent="";
+  const now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
+  document.getElementById("s-start").value=now.toISOString().slice(0,16);
+  const jr=document.getElementById("s-judge-result");
+  jr.style.cssText="padding:8px 12px;border-radius:var(--r3);font-size:12px;background:var(--s3);border:1px solid var(--rim);color:var(--tx3)";
+  jr.textContent="RLU値と基準値を入力すると自動判定されます";
+}
+
+// ══ LOG ══
+function renderLog(){
+  const body=document.getElementById("logBody");
+  if(!logs.length){body.innerHTML=`<div class="empty">記録がありません</div>`;return;}
+  const groups={};
+  logs.forEach(l=>{const d=(l.start||"").slice(0,10)||"不明";
+    if(!groups[d])groups[d]=[];groups[d].push(l);});
+  let html="";
+  Object.keys(groups).sort().reverse().forEach(date=>{
+    html+=`<div class="log-section-title">${date}</div>`;
+    groups[date].forEach(l=>{
+      const rluD=l.rlu!=null
+        ?`<span class="rlu-v ${l.judge}">${l.rlu} RLU</span>`
+        :`<span class="rlu-v na">—</span>`;
+      const jD=l.atp
+        ?`<span class="bsm ${l.judge==="pass"?"b-pass":"b-fail"}">${l.judge==="pass"?"✅合格":"❌不合格"}</span>`
+        :`<span class="bsm b-na">ATP未</span>`;
+      html+=`<div class="log-row ${l.atp?l.judge:"na"}">
+        <div></div>
+        <div><div class="log-name">${esc(l.name)}</div>
+          <div class="log-sub">${esc(l.prog.split(" / ")[0]||"")} / ${esc(l.equip.split(" / ")[0]||"")}</div>
+        </div>
+        ${rluD}${jD}
+        <div style="font-size:10px;color:var(--tx4)">›</div>
+      </div>`;
+    });
+  });
+  body.innerHTML=html;
+}
+
+// ══ UTILS ══
+function goTab(t){
+  ["dash","entry","single","log"].forEach(n=>{
+    document.getElementById("panel-"+n).classList.toggle("on",n===t);
+    document.getElementById("nb-"+n).classList.toggle("on",n===t);
+  });
+  if(t==="single"){
+    const now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
+    const el=document.getElementById("s-start");
+    if(el&&!el.value) el.value=now.toISOString().slice(0,16);
+  }
+}
+function setLed(on,txt){
+  document.getElementById("ledDot").classList.toggle("on",on);
+  document.getElementById("ledTxt").textContent=txt;
+}
+function toast(msg,type="ok"){
+  const t=document.getElementById("toast");
+  t.textContent=msg;t.className="toast on "+type;
+  setTimeout(()=>t.classList.remove("on"),3500);
+}
+function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+
+// ══ INIT ══
+document.addEventListener("DOMContentLoaded",()=>{
+  buildGrids();setToday();loadData();
+});
+</script>
+</body>
+</html>
