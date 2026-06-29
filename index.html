@@ -10,7 +10,7 @@
 :root{
   --bg:#07090f;--s0:#0d0f18;--s1:#121520;--s2:#181b26;--s3:#1d2130;--s4:#232738;--s5:#2b3050;
   --rim:#2b3050;--rim2:#3a4268;
-  --tx:#cdd5f0;--tx2:#7a85aa;--tx3:#4a527a;--tx4:#2e355a;
+  --tx:#cdd5f0;--tx2:#a8b4d4;--tx3:#6a77a0;--tx4:#3e4870;
   --cy:#14b0cc;--cl:rgba(20,176,204,.1);--cb:rgba(20,176,204,.3);
   --gr:#1fc47a;--gl:rgba(31,196,122,.1);--gb:rgba(31,196,122,.28);
   --rd:#d94040;--rl:rgba(217,64,64,.11);--rb:rgba(217,64,64,.3);
@@ -40,7 +40,7 @@ body::before{content:'';position:fixed;inset:0;
 .nav{display:flex;gap:1px;background:var(--rim);border-radius:var(--r2);padding:2px}
 .nb{padding:5px 14px;font-size:11px;cursor:pointer;border-radius:5px;
   color:var(--tx2);transition:all .15s;font-weight:500;white-space:nowrap}
-.nb.on{background:var(--s3);color:var(--tx);box-shadow:0 1px 3px rgba(0,0,0,.4)}
+.nb.on{background:var(--s3);color:#fff;box-shadow:0 1px 3px rgba(0,0,0,.4)}
 .led-w{display:flex;align-items:center;gap:5px}
 .led{width:6px;height:6px;border-radius:50%;background:var(--tx4);transition:background .3s}
 .led.on{background:var(--gr);box-shadow:0 0 5px var(--gr)}
@@ -52,11 +52,10 @@ body::before{content:'';position:fixed;inset:0;
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-thumb{background:var(--s5);border-radius:3px}
 
-/* DASHBOARD */
+/* ── DASHBOARD ── */
 .dash{padding:16px 20px}
 .kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px}
-.kpi{background:var(--s1);border:1px solid var(--rim);border-radius:var(--r2);
-  padding:11px 13px;position:relative;overflow:hidden}
+.kpi{background:var(--s1);border:1px solid var(--rim);border-radius:var(--r2);padding:11px 13px;position:relative;overflow:hidden}
 .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
 .kpi.c-cy::before{background:var(--cy)}.kpi.c-gr::before{background:var(--gr)}
 .kpi.c-rd::before{background:var(--rd)}.kpi.c-am::before{background:var(--am)}
@@ -69,46 +68,39 @@ body::before{content:'';position:fixed;inset:0;
 .chart-row1{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-bottom:10px}
 .chart-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .cc{background:var(--s1);border:1px solid var(--rim);border-radius:var(--r);padding:13px 15px}
-.cc-title{font-size:9px;font-weight:600;color:var(--tx3);
-  text-transform:uppercase;letter-spacing:.08em;font-family:var(--fm);margin-bottom:10px}
-.cc canvas{display:block}
+.cc-title{font-size:9px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.08em;font-family:var(--fm);margin-bottom:10px}
 
+/* heatmap */
 .hm{display:flex;flex-direction:column;gap:5px}
 .hm-row{display:flex;align-items:center;gap:5px}
-.hm-lbl{font-family:var(--fm);font-size:9px;color:var(--tx3);width:66px;text-align:right;flex-shrink:0}
+.hm-lbl{font-family:var(--fm);font-size:9px;color:var(--tx2);width:66px;text-align:right;flex-shrink:0}
 .hm-cells{display:flex;gap:3px}
-.hm-cell{width:20px;height:20px;border-radius:3px;cursor:pointer;
-  transition:transform .12s;position:relative;flex-shrink:0}
+.hm-cell{width:20px;height:20px;border-radius:3px;cursor:pointer;transition:transform .12s;position:relative;flex-shrink:0}
 .hm-cell:hover{transform:scale(1.25);z-index:10}
 .hm-cell.pass{background:var(--gr)}.hm-cell.fail{background:var(--rd)}
-.hm-cell.empty{background:var(--s4);opacity:.5}.hm-cell.nodata{background:var(--s3);opacity:.3}
+.hm-cell.nodata{background:var(--s3);opacity:.3}
 .hm-tip{position:absolute;bottom:calc(100%+4px);left:50%;transform:translateX(-50%);
   background:var(--s0);border:1px solid var(--rim2);border-radius:3px;
   padding:3px 7px;font-family:var(--fm);font-size:9px;color:var(--tx2);
   white-space:nowrap;pointer-events:none;z-index:100;display:none}
 .hm-cell:hover .hm-tip{display:block}
-.hm-legend{display:flex;align-items:center;gap:8px;margin-top:5px;
-  font-family:var(--fm);font-size:9px;color:var(--tx3)}
+.hm-legend{display:flex;align-items:center;gap:8px;margin-top:5px;font-family:var(--fm);font-size:9px;color:var(--tx3)}
 .hm-legend span{display:inline-flex;align-items:center;gap:3px}
 .hm-swatch{width:12px;height:12px;border-radius:2px}
 
-/* ENTRY */
-.entry{padding:16px 20px;max-width:900px}
-.date-bar{display:flex;align-items:center;gap:12px;
-  padding:12px 16px;background:var(--s1);border:1px solid var(--rim);
-  border-radius:var(--r);margin-bottom:14px}
-.date-bar input[type=date]{
+/* ── ENTRY ── */
+.entry{padding:16px 20px;max-width:960px}
+.date-bar{display:flex;align-items:center;gap:12px;padding:12px 16px;
+  background:var(--s1);border:1px solid var(--rim);border-radius:var(--r);margin-bottom:14px}
+.date-bar input[type=date],.date-bar input[type=month]{
   background:var(--s2);border:1px solid var(--rim2);border-radius:var(--r2);
-  color:var(--tx);padding:7px 11px;font-size:14px;font-family:var(--fm);
-  outline:none;transition:border-color .15s}
-.date-bar input[type=date]:focus{border-color:var(--cy)}
+  color:var(--tx);padding:7px 11px;font-size:14px;font-family:var(--fm);outline:none;transition:border-color .15s}
+.date-bar input:focus{border-color:var(--cy)}
 .date-name{font-size:12px;color:var(--tx2);font-family:var(--fm)}
 .common-bar{display:grid;grid-template-columns:2fr 1fr 1fr 2fr auto;gap:8px;align-items:end;
-  padding:11px 14px;background:var(--s2);border:1px solid var(--rim);
-  border-radius:var(--r2);margin-bottom:14px}
+  padding:11px 14px;background:var(--s2);border:1px solid var(--rim);border-radius:var(--r2);margin-bottom:14px}
 .fg{display:flex;flex-direction:column;gap:4px}
-.fl{font-size:9px;font-weight:600;color:var(--tx3);text-transform:uppercase;
-  letter-spacing:.06em;font-family:var(--fm)}
+.fl{font-size:9px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em;font-family:var(--fm)}
 input,select,textarea{
   background:var(--s2);border:1px solid var(--rim);border-radius:var(--r2);
   color:var(--tx);padding:7px 10px;font-size:12.5px;font-family:var(--ff);
@@ -117,29 +109,27 @@ input:focus,select:focus,textarea:focus{border-color:var(--cy)}
 select option{background:var(--s2)}
 
 .area{margin-bottom:14px}
-.area-hd{display:flex;align-items:center;gap:9px;
-  padding:9px 13px;background:var(--s2);border:1px solid var(--rim2);
-  border-radius:var(--r2) var(--r2) 0 0;cursor:pointer;user-select:none}
+.area-hd{display:flex;align-items:center;gap:9px;padding:9px 13px;
+  background:var(--s2);border:1px solid var(--rim2);border-radius:var(--r2) var(--r2) 0 0;
+  cursor:pointer;user-select:none}
 .area-hd:hover{background:var(--s3)}
 .area-icon{font-size:14px}
-.area-title{font-size:13px;font-weight:600;color:var(--tx)}
+.area-title{font-size:13px;font-weight:600;color:#fff}
 .area-tag{font-size:9px;padding:1px 8px;border-radius:999px;font-family:var(--fm);font-weight:600}
 .a-brew{background:var(--cl);border:1px solid var(--cb);color:var(--cy)}
 .a-fill{background:var(--rl);border:1px solid var(--rb);color:var(--rd)}
 .area-note{font-size:10px;color:var(--tx3);font-family:var(--fm)}
 .area-caret{margin-left:auto;color:var(--tx3);transition:transform .2s}
 .area-caret.open{transform:rotate(180deg)}
-.area-bd{border:1px solid var(--rim2);border-top:none;
-  border-radius:0 0 var(--r2) var(--r2);background:var(--s1);
-  padding:12px;display:none}
+.area-bd{border:1px solid var(--rim2);border-top:none;border-radius:0 0 var(--r2) var(--r2);
+  background:var(--s1);padding:12px;display:none}
 .area-bd.open{display:block}
 
 .eq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
 .eq-card{background:var(--s2);border:1px solid var(--rim);border-radius:var(--r2);
   padding:10px 11px;transition:border-color .15s;position:relative}
 .eq-card.ok{border-color:var(--gb)}.eq-card.ng{border-color:var(--rb)}
-.eq-name{font-size:11.5px;font-weight:500;color:var(--tx);
-  display:flex;align-items:center;gap:5px;margin-bottom:7px}
+.eq-name{font-size:11.5px;font-weight:500;color:#fff;display:flex;align-items:center;gap:5px;margin-bottom:7px}
 .eq-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 .eq-inp-row{display:flex;align-items:center;gap:4px}
 .eq-inp{background:var(--s3);border:1px solid var(--rim);border-radius:3px;
@@ -150,28 +140,19 @@ select option{background:var(--s2)}
 .eq-judge{font-size:10px;margin-top:4px;font-family:var(--fm);font-weight:600;min-height:14px}
 .eq-judge.ok{color:var(--gr)}.eq-judge.ng{color:var(--rd)}
 .eq-limit{font-size:9px;color:var(--tx4);font-family:var(--fm);margin-top:1px}
-
-/* 設備削除ボタン */
 .eq-del{position:absolute;top:5px;right:5px;width:16px;height:16px;
   border-radius:50%;background:var(--s4);border:1px solid var(--rim);
   color:var(--tx3);font-size:10px;cursor:pointer;display:flex;align-items:center;
-  justify-content:center;line-height:1;transition:all .12s;padding:0;font-family:var(--fm)}
+  justify-content:center;transition:all .12s;padding:0;font-family:var(--fm)}
 .eq-del:hover{background:var(--rd);border-color:var(--rb);color:#fff}
-
-/* 設備追加フォーム */
-.eq-add-form{background:var(--s2);border:1px dashed var(--rim2);border-radius:var(--r2);
-  padding:10px 12px;margin-top:8px;display:none}
-.eq-add-form.open{display:block}
-.eq-add-row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
 
 .batch-ck{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;
   padding:8px 12px;background:var(--s2);border:1px solid var(--rim);border-radius:3px}
 .ck{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--tx2)}
 .ck input[type=checkbox]{width:14px;height:14px;accent-color:var(--cy);cursor:pointer}
 
-.save-bar{display:flex;align-items:center;gap:10px;
-  padding:12px 14px;background:var(--s1);border:1px solid var(--rim);
-  border-radius:var(--r2);margin-top:14px}
+.save-bar{display:flex;align-items:center;gap:10px;padding:12px 14px;
+  background:var(--s1);border:1px solid var(--rim);border-radius:var(--r2);margin-top:14px}
 .prog-w{flex:1;background:var(--s4);border-radius:3px;height:4px;overflow:hidden;display:none}
 .prog-f{height:100%;background:var(--cy);border-radius:3px;transition:width .25s}
 .save-st{font-family:var(--fm);font-size:10px;color:var(--tx3)}
@@ -187,56 +168,100 @@ select option{background:var(--s2)}
 .btn-sm{padding:4px 10px;font-size:11px}
 .btn-rd{background:var(--rl);border-color:var(--rb);color:var(--rd)}
 .btn-rd:hover{background:rgba(217,64,64,.2)}
+.btn-am{background:var(--al);border-color:var(--ab);color:var(--am)}
 
-/* LOG */
+.eq-add-open-btn{display:flex;align-items:center;justify-content:center;gap:5px;
+  width:100%;padding:8px;border:1px dashed var(--rim2);border-radius:var(--r2);
+  background:transparent;color:var(--tx3);font-size:11px;cursor:pointer;
+  transition:all .15s;margin-top:8px;font-family:var(--ff)}
+.eq-add-open-btn:hover{border-color:var(--cy);color:var(--cy);background:var(--cl)}
+.eq-add-form{background:var(--s2);border:1px dashed var(--rim2);border-radius:var(--r2);
+  padding:10px 12px;margin-top:8px;display:none}
+.eq-add-form.open{display:block}
+.eq-add-row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
+
+/* ── LOG ── */
 .log-wrap{padding:16px 20px}
 .log-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
-.log-section-title{font-size:10px;color:var(--tx3);font-family:var(--fm);
-  margin:12px 0 5px;letter-spacing:.04em}
-.log-row{display:grid;grid-template-columns:auto 1fr auto auto auto;gap:8px;align-items:center;
-  padding:7px 11px;background:var(--s1);border:1px solid var(--rim);
+.log-section-title{font-size:10px;color:var(--tx2);font-family:var(--fm);
+  margin:12px 0 5px;letter-spacing:.04em;font-weight:600}
+.log-row{display:grid;grid-template-columns:1fr auto auto auto auto;gap:8px;align-items:center;
+  padding:9px 13px;background:var(--s1);border:1px solid var(--rim);
   border-radius:var(--r2);margin-bottom:4px;cursor:pointer;transition:all .12s}
 .log-row:hover{background:var(--s2);border-color:var(--rim2)}
 .log-row.pass{border-left:3px solid var(--gr)}
 .log-row.fail{border-left:3px solid var(--rd)}
 .log-row.na{border-left:3px solid var(--rim2)}
-.log-name{font-size:12.5px;font-weight:500}
-.log-sub{font-size:10px;color:var(--tx3);font-family:var(--fm)}
-.bsm{font-size:10px;padding:1px 7px;border-radius:999px;font-family:var(--fm);font-weight:600;white-space:nowrap}
+.log-name{font-size:13px;font-weight:600;color:#fff}
+.log-sub{font-size:11px;color:var(--tx2);font-family:var(--fm);margin-top:2px}
+.log-dt{font-size:10px;color:var(--tx3);font-family:var(--fm)}
+.bsm{font-size:10px;padding:2px 8px;border-radius:999px;font-family:var(--fm);font-weight:600;white-space:nowrap}
 .b-pass{background:var(--gl);border:1px solid var(--gb);color:var(--gr)}
 .b-fail{background:var(--rl);border:1px solid var(--rb);color:var(--rd)}
-.b-na{background:var(--s3);border:1px solid var(--rim);color:var(--tx3)}
-.rlu-v{font-family:var(--fm);font-size:11px;font-weight:600}
-.rlu-v.pass{color:var(--gr)}.rlu-v.fail{color:var(--rd)}.rlu-v.na{color:var(--tx3)}
+.b-na{background:var(--s3);border:1px solid var(--rim);color:var(--tx2)}
+.rlu-v{font-family:var(--fm);font-size:12px;font-weight:600}
+.rlu-v.pass{color:var(--gr)}.rlu-v.fail{color:var(--rd)}.rlu-v.na{color:var(--tx2)}
+.log-actions{display:flex;gap:4px}
+.log-icon-btn{width:26px;height:26px;border-radius:4px;border:1px solid var(--rim);
+  background:var(--s2);color:var(--tx2);font-size:12px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .12s}
+.log-icon-btn:hover{border-color:var(--cy);color:var(--cy);background:var(--cl)}
+.log-icon-btn.edit:hover{border-color:var(--am);color:var(--am);background:var(--al)}
 
+/* ── ATP 複数記録 ── */
+.atp-list{display:flex;flex-direction:column;gap:8px;margin-bottom:8px}
+.atp-entry{background:var(--s3);border:1px solid var(--rim);border-radius:var(--r2);padding:10px 12px;position:relative}
+.atp-entry-hd{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.atp-entry-num{font-family:var(--fm);font-size:9px;color:var(--cy);
+  background:var(--cl);border:1px solid var(--cb);border-radius:3px;
+  padding:1px 6px;font-weight:600}
+.atp-entry-judge{font-family:var(--fm);font-size:11px;font-weight:600;margin-left:auto}
+.atp-entry-judge.ok{color:var(--gr)}.atp-entry-judge.ng{color:var(--rd)}
+.atp-del-btn{width:20px;height:20px;border-radius:50%;background:var(--s4);
+  border:1px solid var(--rim);color:var(--tx3);font-size:10px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .12s;flex-shrink:0}
+.atp-del-btn:hover{background:var(--rd);border-color:var(--rb);color:#fff}
+.atp-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
+.atp-add-btn{display:flex;align-items:center;justify-content:center;gap:5px;
+  width:100%;padding:7px;border:1px dashed var(--rim2);border-radius:var(--r2);
+  background:transparent;color:var(--tx3);font-size:11px;cursor:pointer;
+  transition:all .15s;font-family:var(--ff)}
+.atp-add-btn:hover{border-color:var(--cy);color:var(--cy);background:var(--cl)}
+
+/* ── EDIT MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;
+  display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.on{display:flex}
+.modal{background:var(--s1);border:1px solid var(--rim2);border-radius:var(--r);
+  width:100%;max-width:800px;max-height:90vh;overflow-y:auto;
+  box-shadow:0 20px 60px rgba(0,0,0,.8)}
+.modal-hd{display:flex;align-items:center;gap:10px;padding:14px 18px;
+  border-bottom:1px solid var(--rim);position:sticky;top:0;background:var(--s1);z-index:10}
+.modal-title{font-size:14px;font-weight:600;color:#fff}
+.modal-body{padding:18px}
+.modal-ft{display:flex;align-items:center;gap:10px;padding:12px 18px;
+  border-top:1px solid var(--rim);position:sticky;bottom:0;background:var(--s1)}
+
+/* ── TOAST ── */
 .toast{position:fixed;bottom:18px;right:18px;background:var(--s2);border:1px solid var(--rim2);
-  border-radius:var(--r2);padding:10px 16px;font-size:12px;z-index:300;display:none;
+  border-radius:var(--r2);padding:10px 16px;font-size:12px;z-index:600;display:none;
   align-items:center;gap:8px;box-shadow:0 6px 24px rgba(0,0,0,.5);font-family:var(--fm)}
 .toast.on{display:flex}
 .toast.ok{border-color:var(--gb);color:var(--gr)}.toast.er{border-color:var(--rb);color:var(--rd)}
 .spin{display:inline-block;width:11px;height:11px;border:2px solid var(--rim2);
-  border-top-color:var(--cy);border-radius:50%;animation:sp .6s linear infinite;
-  vertical-align:middle;margin-right:4px}
+  border-top-color:var(--cy);border-radius:50%;animation:sp .6s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
-.empty{text-align:center;padding:34px;color:var(--tx3);font-size:12px}
+.empty{text-align:center;padding:34px;color:var(--tx2);font-size:12px}
 
-#cdbg-panel{
-  position:fixed;bottom:0;left:0;right:0;
-  background:#06080e;border-top:2px solid var(--cy);
-  z-index:500;display:none;flex-direction:column;max-height:38vh;
-  font-family:var(--fm);font-size:11px;
-}
+/* ── DEBUG ── */
+#cdbg-panel{position:fixed;bottom:0;left:0;right:0;background:#06080e;border-top:2px solid var(--cy);
+  z-index:500;display:none;flex-direction:column;max-height:38vh;font-family:var(--fm);font-size:11px}
 #cdbg-panel.show{display:flex}
-#cdbg-bar{
-  display:flex;align-items:center;gap:7px;
-  padding:4px 12px;background:#0a0c14;border-bottom:1px solid var(--rim);flex-shrink:0;
-}
+#cdbg-bar{display:flex;align-items:center;gap:7px;padding:4px 12px;
+  background:#0a0c14;border-bottom:1px solid var(--rim);flex-shrink:0}
 .cdbg-lbl{color:var(--cy);font-size:9px;letter-spacing:.1em;text-transform:uppercase}
-.cdbg-b{
-  padding:2px 9px;border-radius:3px;border:1px solid var(--rim);
-  background:var(--s2);color:var(--tx2);font-size:10px;cursor:pointer;
-  font-family:var(--fm);transition:all .12s;
-}
+.cdbg-b{padding:2px 9px;border-radius:3px;border:1px solid var(--rim);
+  background:var(--s2);color:var(--tx2);font-size:10px;cursor:pointer;font-family:var(--fm);transition:all .12s}
 .cdbg-b:hover{border-color:var(--cy);color:var(--cy)}
 .cdbg-b.run{background:var(--cl);border-color:var(--cb);color:var(--cy)}
 #cdbg-log{flex:1;overflow-y:auto;padding:6px 12px;scrollbar-width:thin}
@@ -248,22 +273,17 @@ select option{background:var(--s2)}
 .cdl-tag.warn{color:var(--am);background:var(--al)}
 .cdl-tag.err{color:var(--rd);background:var(--rl)}
 .cdl-msg{color:var(--tx2);word-break:break-all;flex:1;font-size:10.5px}
-.cdbg-tog{
-  position:fixed;bottom:10px;right:18px;z-index:501;
+.cdbg-tog{position:fixed;bottom:10px;right:18px;z-index:501;
   background:#0a0c14;border:1px solid var(--cb);border-radius:var(--r2);
   padding:4px 10px;color:var(--cy);font-size:10px;font-family:var(--fm);
-  cursor:pointer;display:flex;align-items:center;gap:5px;
-}
+  cursor:pointer;display:flex;align-items:center;gap:5px}
 .cdbg-tog:hover{background:var(--cl)}
 
-/* 設備追加モーダル風インライン */
-.eq-add-open-btn{
-  display:flex;align-items:center;justify-content:center;gap:5px;
-  width:100%;padding:8px;border:1px dashed var(--rim2);border-radius:var(--r2);
-  background:transparent;color:var(--tx3);font-size:11px;cursor:pointer;
-  transition:all .15s;margin-top:8px;font-family:var(--ff)
-}
-.eq-add-open-btn:hover{border-color:var(--cy);color:var(--cy);background:var(--cl)}
+/* 月セレクタ */
+.month-bar{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+input[type=month]{background:var(--s2);border:1px solid var(--rim2);border-radius:var(--r2);
+  color:var(--tx);padding:6px 10px;font-size:12px;font-family:var(--fm);outline:none}
+input[type=month]:focus{border-color:var(--cy)}
 </style>
 </head>
 <body>
@@ -287,12 +307,17 @@ select option{background:var(--s2)}
   </div>
 </div>
 
-<div class="body">
-<div class="main">
+<div class="body"><div class="main">
 
-<!-- DASHBOARD -->
+<!-- ══ DASHBOARD ══ -->
 <div class="panel on" id="panel-dash">
 <div class="dash">
+  <div class="month-bar">
+    <span style="font-family:var(--fm);font-size:10px;color:var(--tx3)">表示月</span>
+    <input type="month" id="dashMonth" onchange="renderDash()">
+    <button class="btn btn-sm" onclick="clearMonthFilter('dashMonth','renderDash')">全期間</button>
+    <span id="dashMonthNote" style="font-size:11px;color:var(--tx3);font-family:var(--fm)"></span>
+  </div>
   <div class="kpi-row">
     <div class="kpi c-cy"><div class="kpi-n" id="k-total">—</div><div class="kpi-l">総CIP件数</div></div>
     <div class="kpi c-gr"><div class="kpi-n" id="k-pass">—</div><div class="kpi-l">ATP合格</div></div>
@@ -301,20 +326,11 @@ select option{background:var(--s2)}
     <div class="kpi c-pu"><div class="kpi-n" id="k-rate">—</div><div class="kpi-l">合格率</div></div>
   </div>
   <div class="chart-row1">
-    <div class="cc">
-      <div class="cc-title">RLU 推移（直近40件）</div>
-      <div style="height:190px"><canvas id="cRlu"></canvas></div>
-    </div>
-    <div class="cc">
-      <div class="cc-title">ATP 判定内訳</div>
-      <div style="height:190px"><canvas id="cJudge"></canvas></div>
-    </div>
+    <div class="cc"><div class="cc-title">RLU 推移（直近40件）</div><div style="height:190px"><canvas id="cRlu"></canvas></div></div>
+    <div class="cc"><div class="cc-title">ATP 判定内訳</div><div style="height:190px"><canvas id="cJudge"></canvas></div></div>
   </div>
   <div class="chart-row2">
-    <div class="cc">
-      <div class="cc-title">設備別 平均RLU ／ 基準値</div>
-      <div style="height:200px"><canvas id="cEquip"></canvas></div>
-    </div>
+    <div class="cc"><div class="cc-title">設備別 平均RLU ／ 基準値</div><div style="height:200px"><canvas id="cEquip"></canvas></div></div>
     <div class="cc">
       <div class="cc-title">直近14日 合否ヒートマップ</div>
       <div class="hm" id="heatmap"></div>
@@ -328,7 +344,7 @@ select option{background:var(--s2)}
 </div>
 </div>
 
-<!-- ENTRY -->
+<!-- ══ ENTRY（一括） ══ -->
 <div class="panel" id="panel-entry">
 <div class="entry">
   <div class="date-bar">
@@ -339,9 +355,7 @@ select option{background:var(--s2)}
     <button class="btn" onclick="setToday()">今日</button>
   </div>
 
-  <div style="font-size:9px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.08em;font-family:var(--fm);margin-bottom:6px">
-    共通設定（全設備に適用）
-  </div>
+  <div style="font-size:9px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.08em;font-family:var(--fm);margin-bottom:6px">共通設定（全設備に適用）</div>
   <div class="common-bar">
     <div class="fg">
       <div class="fl">CIPプログラム</div>
@@ -354,24 +368,14 @@ select option{background:var(--s2)}
         <option>その他 / Other</option>
       </select>
     </div>
-    <div class="fg">
-      <div class="fl">洗浄温度 ℃</div>
-      <input id="cTemp" type="number" placeholder="例: 80">
-    </div>
-    <div class="fg">
-      <div class="fl">循環時間 分</div>
-      <input id="cCirc" type="number" placeholder="例: 30">
-    </div>
-    <div class="fg">
-      <div class="fl">前工程バッチ</div>
-      <input id="cPrev" type="text" placeholder="例: ペールエール L-042">
-    </div>
+    <div class="fg"><div class="fl">洗浄温度 ℃</div><input id="cTemp" type="number" placeholder="80"></div>
+    <div class="fg"><div class="fl">循環時間 分</div><input id="cCirc" type="number" placeholder="30"></div>
+    <div class="fg"><div class="fl">前工程バッチ</div><input id="cPrev" type="text" placeholder="ペールエール L-042"></div>
     <div style="display:flex;align-items:flex-end;padding-bottom:2px">
       <label class="ck"><input type="checkbox" id="cRinse" checked style="width:14px;height:14px;accent-color:var(--cy)">すすぎ確認</label>
     </div>
   </div>
 
-  <!-- 醸造エリア -->
   <div class="area">
     <div class="area-hd" onclick="toggleArea('brew')">
       <span class="area-icon">🍺</span>
@@ -385,22 +389,10 @@ select option{background:var(--s2)}
       <button class="eq-add-open-btn" onclick="openAddForm('brew')">＋ 設備を追加</button>
       <div class="eq-add-form" id="addForm-brew">
         <div class="eq-add-row">
-          <div class="fg" style="flex:2;min-width:120px">
-            <div class="fl">設備名（日本語）</div>
-            <input type="text" id="addName-brew" placeholder="例: 貯蔵タンク">
-          </div>
-          <div class="fg" style="flex:2;min-width:120px">
-            <div class="fl">設備名（英語）</div>
-            <input type="text" id="addNameEn-brew" placeholder="例: Storage Tank">
-          </div>
-          <div class="fg" style="flex:1;min-width:80px">
-            <div class="fl">基準値 RLU</div>
-            <input type="number" id="addLim-brew" placeholder="200" min="1">
-          </div>
-          <div class="fg" style="flex:1;min-width:80px">
-            <div class="fl">採取ポイント</div>
-            <input type="text" id="addPt-brew" placeholder="タンク内面 / Tank Interior">
-          </div>
+          <div class="fg" style="flex:2;min-width:110px"><div class="fl">設備名（日本語）</div><input type="text" id="addName-brew" placeholder="例: 貯蔵タンク"></div>
+          <div class="fg" style="flex:2;min-width:110px"><div class="fl">設備名（英語）</div><input type="text" id="addNameEn-brew" placeholder="例: Storage Tank"></div>
+          <div class="fg" style="flex:1;min-width:70px"><div class="fl">基準値 RLU</div><input type="number" id="addLim-brew" placeholder="200" min="1"></div>
+          <div class="fg" style="flex:2;min-width:130px"><div class="fl">採取ポイント</div><input type="text" id="addPt-brew" placeholder="タンク内面 / Tank Interior"></div>
           <div style="display:flex;gap:6px;align-items:flex-end;padding-bottom:2px">
             <button class="btn btn-cy btn-sm" onclick="addEquip('brew')">追加</button>
             <button class="btn btn-sm" onclick="closeAddForm('brew')">✕</button>
@@ -414,7 +406,6 @@ select option{background:var(--s2)}
     </div>
   </div>
 
-  <!-- 充填ライン -->
   <div class="area">
     <div class="area-hd" onclick="toggleArea('fill')">
       <span class="area-icon">🥫</span>
@@ -427,22 +418,10 @@ select option{background:var(--s2)}
       <button class="eq-add-open-btn" onclick="openAddForm('fill')">＋ 設備を追加</button>
       <div class="eq-add-form" id="addForm-fill">
         <div class="eq-add-row">
-          <div class="fg" style="flex:2;min-width:120px">
-            <div class="fl">設備名（日本語）</div>
-            <input type="text" id="addName-fill" placeholder="例: 充填ノズルB">
-          </div>
-          <div class="fg" style="flex:2;min-width:120px">
-            <div class="fl">設備名（英語）</div>
-            <input type="text" id="addNameEn-fill" placeholder="例: Fill Nozzle B">
-          </div>
-          <div class="fg" style="flex:1;min-width:80px">
-            <div class="fl">基準値 RLU</div>
-            <input type="number" id="addLim-fill" placeholder="50" min="1">
-          </div>
-          <div class="fg" style="flex:1;min-width:80px">
-            <div class="fl">採取ポイント</div>
-            <input type="text" id="addPt-fill" placeholder="充填ノズル / Fill Nozzle">
-          </div>
+          <div class="fg" style="flex:2;min-width:110px"><div class="fl">設備名（日本語）</div><input type="text" id="addName-fill" placeholder="例: 充填ノズルB"></div>
+          <div class="fg" style="flex:2;min-width:110px"><div class="fl">設備名（英語）</div><input type="text" id="addNameEn-fill" placeholder="例: Fill Nozzle B"></div>
+          <div class="fg" style="flex:1;min-width:70px"><div class="fl">基準値 RLU</div><input type="number" id="addLim-fill" placeholder="50" min="1"></div>
+          <div class="fg" style="flex:2;min-width:130px"><div class="fl">採取ポイント</div><input type="text" id="addPt-fill" placeholder="充填ノズル / Fill Nozzle"></div>
           <div style="display:flex;gap:6px;align-items:flex-end;padding-bottom:2px">
             <button class="btn btn-cy btn-sm" onclick="addEquip('fill')">追加</button>
             <button class="btn btn-sm" onclick="closeAddForm('fill')">✕</button>
@@ -469,7 +448,7 @@ select option{background:var(--s2)}
 
   <div class="fg" style="margin-bottom:14px">
     <div class="fl" style="margin-bottom:4px">共通備考・異常メモ</div>
-    <textarea id="cNote" placeholder="異常・特記事項（全設備共通で付記）" style="min-height:50px"></textarea>
+    <textarea id="cNote" placeholder="異常・特記事項" style="min-height:50px"></textarea>
   </div>
 
   <div class="save-bar">
@@ -477,34 +456,28 @@ select option{background:var(--s2)}
     <button class="btn" onclick="checkAllEquips(true)">全選択</button>
     <button class="btn" onclick="checkAllEquips(false)">全解除</button>
     <button class="btn" onclick="resetEntry()">↺ リセット</button>
-    <button class="btn btn-rd btn-sm" onclick="resetEquipConfig()" title="設備一覧をデフォルトに戻す">設備リセット</button>
+    <button class="btn btn-rd btn-sm" onclick="resetEquipConfig()">設備リセット</button>
     <div class="prog-w" id="progW"><div class="prog-f" id="progF"></div></div>
     <span class="save-st" id="saveSt"></span>
   </div>
 </div>
 </div>
 
-<!-- SINGLE ENTRY -->
+<!-- ══ SINGLE ENTRY（個別） ══ -->
 <div class="panel" id="panel-single">
 <div class="entry">
-  <div style="font-size:14px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px">
+  <div style="font-size:14px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px;color:#fff">
     ✏️ 個別記録
     <span style="font-size:11px;color:var(--tx3);font-weight:400">1設備ずつ詳細に記録</span>
   </div>
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
-    <div class="fg">
-      <div class="fl">記録名</div>
-      <input id="s-name" type="text" placeholder="例: CIP-2026-0611 発酵タンクBT1">
-    </div>
+    <div class="fg"><div class="fl">記録名</div><input id="s-name" type="text" placeholder="自動生成されます"></div>
     <div class="fg">
       <div class="fl">対象設備 <span style="color:var(--rd)">*</span></div>
-      <select id="s-equip" onchange="onSingleEquipChange()">
-        <option value="">選択してください</option>
-      </select>
+      <select id="s-equip" onchange="onSingleEquipChange()"><option value="">選択してください</option></select>
     </div>
   </div>
-
   <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:10px">
     <div class="fg">
       <div class="fl">CIPプログラム <span style="color:var(--rd)">*</span></div>
@@ -517,93 +490,33 @@ select option{background:var(--s2)}
         <option>その他 / Other</option>
       </select>
     </div>
-    <div class="fg">
-      <div class="fl">実施日時 <span style="color:var(--rd)">*</span></div>
-      <input id="s-start" type="datetime-local">
-    </div>
-    <div class="fg">
-      <div class="fl">洗浄温度 ℃</div>
-      <input id="s-temp" type="number" placeholder="80">
-    </div>
+    <div class="fg"><div class="fl">実施日時 <span style="color:var(--rd)">*</span></div><input id="s-start" type="datetime-local"></div>
+    <div class="fg"><div class="fl">洗浄温度 ℃</div><input id="s-temp" type="number" placeholder="80"></div>
   </div>
-
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
-    <div class="fg">
-      <div class="fl">循環時間 分</div>
-      <input id="s-circ" type="number" placeholder="30">
-    </div>
-    <div class="fg">
-      <div class="fl">前工程バッチ</div>
-      <input id="s-prev" type="text" placeholder="ペールエール L-042">
-    </div>
+    <div class="fg"><div class="fl">循環時間 分</div><input id="s-circ" type="number" placeholder="30"></div>
+    <div class="fg"><div class="fl">前工程バッチ</div><input id="s-prev" type="text" placeholder="ペールエール L-042"></div>
   </div>
-  <div style="margin-bottom:10px">
-    <label class="ck">
-      <input type="checkbox" id="s-rinse" checked style="width:14px;height:14px;accent-color:var(--cy)">
-      すすぎ確認
-    </label>
+  <div style="margin-bottom:12px">
+    <label class="ck"><input type="checkbox" id="s-rinse" checked style="width:14px;height:14px;accent-color:var(--cy)"> すすぎ確認</label>
   </div>
 
-  <!-- ATP -->
-  <div style="background:var(--s2);border:1px solid var(--rim);border-radius:var(--r2);padding:12px;margin-bottom:10px">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
-      <label class="ck" style="font-size:13px;font-weight:500">
+  <!-- ATP 複数記録エリア -->
+  <div style="background:var(--s2);border:1px solid var(--rim);border-radius:var(--r2);padding:14px;margin-bottom:10px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+      <label class="ck" style="font-size:13px;font-weight:500;color:#fff">
         <input type="checkbox" id="s-atp" onchange="toggleSingleAtp()" style="width:14px;height:14px;accent-color:var(--cy)">
         ATP検査実施
       </label>
+      <span style="font-size:10px;color:var(--tx3);font-family:var(--fm)">複数回の検査を記録できます</span>
     </div>
-    <div id="s-atp-fields" style="display:none">
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:10px">
-        <div class="fg">
-          <div class="fl">検査日時</div>
-          <input id="s-atp-dt" type="datetime-local">
-        </div>
-        <div class="fg">
-          <div class="fl">採取ポイント</div>
-          <select id="s-point">
-            <option>タンク内面 / Tank Interior</option>
-            <option>排出口 / Outlet</option>
-            <option>バルブ周辺 / Valve Area</option>
-            <option>ホース接続部 / Hose Connection</option>
-            <option>配管出口 / Pipe Outlet</option>
-            <option>充填ノズル / Fill Nozzle</option>
-            <option>床・排水周辺 / Floor & Drain</option>
-            <option>その他 / Other</option>
-          </select>
-        </div>
-        <div class="fg">
-          <div class="fl">RLU値</div>
-          <input id="s-rlu" type="number" placeholder="例: 85" min="0" oninput="updSingleJudge()">
-        </div>
-        <div class="fg">
-          <div class="fl">基準値RLU</div>
-          <input id="s-lim" type="number" placeholder="自動入力" min="0" oninput="updSingleJudge()">
-        </div>
-      </div>
-      <div id="s-judge-result" style="padding:8px 12px;border-radius:var(--r3);font-size:12px;
-        background:var(--s3);border:1px solid var(--rim);color:var(--tx3)">
-        RLU値と基準値を入力すると自動判定されます
-      </div>
-      <div id="s-fail-fields" style="display:none;margin-top:10px">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-          <div class="fg">
-            <div class="fl">ATP是正内容</div>
-            <textarea id="s-correction" placeholder="再洗浄の内容・対応詳細" style="min-height:55px"></textarea>
-          </div>
-          <div class="fg">
-            <div class="fl">再検査結果</div>
-            <select id="s-recheck">
-              <option value="未実施 / Not Done">未実施</option>
-              <option value="合格 / Pass">合格</option>
-              <option value="不合格 / Fail">不合格</option>
-            </select>
-            <label class="ck" style="margin-top:8px">
-              <input type="checkbox" id="s-reclean" style="width:13px;height:13px;accent-color:var(--rd)">
-              <span style="color:var(--rd)">再洗浄が必要</span>
-            </label>
-          </div>
-        </div>
-      </div>
+    <div id="s-atp-wrap" style="display:none">
+      <div class="atp-list" id="atpList"></div>
+      <button class="atp-add-btn" onclick="addAtpEntry()">＋ ATP検査記録を追加</button>
+      <!-- 保存時の一次判定サマリ -->
+      <div id="atpSummary" style="margin-top:8px;padding:7px 12px;border-radius:var(--r3);
+        font-size:11px;background:var(--s3);border:1px solid var(--rim);color:var(--tx3);
+        font-family:var(--fm);display:none"></div>
     </div>
   </div>
 
@@ -620,12 +533,15 @@ select option{background:var(--s2)}
 </div>
 </div>
 
-<!-- LOG -->
+<!-- ══ LOG ══ -->
 <div class="panel" id="panel-log">
 <div class="log-wrap">
   <div class="log-toolbar">
-    <div style="font-size:14px;font-weight:600">記録一覧</div>
+    <div style="font-size:14px;font-weight:600;color:#fff">記録一覧</div>
     <div class="sp"></div>
+    <span style="font-family:var(--fm);font-size:10px;color:var(--tx3)">表示月</span>
+    <input type="month" id="logMonth" onchange="renderLog()">
+    <button class="btn btn-sm" onclick="clearMonthFilter('logMonth','renderLog')">全期間</button>
     <button class="btn" onclick="loadData()">↺ 更新</button>
     <a href="https://app.notion.com/p/367f5289a51c81ddb500ee2d0c569f4f" target="_blank" class="btn">Notionで開く ↗</a>
   </div>
@@ -633,7 +549,84 @@ select option{background:var(--s2)}
 </div>
 </div>
 
-</div>
+</div></div><!-- /main /body -->
+
+<!-- ══ EDIT MODAL ══ -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <div class="modal-hd">
+      <span class="modal-title">✏️ 記録を編集</span>
+      <span id="editPageId" style="font-family:var(--fm);font-size:9px;color:var(--tx3);margin-left:8px"></span>
+      <div class="sp"></div>
+      <a id="editNotionLink" href="#" target="_blank" class="btn btn-sm" style="font-size:11px">Notionで開く ↗</a>
+      <button class="btn btn-sm" onclick="closeEditModal()" style="margin-left:6px">✕ 閉じる</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+        <div class="fg"><div class="fl">記録名</div><input id="e-name" type="text"></div>
+        <div class="fg">
+          <div class="fl">対象設備</div>
+          <select id="e-equip"><option value="">選択してください</option></select>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:10px">
+        <div class="fg">
+          <div class="fl">CIPプログラム</div>
+          <select id="e-prog">
+            <option>フルCIP（苛性→酸→殺菌） / Full CIP</option>
+            <option>苛性洗浄 / Caustic Wash</option>
+            <option>酸洗浄 / Acid Wash</option>
+            <option>温水リンス / Hot Water Rinse</option>
+            <option>殺菌工程後 / Post-Sanitation</option>
+            <option>その他 / Other</option>
+          </select>
+        </div>
+        <div class="fg"><div class="fl">実施日時</div><input id="e-start" type="datetime-local"></div>
+        <div class="fg"><div class="fl">洗浄温度 ℃</div><input id="e-temp" type="number"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px">
+        <div class="fg"><div class="fl">循環時間 分</div><input id="e-circ" type="number"></div>
+        <div class="fg"><div class="fl">前工程バッチ</div><input id="e-prev" type="text"></div>
+        <div class="fg" style="justify-content:flex-end;padding-bottom:4px">
+          <label class="ck"><input type="checkbox" id="e-rinse" style="width:14px;height:14px;accent-color:var(--cy)"> すすぎ確認</label>
+        </div>
+      </div>
+      <!-- ATP 編集 -->
+      <div style="background:var(--s2);border:1px solid var(--rim);border-radius:var(--r2);padding:12px;margin-bottom:10px">
+        <label class="ck" style="font-size:13px;font-weight:500;color:#fff;margin-bottom:10px;display:flex">
+          <input type="checkbox" id="e-atp" onchange="toggleEditAtp()" style="width:14px;height:14px;accent-color:var(--cy)"> ATP検査実施
+        </label>
+        <div id="e-atp-fields" style="display:none">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:10px">
+            <div class="fg"><div class="fl">検査日時</div><input id="e-atp-dt" type="datetime-local"></div>
+            <div class="fg">
+              <div class="fl">採取ポイント</div>
+              <select id="e-point">
+                <option>タンク内面 / Tank Interior</option><option>排出口 / Outlet</option>
+                <option>バルブ周辺 / Valve Area</option><option>ホース接続部 / Hose Connection</option>
+                <option>充填ノズル / Fill Nozzle</option><option>その他 / Other</option>
+              </select>
+            </div>
+            <div class="fg"><div class="fl">RLU値</div><input id="e-rlu" type="number" min="0" oninput="updEditJudge()"></div>
+            <div class="fg"><div class="fl">基準値RLU</div><input id="e-lim" type="number" min="0" oninput="updEditJudge()"></div>
+          </div>
+          <div id="e-judge-result" style="padding:8px 12px;border-radius:var(--r3);font-size:12px;
+            background:var(--s3);border:1px solid var(--rim);color:var(--tx3)">
+            RLU値と基準値を入力すると自動判定されます
+          </div>
+        </div>
+      </div>
+      <div class="fg">
+        <div class="fl" style="margin-bottom:4px">異常・備考</div>
+        <textarea id="e-note" style="min-height:60px"></textarea>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-am btn-lg" id="e-saveBtn" onclick="saveEdit()">💾 Notionを更新</button>
+      <button class="btn" onclick="closeEditModal()">キャンセル</button>
+      <span class="save-st" id="e-saveSt"></span>
+    </div>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -656,7 +649,7 @@ select option{background:var(--s2)}
 const CIP_DB  = "90807944-c8dc-481d-a413-792f96a5b074";
 const GAS_URL = "https://script.google.com/macros/s/AKfycbyREn8C0IRF-b0MYq5l7yYugRDztxSsgVVF-kI1abgNeGIoNRNJqiILLOs1HdBO6zRiWA/exec";
 
-// ══ デフォルト設備定義 ══
+// ══ 設備設定 ══
 const DEFAULT_BREW_EQ = [
   {key:"mash",  name:"仕込釜",       en:"仕込釜 / Mash Tun",              lim:200, dot:"#e07020", pt:"タンク内面 / Tank Interior"},
   {key:"laut",  name:"糖化槽",       en:"糖化槽 / Lauter Tun",            lim:200, dot:"#e8c020", pt:"タンク内面 / Tank Interior"},
@@ -669,87 +662,160 @@ const DEFAULT_BREW_EQ = [
 const DEFAULT_FILL_EQ = [
   {key:"fill", name:"充填ライン", en:"充填ライン / Filling Line", lim:50, dot:"#d94040", pt:"充填ノズル / Fill Nozzle"},
 ];
+const EQ_KEY = "cip_equip_config_v1";
+function loadEquipConfig(){
+  try{ const r=localStorage.getItem(EQ_KEY); if(r){ const p=JSON.parse(r); return{brew:p.brew||DEFAULT_BREW_EQ,fill:p.fill||DEFAULT_FILL_EQ}; } }catch(e){}
+  return{brew:[...DEFAULT_BREW_EQ],fill:[...DEFAULT_FILL_EQ]};
+}
+function saveEquipConfig(){ localStorage.setItem(EQ_KEY,JSON.stringify({brew:BREW_EQ,fill:FILL_EQ})); }
+function resetEquipConfig(){
+  if(!confirm("設備リストをデフォルトに戻しますか？")) return;
+  localStorage.removeItem(EQ_KEY);
+  const c=loadEquipConfig(); BREW_EQ.length=0;BREW_EQ.push(...c.brew);FILL_EQ.length=0;FILL_EQ.push(...c.fill);
+  buildGrids();updateSingleEquipSelect();updateEditEquipSelect();toast("デフォルトに戻しました","ok");
+}
+const cfg0=loadEquipConfig();
+let BREW_EQ=cfg0.brew, FILL_EQ=cfg0.fill;
+const allEq=()=>[...BREW_EQ,...FILL_EQ];
 
-// ══ 設備設定をLocalStorageで管理 ══
-const EQ_STORAGE_KEY = "cip_equip_config_v1";
-
-function loadEquipConfig() {
-  try {
-    const raw = localStorage.getItem(EQ_STORAGE_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      return { brew: parsed.brew || DEFAULT_BREW_EQ, fill: parsed.fill || DEFAULT_FILL_EQ };
-    }
-  } catch(e) {}
-  return { brew: [...DEFAULT_BREW_EQ], fill: [...DEFAULT_FILL_EQ] };
+function openAddForm(a){document.getElementById("addForm-"+a).classList.add("open");document.getElementById("addName-"+a).focus();}
+function closeAddForm(a){
+  document.getElementById("addForm-"+a).classList.remove("open");
+  ["addName","addNameEn","addLim","addPt"].forEach(f=>{const el=document.getElementById(f+"-"+a);if(el)el.value="";});
+}
+function addEquip(area){
+  const name=document.getElementById("addName-"+area).value.trim();
+  const nameEn=document.getElementById("addNameEn-"+area).value.trim();
+  const lim=parseInt(document.getElementById("addLim-"+area).value)||(area==="fill"?50:200);
+  const pt=document.getElementById("addPt-"+area).value.trim()||"タンク内面 / Tank Interior";
+  if(!name){toast("設備名を入力してください","er");return;}
+  const en=nameEn?name+" / "+nameEn:name;
+  const key="custom_"+Date.now();
+  const DOTS=["#14b0cc","#1fc47a","#e07020","#7c52f0","#3672e0","#e8c020","#d94040"];
+  const dot=DOTS[Math.floor(Math.random()*DOTS.length)];
+  const eq={key,name,en,lim,dot,pt};
+  if(area==="brew")BREW_EQ.push(eq); else FILL_EQ.push(eq);
+  saveEquipConfig();closeAddForm(area);buildGrids();updateSingleEquipSelect();updateEditEquipSelect();
+  toast(`「${name}」を追加しました`,"ok");
+}
+function removeEquip(key){
+  const card=document.getElementById("ec-"+key);
+  const name=card?.querySelector("span>span:last-child")?.textContent||key;
+  if(!confirm(`「${name}」を削除しますか？`))return;
+  const bi=BREW_EQ.findIndex(e=>e.key===key); const fi=FILL_EQ.findIndex(e=>e.key===key);
+  if(bi>=0)BREW_EQ.splice(bi,1); else if(fi>=0)FILL_EQ.splice(fi,1);
+  saveEquipConfig();buildGrids();updateSingleEquipSelect();updateEditEquipSelect();toast("削除しました","ok");
 }
 
-function saveEquipConfig() {
-  localStorage.setItem(EQ_STORAGE_KEY, JSON.stringify({ brew: BREW_EQ, fill: FILL_EQ }));
+// ══ ATP 複数記録（個別記録用） ══
+let atpEntries=[]; // [{id,dt,point,rlu,lim}]
+let atpIdCnt=0;
+
+function toggleSingleAtp(){
+  const on=document.getElementById("s-atp").checked;
+  document.getElementById("s-atp-wrap").style.display=on?"block":"none";
+  if(on&&atpEntries.length===0) addAtpEntry();
 }
 
-function resetEquipConfig() {
-  if (!confirm("設備リストをデフォルトに戻しますか？（追加した設備は削除されます）")) return;
-  localStorage.removeItem(EQ_STORAGE_KEY);
-  const cfg = loadEquipConfig();
-  BREW_EQ.length = 0; BREW_EQ.push(...cfg.brew);
-  FILL_EQ.length = 0; FILL_EQ.push(...cfg.fill);
-  buildGrids();
-  updateSingleEquipSelect();
-  toast("設備リストをデフォルトに戻しました", "ok");
+function addAtpEntry(){
+  atpIdCnt++;
+  const id=atpIdCnt;
+  const now=new Date(); now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
+  atpEntries.push({id,dt:now.toISOString().slice(0,16),point:"タンク内面 / Tank Interior",rlu:"",lim:""});
+  renderAtpList();
 }
 
-const cfg0 = loadEquipConfig();
-let BREW_EQ = cfg0.brew;
-let FILL_EQ = cfg0.fill;
-
-function allEq() { return [...BREW_EQ, ...FILL_EQ]; }
-
-// ══ 設備追加・削除 ══
-function openAddForm(area) {
-  document.getElementById("addForm-"+area).classList.add("open");
-  document.getElementById("addName-"+area).focus();
+function removeAtpEntry(id){
+  atpEntries=atpEntries.filter(e=>e.id!==id);
+  renderAtpList();
 }
-function closeAddForm(area) {
-  document.getElementById("addForm-"+area).classList.remove("open");
-  ["addName","addNameEn","addLim","addPt"].forEach(f => {
-    const el = document.getElementById(f+"-"+area);
-    if(el) el.value = "";
+
+function renderAtpList(){
+  const list=document.getElementById("atpList");
+  list.innerHTML="";
+  atpEntries.forEach((entry,idx)=>{
+    const el=document.createElement("div");
+    el.className="atp-entry";
+    el.id="atp-entry-"+entry.id;
+
+    // 現在のフィールド値を保存（既入力値を保持）
+    const rlu=parseFloat(entry.rlu);
+    const lim=parseFloat(entry.lim);
+    const judgeOk=!isNaN(rlu)&&!isNaN(lim)&&rlu<=lim;
+    const judgeNg=!isNaN(rlu)&&!isNaN(lim)&&rlu>lim;
+    const judgeHtml=judgeOk?`<span class="atp-entry-judge ok">✅ 合格</span>`
+      :judgeNg?`<span class="atp-entry-judge ng">❌ 不合格（+${Math.round(rlu-lim)}）</span>`:`<span class="atp-entry-judge" style="color:var(--tx3)">判定待ち</span>`;
+
+    el.innerHTML=`
+      <div class="atp-entry-hd">
+        <span class="atp-entry-num">検査 #${idx+1}</span>
+        ${judgeHtml}
+        ${atpEntries.length>1?`<button class="atp-del-btn" onclick="removeAtpEntry(${entry.id})">×</button>`:""}
+      </div>
+      <div class="atp-grid">
+        <div class="fg"><div class="fl">検査日時</div>
+          <input type="datetime-local" value="${esc(entry.dt)}"
+            onchange="atpFieldChange(${entry.id},'dt',this.value)"></div>
+        <div class="fg"><div class="fl">採取ポイント</div>
+          <select onchange="atpFieldChange(${entry.id},'point',this.value)">
+            ${["タンク内面 / Tank Interior","排出口 / Outlet","バルブ周辺 / Valve Area",
+               "ホース接続部 / Hose Connection","配管出口 / Pipe Outlet",
+               "充填ノズル / Fill Nozzle","床・排水周辺 / Floor & Drain","その他 / Other"]
+              .map(p=>`<option${p===entry.point?" selected":""}>${p}</option>`).join("")}
+          </select></div>
+        <div class="fg"><div class="fl">RLU値</div>
+          <input type="number" value="${entry.rlu}" min="0" placeholder="例: 85"
+            onchange="atpFieldChange(${entry.id},'rlu',this.value)"
+            oninput="atpFieldChange(${entry.id},'rlu',this.value)"></div>
+        <div class="fg"><div class="fl">基準値RLU</div>
+          <input type="number" value="${entry.lim}" min="0" placeholder="自動入力"
+            onchange="atpFieldChange(${entry.id},'lim',this.value)"
+            oninput="atpFieldChange(${entry.id},'lim',this.value)"></div>
+      </div>`;
+    list.appendChild(el);
   });
+  updAtpSummary();
 }
 
-function addEquip(area) {
-  const name   = document.getElementById("addName-"+area).value.trim();
-  const nameEn = document.getElementById("addNameEn-"+area).value.trim();
-  const lim    = parseInt(document.getElementById("addLim-"+area).value) || (area==="fill"?50:200);
-  const pt     = document.getElementById("addPt-"+area).value.trim() || "タンク内面 / Tank Interior";
-  if (!name) { toast("設備名を入力してください","er"); return; }
-  const en = nameEn ? name+" / "+nameEn : name;
-  const key = "custom_"+Date.now();
-  const COLORS = ["#14b0cc","#1fc47a","#e07020","#7c52f0","#3672e0","#e8c020","#d94040"];
-  const dot = COLORS[Math.floor(Math.random()*COLORS.length)];
-  const eq = { key, name, en, lim, dot, pt };
-  if (area === "brew") BREW_EQ.push(eq);
-  else FILL_EQ.push(eq);
-  saveEquipConfig();
-  closeAddForm(area);
-  buildGrids();
-  updateSingleEquipSelect();
-  toast(`「${name}」を追加しました`, "ok");
+function atpFieldChange(id,field,val){
+  const e=atpEntries.find(e=>e.id===id);
+  if(e) e[field]=val;
+  // 判定リアルタイム更新のため再描画（ただし軽量に）
+  const rlu=parseFloat(e.rlu), lim=parseFloat(e.lim);
+  const jEl=document.querySelector(`#atp-entry-${id} .atp-entry-judge`);
+  if(jEl){
+    if(!isNaN(rlu)&&!isNaN(lim)){
+      const ok=rlu<=lim;
+      jEl.className="atp-entry-judge"+(ok?" ok":" ng");
+      jEl.textContent=ok?"✅ 合格":`❌ 不合格（+${Math.round(rlu-lim)}）`;
+    } else {
+      jEl.className="atp-entry-judge";jEl.style.color="var(--tx3)";jEl.textContent="判定待ち";
+    }
+  }
+  if(field==="rlu"||field==="lim") updAtpSummary();
+  // 基準値が未入力なら設備の基準値を自動補完
+  if(field==="rlu"&&isNaN(parseFloat(e.lim))){
+    const equipEn=document.getElementById("s-equip").value;
+    const eq=allEq().find(x=>x.en===equipEn);
+    if(eq){e.lim=String(eq.lim); const limEl=document.querySelector(`#atp-entry-${id} input[type=number]:last-of-type`); if(limEl)limEl.value=eq.lim;}
+  }
 }
 
-function removeEquip(key) {
-  const nameEl = document.getElementById("ec-"+key);
-  const name = nameEl ? nameEl.querySelector(".eq-name span")?.textContent || key : key;
-  if (!confirm(`「${name}」を設備リストから削除しますか？\n（過去の記録には影響しません）`)) return;
-  const bi = BREW_EQ.findIndex(e=>e.key===key);
-  const fi = FILL_EQ.findIndex(e=>e.key===key);
-  if (bi>=0) BREW_EQ.splice(bi,1);
-  else if (fi>=0) FILL_EQ.splice(fi,1);
-  saveEquipConfig();
-  buildGrids();
-  updateSingleEquipSelect();
-  toast("設備を削除しました","ok");
+function updAtpSummary(){
+  const summary=document.getElementById("atpSummary");
+  const valid=atpEntries.filter(e=>!isNaN(parseFloat(e.rlu))&&!isNaN(parseFloat(e.lim)));
+  if(!valid.length){summary.style.display="none";return;}
+  const fails=valid.filter(e=>parseFloat(e.rlu)>parseFloat(e.lim));
+  const rlus=valid.map(e=>parseFloat(e.rlu));
+  const avg=Math.round(rlus.reduce((a,b)=>a+b,0)/rlus.length);
+  summary.style.display="block";
+  if(fails.length===0){
+    summary.style.background="var(--gl)";summary.style.borderColor="var(--gb)";summary.style.color="var(--gr)";
+    summary.textContent=`✅ 全${valid.length}件合格 — 平均RLU: ${avg}`;
+  }else{
+    summary.style.background="var(--rl)";summary.style.borderColor="var(--rb)";summary.style.color="var(--rd)";
+    summary.textContent=`❌ ${fails.length}件不合格 / ${valid.length}件検査 — 平均RLU: ${avg}`;
+  }
 }
 
 // ══ STATE ══
@@ -760,20 +826,17 @@ function jsonp(params){
   return new Promise((res,rej)=>{
     const cb="_cb"+Date.now()+Math.floor(Math.random()*9999);
     const qs=Object.entries({...params,callback:cb})
-      .map(([k,v])=>k+"="+encodeURIComponent(typeof v==="object"?JSON.stringify(v):String(v)))
-      .join("&");
+      .map(([k,v])=>k+"="+encodeURIComponent(typeof v==="object"?JSON.stringify(v):String(v))).join("&");
     let sc;
     const to=setTimeout(()=>{delete window[cb];sc?.remove();rej(new Error("timeout"));},30000);
     window[cb]=d=>{clearTimeout(to);delete window[cb];sc?.remove();
       d.ok===false?rej(new Error(d.error||"GAS err")):res(d);};
-    sc=document.createElement("script");
-    sc.src=GAS_URL+"?"+qs;
+    sc=document.createElement("script");sc.src=GAS_URL+"?"+qs;
     sc.onerror=()=>{clearTimeout(to);delete window[cb];rej(new Error("接続エラー"));};
     document.head.appendChild(sc);
   });
 }
-const nPost=(path,body)=>jsonp({action:"relay",method:"POST",path,body:JSON.stringify(body)});
-const nAll =dbId=>jsonp({action:"queryAll",dbId}).then(d=>d.results||[]);
+const nAll=dbId=>jsonp({action:"queryAll",dbId}).then(d=>d.results||[]);
 
 // ══ LOAD ══
 async function loadData(){
@@ -792,35 +855,54 @@ async function loadData(){
         equip:pr["対象設備"]?.select?.name||"",
         prog:pr["CIPプログラム"]?.select?.name||"",
         start:pr["実施日時"]?.date?.start||"",
+        temp:pr["洗浄温度（℃）"]?.number,
+        circ:pr["循環時間（分）"]?.number,
+        prev:(pr["前工程（直前バッチ）"]?.rich_text||[{}])[0]?.plain_text||"",
+        rinse:pr["すすぎ確認"]?.checkbox,
         rlu,lim,atp,judge,
+        atpDt:pr["検査日時"]?.date?.start||"",
+        atpPt:pr["採取ポイント"]?.select?.name||"",
         note:(pr["異常・備考"]?.rich_text||[{}])[0]?.plain_text||"",
       };
     });
     setLed(true,"Notion 接続済");
-    renderDash();
-    renderLog();
+    renderDash();renderLog();
   }catch(e){setLed(false,"接続エラー");toast(e.message,"er");}
+}
+
+// ══ 月フィルタ ══
+function filteredLogs(monthInputId){
+  const m=document.getElementById(monthInputId)?.value;
+  if(!m) return logs;
+  return logs.filter(l=>l.start&&l.start.startsWith(m));
+}
+function clearMonthFilter(inputId,renderFn){
+  document.getElementById(inputId).value="";
+  window[renderFn]();
 }
 
 // ══ DASHBOARD ══
 function renderDash(){
-  const atp=logs.filter(l=>l.atp);
+  const fl=filteredLogs("dashMonth");
+  const m=document.getElementById("dashMonth").value;
+  document.getElementById("dashMonthNote").textContent=m?`${fl.length}件表示中`:"";
+  const atp=fl.filter(l=>l.atp);
   const pass=atp.filter(l=>l.judge==="pass").length;
   const fail=atp.filter(l=>l.judge==="fail").length;
   const rlus=atp.filter(l=>l.rlu!=null).map(l=>l.rlu);
   const avg=rlus.length?Math.round(rlus.reduce((a,b)=>a+b,0)/rlus.length):0;
   const rate=atp.length?Math.round(pass/atp.length*100):0;
-  document.getElementById("k-total").textContent=logs.length;
+  document.getElementById("k-total").textContent=fl.length;
   document.getElementById("k-pass").textContent=pass;
   document.getElementById("k-fail").textContent=fail;
   document.getElementById("k-avg").textContent=avg||"—";
   document.getElementById("k-rate").textContent=atp.length?(rate+"%"):"—";
-  drawRlu();drawJudge(pass,fail,logs.filter(l=>!l.atp).length);
-  drawEquip();drawHeatmap();
+  drawRlu(fl);drawJudge(pass,fail,fl.filter(l=>!l.atp).length);
+  drawEquip(fl);drawHeatmap();
 }
 
-function drawRlu(){
-  const data=logs.filter(l=>l.rlu!=null).slice(-40);
+function drawRlu(data){
+  data=data.filter(l=>l.rlu!=null).slice(-40);
   if(charts.rlu)charts.rlu.destroy();
   charts.rlu=new Chart(document.getElementById("cRlu").getContext("2d"),{
     data:{
@@ -834,11 +916,10 @@ function drawRlu(){
           pointRadius:0,label:"基準値",fill:false},
       ]
     },
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false}},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
       scales:{
-        x:{ticks:{color:"#4a527a",font:{size:9}},grid:{color:"rgba(255,255,255,.03)"}},
-        y:{ticks:{color:"#4a527a",font:{size:9}},grid:{color:"rgba(255,255,255,.05)"},beginAtZero:true},
+        x:{ticks:{color:"#6a77a0",font:{size:9}},grid:{color:"rgba(255,255,255,.03)"}},
+        y:{ticks:{color:"#6a77a0",font:{size:9}},grid:{color:"rgba(255,255,255,.05)"},beginAtZero:true},
       }}
   });
 }
@@ -852,16 +933,16 @@ function drawJudge(pass,fail,na){
         backgroundColor:["rgba(31,196,122,.75)","rgba(217,64,64,.75)","rgba(42,47,66,.9)"],
         borderColor:["#1fc47a","#d94040","#2a2f42"],borderWidth:1}]},
     options:{responsive:true,maintainAspectRatio:false,cutout:"65%",
-      plugins:{legend:{position:"bottom",labels:{color:"#7a85aa",font:{size:10},padding:8,boxWidth:10}}}}
+      plugins:{legend:{position:"bottom",labels:{color:"#a8b4d4",font:{size:10},padding:8,boxWidth:10}}}}
   });
 }
 
-function drawEquip(){
+function drawEquip(fl){
   const eq=allEq();
   const d=eq.map(e=>{
-    const rows=logs.filter(l=>l.equip===e.en&&l.rlu!=null);
+    const rows=(fl||logs).filter(l=>l.equip===e.en&&l.rlu!=null);
     const avg=rows.length?Math.round(rows.reduce((s,l)=>s+l.rlu,0)/rows.length):0;
-    return{name:e.name,avg,lim:e.lim,color:e.dot};
+    return{name:e.name,avg,lim:e.lim};
   });
   if(charts.equip)charts.equip.destroy();
   charts.equip=new Chart(document.getElementById("cEquip").getContext("2d"),{
@@ -877,11 +958,10 @@ function drawEquip(){
           pointRadius:0,backgroundColor:"transparent"},
       ]
     },
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false}},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
       scales:{
-        x:{ticks:{color:"#4a527a",font:{size:9}},grid:{color:"rgba(255,255,255,.03)"}},
-        y:{ticks:{color:"#4a527a",font:{size:9}},grid:{color:"rgba(255,255,255,.05)"},beginAtZero:true},
+        x:{ticks:{color:"#6a77a0",font:{size:9}},grid:{color:"rgba(255,255,255,.03)"}},
+        y:{ticks:{color:"#6a77a0",font:{size:9}},grid:{color:"rgba(255,255,255,.05)"},beginAtZero:true},
       }}
   });
 }
@@ -889,45 +969,43 @@ function drawEquip(){
 function drawHeatmap(){
   const wrap=document.getElementById("heatmap");
   wrap.innerHTML="";
-  const today=new Date();
-  const DAYS=14;
-  const hRow=document.createElement("div");
-  hRow.className="hm-row";
-  const hLbl=document.createElement("div");hLbl.className="hm-lbl";hRow.appendChild(hLbl);
-  const hCells=document.createElement("div");hCells.className="hm-cells";
+  const today=new Date(), DAYS=14;
+  const hRow=document.createElement("div"); hRow.className="hm-row";
+  const hLbl=document.createElement("div"); hLbl.className="hm-lbl"; hRow.appendChild(hLbl);
+  const hCells=document.createElement("div"); hCells.className="hm-cells";
   for(let d=DAYS-1;d>=0;d--){
-    const dt=new Date(today);dt.setDate(today.getDate()-d);
+    const dt=new Date(today); dt.setDate(today.getDate()-d);
     const cell=document.createElement("div");
-    cell.style.cssText="width:20px;height:14px;display:flex;align-items:center;justify-content:center;";
+    cell.style.cssText="width:20px;height:14px;display:flex;align-items:center;justify-content:center";
     cell.innerHTML=`<span style="font-family:var(--fm);font-size:8px;color:var(--tx4)">${dt.getDate()}</span>`;
     hCells.appendChild(cell);
   }
-  hRow.appendChild(hCells);wrap.appendChild(hRow);
+  hRow.appendChild(hCells); wrap.appendChild(hRow);
   allEq().forEach(eq=>{
-    const row=document.createElement("div");row.className="hm-row";
-    const lbl=document.createElement("div");lbl.className="hm-lbl";lbl.textContent=eq.name;row.appendChild(lbl);
-    const cells=document.createElement("div");cells.className="hm-cells";
+    const row=document.createElement("div"); row.className="hm-row";
+    const lbl=document.createElement("div"); lbl.className="hm-lbl"; lbl.textContent=eq.name; row.appendChild(lbl);
+    const cells=document.createElement("div"); cells.className="hm-cells";
     for(let d=DAYS-1;d>=0;d--){
-      const dt=new Date(today);dt.setDate(today.getDate()-d);
+      const dt=new Date(today); dt.setDate(today.getDate()-d);
       const ds=dt.toISOString().slice(0,10);
       const recs=logs.filter(l=>l.equip===eq.en&&l.start&&l.start.startsWith(ds));
-      const cell=document.createElement("div");cell.className="hm-cell";
+      const cell=document.createElement("div"); cell.className="hm-cell";
       if(!recs.length){cell.classList.add("nodata");}
       else{
         const hasFail=recs.some(l=>l.judge==="fail");
         cell.classList.add(hasFail?"fail":"pass");
         const rlus=recs.filter(l=>l.rlu!=null).map(l=>l.rlu);
-        const rluTxt=rlus.length?" RLU:"+rlus.join("/"):"";
-        const tip=document.createElement("div");tip.className="hm-tip";
-        tip.textContent=ds+" "+recs.length+"件"+rluTxt;cell.appendChild(tip);
+        const tip=document.createElement("div"); tip.className="hm-tip";
+        tip.textContent=ds+" "+recs.length+"件"+(rlus.length?" RLU:"+rlus.join("/"):"");
+        cell.appendChild(tip);
       }
       cells.appendChild(cell);
     }
-    row.appendChild(cells);wrap.appendChild(row);
+    row.appendChild(cells); wrap.appendChild(row);
   });
 }
 
-// ══ ENTRY グリッド構築 ══
+// ══ ENTRY グリッド ══
 function buildGrids(){
   ["brew","fill"].forEach(area=>{
     const eqs=area==="brew"?BREW_EQ:FILL_EQ;
@@ -935,24 +1013,20 @@ function buildGrids(){
     grid.innerHTML="";
     eqs.forEach(eq=>{
       const c=document.createElement("div");
-      c.className="eq-card";c.id="ec-"+eq.key;
+      c.className="eq-card"; c.id="ec-"+eq.key;
       c.innerHTML=`
-        <button class="eq-del" onclick="removeEquip('${eq.key}')" title="この設備を削除">×</button>
-        <div class="eq-name" style="justify-content:space-between;padding-right:16px">
+        <button class="eq-del" onclick="removeEquip('${eq.key}')" title="削除">×</button>
+        <div class="eq-name" style="justify-content:space-between;padding-right:18px">
           <span style="display:flex;align-items:center;gap:5px">
-            <div class="eq-dot" style="background:${eq.dot}"></div>${eq.name}
+            <div class="eq-dot" style="background:${eq.dot}"></div><span>${eq.name}</span>
           </span>
-          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;
-            font-family:var(--fm);font-size:9px;color:var(--tx3)">
-            <input type="checkbox" id="chk-${eq.key}" checked
-              style="width:12px;height:12px;accent-color:var(--cy)"
-              onchange="toggleEqCard('${eq.key}')">
-            記録する
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;font-family:var(--fm);font-size:9px;color:var(--tx3)">
+            <input type="checkbox" id="chk-${eq.key}" checked style="width:12px;height:12px;accent-color:var(--cy)"
+              onchange="toggleEqCard('${eq.key}')"> 記録する
           </label>
         </div>
         <div class="eq-inp-row">
-          <input class="eq-inp" type="number" id="rlu-${eq.key}" placeholder="RLU"
-            min="0" oninput="updCard('${eq.key}',${eq.lim})">
+          <input class="eq-inp" type="number" id="rlu-${eq.key}" placeholder="RLU" min="0" oninput="updCard('${eq.key}',${eq.lim})">
           <span class="eq-unit">RLU</span>
         </div>
         <div class="eq-judge" id="jd-${eq.key}"></div>
@@ -964,92 +1038,63 @@ function buildGrids(){
 
 function updCard(key,lim){
   const v=parseFloat(document.getElementById("rlu-"+key).value);
-  const jEl=document.getElementById("jd-"+key);
-  const card=document.getElementById("ec-"+key);
-  if(isNaN(v)){jEl.className="eq-judge";jEl.textContent="";
-    card.classList.remove("ok","ng");return;}
+  const jEl=document.getElementById("jd-"+key); const card=document.getElementById("ec-"+key);
+  if(isNaN(v)){jEl.className="eq-judge";jEl.textContent="";card.classList.remove("ok","ng");return;}
   const ok=v<=lim;
   jEl.className="eq-judge "+(ok?"ok":"ng");
   jEl.textContent=ok?"✅ 合格":"❌ NG (+"+Math.round(v-lim)+")";
-  card.classList.toggle("ok",ok);card.classList.toggle("ng",!ok);
+  card.classList.toggle("ok",ok); card.classList.toggle("ng",!ok);
 }
-
 function toggleArea(area){
-  const bd=document.getElementById("bd-"+area);
-  const cr=document.getElementById("cr-"+area);
-  const open=bd.classList.toggle("open");
-  cr.classList.toggle("open",open);
+  const bd=document.getElementById("bd-"+area); const cr=document.getElementById("cr-"+area);
+  const open=bd.classList.toggle("open"); cr.classList.toggle("open",open);
 }
-
-function setToday(){
-  const d=new Date();
-  document.getElementById("eDate").value=d.toISOString().slice(0,10);
-  onDateChange();
-}
-
+function setToday(){ const d=new Date(); document.getElementById("eDate").value=d.toISOString().slice(0,10); onDateChange(); }
 function onDateChange(){
-  const v=document.getElementById("eDate").value;
-  if(!v)return;
+  const v=document.getElementById("eDate").value; if(!v)return;
   const d=new Date(v);
   document.getElementById("dateName").textContent=
     d.toLocaleDateString("ja-JP",{year:"numeric",month:"long",day:"numeric",weekday:"short"})+" の記録";
 }
-
 function toggleEqCard(key){
-  const chk=document.getElementById("chk-"+key);
-  const card=document.getElementById("ec-"+key);
-  const inp=document.getElementById("rlu-"+key);
-  const on=chk.checked;
-  card.style.opacity=on?"1":"0.4";
-  inp.disabled=!on;
+  const chk=document.getElementById("chk-"+key); const card=document.getElementById("ec-"+key);
+  const inp=document.getElementById("rlu-"+key); const on=chk.checked;
+  card.style.opacity=on?"1":"0.4"; inp.disabled=!on;
 }
-
 function checkAllEquips(state){
-  allEq().forEach(eq=>{
-    const chk=document.getElementById("chk-"+eq.key);
-    if(chk){chk.checked=state;toggleEqCard(eq.key);}
-  });
+  allEq().forEach(eq=>{ const c=document.getElementById("chk-"+eq.key); if(c){c.checked=state;toggleEqCard(eq.key);} });
 }
 
 // ══ SAVE ALL ══
 async function saveAll(){
   const date=document.getElementById("eDate").value;
   if(!date){toast("実施日を選択してください","er");return;}
-  const prog =document.getElementById("cProg").value;
-  const temp =parseFloat(document.getElementById("cTemp").value);
-  const circ =parseFloat(document.getElementById("cCirc").value);
-  const prev =document.getElementById("cPrev").value;
-  const note =document.getElementById("cNote").value;
+  const prog=document.getElementById("cProg").value;
+  const temp=parseFloat(document.getElementById("cTemp").value);
+  const circ=parseFloat(document.getElementById("cCirc").value);
+  const prev=document.getElementById("cPrev").value;
+  const note=document.getElementById("cNote").value;
   const rinse=document.getElementById("cRinse").checked;
   const brewAtp=document.getElementById("brewAtp").checked;
   const fillAtp=document.getElementById("fillAtp").checked;
-  const fillPt =document.getElementById("fillPoint").value;
+  const fillPt=document.getElementById("fillPoint").value;
   const dt=date+"T09:00:00";
   const rt=v=>[{text:{content:String(v||"")}}];
-  const entries=allEq()
-    .filter(eq=>document.getElementById("chk-"+eq.key)?.checked)
-    .map(eq=>{
-      const isBrew=BREW_EQ.some(e=>e.key===eq.key);
-      const rluVal=parseFloat(document.getElementById("rlu-"+eq.key).value);
-      const atpOn=isBrew?brewAtp:fillAtp;
-      const pt=isBrew?eq.pt:fillPt;
-      return{eq,rluVal,atpOn,pt};
-    });
-  if(!entries.length){toast("記録する設備を1つ以上チェックしてください","er");return;}
-  const btn=document.getElementById("saveBtn");
-  btn.disabled=true;
-  const pw=document.getElementById("progW");
-  const pf=document.getElementById("progF");
+  const entries=allEq().filter(eq=>document.getElementById("chk-"+eq.key)?.checked)
+    .map(eq=>{ const isBrew=BREW_EQ.some(e=>e.key===eq.key);
+      return{eq,rluVal:parseFloat(document.getElementById("rlu-"+eq.key).value),
+        atpOn:isBrew?brewAtp:fillAtp, pt:isBrew?eq.pt:fillPt}; });
+  if(!entries.length){toast("設備を1つ以上チェックしてください","er");return;}
+  const btn=document.getElementById("saveBtn"); btn.disabled=true;
+  const pw=document.getElementById("progW"); const pf=document.getElementById("progF");
   pw.style.display="block";
   document.getElementById("saveSt").textContent=`0 / ${entries.length}`;
-  cdbg("info","SAVE",`一括保存開始 ${entries.length}件 日付=${date}`);
   let done=0,failed=0,failNames=[];
   for(const {eq,rluVal,atpOn,pt} of entries){
     try{
       const mmdd=date.slice(5).replace("-","");
-      const recName=`CIP-${date.slice(0,4)}-${mmdd} ${eq.name}`;
       const props={
-        "記録名":        {title:rt(recName)},
+        "記録名":        {title:rt(`CIP-${date.slice(0,4)}-${mmdd} ${eq.name}`)},
         "対象設備":      {select:{name:eq.en}},
         "CIPプログラム": {select:{name:prog}},
         "実施日時":      {date:{start:dt}},
@@ -1062,239 +1107,300 @@ async function saveAll(){
       if(prev)         props["前工程（直前バッチ）"]={rich_text:rt(prev)};
       if(note)         props["異常・備考"]={rich_text:rt(note)};
       if(atpOn&&!isNaN(rluVal)){
-        props["RLU"]          ={number:rluVal};
-        props["検査日時"]     ={date:{start:dt}};
-        props["採取ポイント"] ={select:{name:pt}};
-        if(rluVal>eq.lim) props["再洗浄要"]={checkbox:true};
+        props["RLU"]={number:rluVal};
+        props["検査日時"]={date:{start:dt}};
+        props["採取ポイント"]={select:{name:pt}};
+        if(rluVal>eq.lim)props["再洗浄要"]={checkbox:true};
       }
-      cdbg("info","POST",`${eq.name} → relay /v1/pages`);
-      const res=await jsonp({
-        action:"relay",method:"POST",path:"/v1/pages",
-        body:JSON.stringify({parent:{database_id:CIP_DB},properties:props})
-      });
-      if(res.object==="error"||res.status>=400)
-        throw new Error(res.message||JSON.stringify(res).slice(0,80));
-      cdbg("ok","SAVED",`${eq.name} id=${(res.id||"").slice(0,8)}`);
+      const res=await jsonp({action:"relay",method:"POST",path:"/v1/pages",
+        body:JSON.stringify({parent:{database_id:CIP_DB},properties:props})});
+      if(res.object==="error"||res.status>=400) throw new Error(res.message||"APIエラー");
       done++;
-    }catch(e2){
-      failed++;failNames.push(eq.name);
-      cdbg("err","FAIL",`${eq.name}: ${e2.message}`);
-    }
+    }catch(e2){failed++;failNames.push(eq.name);cdbg("err","FAIL",`${eq.name}: ${e2.message}`);}
     pf.style.width=Math.round((done+failed)/entries.length*100)+"%";
     document.getElementById("saveSt").textContent=`${done+failed} / ${entries.length}`;
     await new Promise(r=>setTimeout(r,250));
   }
-  pw.style.display="none";btn.disabled=false;
+  pw.style.display="none"; btn.disabled=false;
   if(failed===0){
-    document.getElementById("saveSt").textContent=`✓ ${done}件完了 ${new Date().toLocaleTimeString("ja-JP")}`;
-    toast(`✅ ${done}件を保存しました`,"ok");
-    cdbg("ok","DONE",`全${done}件保存完了`);
-    await loadData();goTab("dash");
+    document.getElementById("saveSt").textContent=`✓ ${done}件完了`;
+    toast(`✅ ${done}件を保存しました`,"ok"); await loadData(); goTab("dash");
   }else{
-    document.getElementById("saveSt").textContent=`${done}件完了 / ${failed}件失敗: ${failNames.join(",")}`;
-    toast(`${done}件保存 / ${failed}件失敗 — デバッグパネル確認`,"er");
-    cdbg("warn","DONE",`${done}件成功 / ${failed}件失敗: ${failNames.join(", ")}`);
+    document.getElementById("saveSt").textContent=`${done}件完了 / ${failed}件失敗`;
+    toast(`${done}件保存 / ${failed}件失敗`,"er");
   }
 }
 
 function resetEntry(){
   allEq().forEach(eq=>{
-    const el=document.getElementById("rlu-"+eq.key);
-    if(el)el.value="";
-    const chk=document.getElementById("chk-"+eq.key);
-    if(chk){chk.checked=true;toggleEqCard(eq.key);}
+    const el=document.getElementById("rlu-"+eq.key); if(el)el.value="";
+    const chk=document.getElementById("chk-"+eq.key); if(chk){chk.checked=true;toggleEqCard(eq.key);}
     updCard(eq.key,eq.lim);
   });
   ["cTemp","cCirc","cPrev","cNote"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
   document.getElementById("saveSt").textContent="";
 }
 
-// ══ SINGLE ENTRY ══
-// 設備セレクトを設備リストから動的生成
-function updateSingleEquipSelect() {
-  const sel = document.getElementById("s-equip");
-  const cur = sel.value;
-  sel.innerHTML = '<option value="">選択してください</option>';
-  allEq().forEach(eq => {
-    const o = document.createElement("option");
-    o.value = eq.en;
-    o.textContent = eq.en;
-    sel.appendChild(o);
-  });
-  // その他は手動追加
-  const other = document.createElement("option");
-  other.value = "その他 / Other";
-  other.textContent = "その他 / Other";
-  sel.appendChild(other);
-  // 前の選択を復元
-  if (cur) sel.value = cur;
+// ══ SINGLE ══
+function updateSingleEquipSelect(){
+  const sel=document.getElementById("s-equip"); const cur=sel.value;
+  sel.innerHTML='<option value="">選択してください</option>';
+  allEq().forEach(eq=>{ const o=document.createElement("option"); o.value=eq.en; o.textContent=eq.en; sel.appendChild(o); });
+  const ot=document.createElement("option"); ot.value="その他 / Other"; ot.textContent="その他 / Other"; sel.appendChild(ot);
+  if(cur) sel.value=cur;
 }
 
 function onSingleEquipChange(){
-  const equipEn = document.getElementById("s-equip").value;
-  const eq = allEq().find(e => e.en === equipEn);
-  if (eq) {
-    document.getElementById("s-lim").value = eq.lim;
+  const equipEn=document.getElementById("s-equip").value;
+  const eq=allEq().find(e=>e.en===equipEn);
+  if(eq){
+    // ATP基準値を更新
+    atpEntries.forEach(e=>{ if(!parseFloat(e.lim)) e.lim=String(eq.lim); });
+    renderAtpList();
   }
-  const start = document.getElementById("s-start").value;
-  const d = start ? start.slice(0,10) : new Date().toISOString().slice(0,10);
-  const shortName = equipEn ? equipEn.split(" / ")[0] : "";
-  if (shortName)
-    document.getElementById("s-name").value =
-      `CIP-${d.slice(0,4)}-${d.slice(5,7)}${d.slice(8,10)} ${shortName}`;
-  updSingleJudge();
+  const start=document.getElementById("s-start").value;
+  const d=start?start.slice(0,10):new Date().toISOString().slice(0,10);
+  const shortName=equipEn?equipEn.split(" / ")[0]:"";
+  if(shortName) document.getElementById("s-name").value=`CIP-${d.slice(0,4)}-${d.slice(5,7)}${d.slice(8,10)} ${shortName}`;
 }
 
-function toggleSingleAtp(){
-  const on=document.getElementById("s-atp").checked;
-  document.getElementById("s-atp-fields").style.display=on?"block":"none";
-  if(on){
-    const now=new Date();
-    now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
-    document.getElementById("s-atp-dt").value=now.toISOString().slice(0,16);
-  }
-}
-
-function updSingleJudge(){
-  const rlu=parseFloat(document.getElementById("s-rlu").value);
-  const lim=parseFloat(document.getElementById("s-lim").value);
-  const el=document.getElementById("s-judge-result");
-  const ff=document.getElementById("s-fail-fields");
-  if(isNaN(rlu)||isNaN(lim)){
-    el.style.cssText="padding:8px 12px;border-radius:var(--r3);font-size:12px;background:var(--s3);border:1px solid var(--rim);color:var(--tx3)";
-    el.textContent="RLU値と基準値を入力すると自動判定されます";
-    ff.style.display="none";return;
-  }
-  const ok=rlu<=lim;
-  el.style.cssText=`padding:8px 12px;border-radius:var(--r3);font-size:12px;font-weight:500;border:1px solid;
-    background:${ok?"var(--gl)":"var(--rl)"};border-color:${ok?"var(--gb)":"var(--rb)"};color:${ok?"var(--gr)":"var(--rd)"}`;
-  el.textContent=ok
-    ?`✅ 合格 — RLU ${rlu} ≤ 基準値 ${lim}`
-    :`❌ 不合格 — RLU ${rlu} が基準値 ${lim} を超過（+${Math.round(rlu-lim)}）`;
-  ff.style.display=ok?"none":"block";
-}
-
-// ══ 個別記録 保存（修正版）══
+// ══ 個別保存 ══
 async function saveSingle(){
-  const equip = document.getElementById("s-equip").value;
-  const prog  = document.getElementById("s-prog").value;
-  const start = document.getElementById("s-start").value;
-  if(!equip){ toast("対象設備を選択してください","er"); return; }
-  if(!start){ toast("実施日時を入力してください","er"); return; }
-
-  const rt = v => [{text:{content:String(v||"")}}];
-  const atpOn = document.getElementById("s-atp").checked;
-  const rluVal = parseFloat(document.getElementById("s-rlu").value);
-  const limVal = parseFloat(document.getElementById("s-lim").value);
-  const name = document.getElementById("s-name").value.trim()
-    || `CIP-${start.slice(0,10).replace(/-/g,"")} ${equip.split(" / ")[0]}`;
-
-  // Notionに確実に存在するプロパティのみ送信
-  // （saveAll と同じプロパティセットを基本とする）
-  const props = {
-    "記録名":        {title: rt(name)},
-    "対象設備":      {select: {name: equip}},
-    "CIPプログラム": {select: {name: prog}},
-    "実施日時":      {date:   {start: start}},
-    "ATP検査実施":   {checkbox: atpOn},
-    "すすぎ確認":    {checkbox: document.getElementById("s-rinse").checked},
+  const equip=document.getElementById("s-equip").value;
+  const start=document.getElementById("s-start").value;
+  if(!equip){toast("対象設備を選択してください","er");return;}
+  if(!start){toast("実施日時を入力してください","er");return;}
+  const rt=v=>[{text:{content:String(v||"")}}];
+  const atpOn=document.getElementById("s-atp").checked;
+  const name=document.getElementById("s-name").value.trim()
+    ||`CIP-${start.slice(0,10).replace(/-/g,"")} ${equip.split(" / ")[0]}`;
+  const eq=allEq().find(e=>e.en===equip);
+  const props={
+    "記録名":        {title:rt(name)},
+    "対象設備":      {select:{name:equip}},
+    "CIPプログラム": {select:{name:document.getElementById("s-prog").value}},
+    "実施日時":      {date:{start}},
+    "ATP検査実施":   {checkbox:atpOn},
+    "すすぎ確認":    {checkbox:document.getElementById("s-rinse").checked},
   };
+  const temp=parseFloat(document.getElementById("s-temp").value);
+  const circ=parseFloat(document.getElementById("s-circ").value);
+  const prev=document.getElementById("s-prev").value.trim();
+  const noteBase=document.getElementById("s-note").value.trim();
+  if(!isNaN(temp)) props["洗浄温度（℃）"]={number:temp};
+  if(!isNaN(circ)) props["循環時間（分）"]={number:circ};
+  if(prev)         props["前工程（直前バッチ）"]={rich_text:rt(prev)};
 
-  const temp = parseFloat(document.getElementById("s-temp").value);
-  const circ = parseFloat(document.getElementById("s-circ").value);
-  const prev = document.getElementById("s-prev").value.trim();
-  const note = document.getElementById("s-note").value.trim();
-
-  if(!isNaN(temp)) props["洗浄温度（℃）"] = {number: temp};
-  if(!isNaN(circ)) props["循環時間（分）"] = {number: circ};
-  if(prev)         props["前工程（直前バッチ）"] = {rich_text: rt(prev)};
-  if(note)         props["異常・備考"] = {rich_text: rt(note)};
-  if(!isNaN(limVal)) props["基準値RLU"] = {number: limVal};
-
-  if(atpOn){
-    if(!isNaN(rluVal)){
-      props["RLU"] = {number: rluVal};
-      props["再洗浄要"] = {checkbox: rluVal > (isNaN(limVal)?9999:limVal)};
+  // ATP: 1件目を標準フィールドへ、追加分を備考へ
+  let noteExtra="";
+  if(atpOn&&atpEntries.length>0){
+    const primary=atpEntries[0];
+    const rlu=parseFloat(primary.rlu), lim=parseFloat(primary.lim)||(eq?.lim||200);
+    if(!isNaN(rlu)){
+      props["RLU"]={number:rlu};
+      props["基準値RLU"]={number:lim};
+      if(primary.dt) props["検査日時"]={date:{start:primary.dt}};
+      if(primary.point) props["採取ポイント"]={select:{name:primary.point}};
+      props["再洗浄要"]={checkbox:rlu>lim};
     }
-    const atpDt = document.getElementById("s-atp-dt").value;
-    if(atpDt) props["検査日時"] = {date: {start: atpDt}};
-    const pt = document.getElementById("s-point").value;
-    if(pt)    props["採取ポイント"] = {select: {name: pt}};
+    // 追加ATP記録を備考に追記
+    if(atpEntries.length>1){
+      const extra=atpEntries.slice(1).map((e,i)=>{
+        const r=parseFloat(e.rlu), l=parseFloat(e.lim);
+        const jd=!isNaN(r)&&!isNaN(l)?(r<=l?"合格":"不合格 +"+Math.round(r-l)):"—";
+        return `[ATP#${i+2}] ${e.dt||""} ${e.point||""} RLU:${e.rlu||"—"} 基準:${e.lim||"—"} ${jd}`;
+      }).join("\n");
+      noteExtra="\n\n--- 追加ATP検査 ---\n"+extra;
+    }
   }
+  const noteAll=(noteBase+noteExtra).trim();
+  if(noteAll) props["異常・備考"]={rich_text:rt(noteAll)};
 
-  const btn = document.getElementById("s-saveBtn");
-  btn.disabled = true;
-  document.getElementById("s-saveSt").textContent = "保存中…";
-  cdbg("info","SINGLE",`保存開始: ${name} / ${equip}`);
-  cdbg("info","SINGLE",`props keys: ${Object.keys(props).join(", ")}`);
-
+  const btn=document.getElementById("s-saveBtn"); btn.disabled=true;
+  document.getElementById("s-saveSt").textContent="保存中…";
+  cdbg("info","SINGLE",`保存: ${name}`);
   try{
-    const body = {parent:{database_id:CIP_DB}, properties:props};
-    const res = await jsonp({
-      action:"relay", method:"POST", path:"/v1/pages",
-      body: JSON.stringify(body)
-    });
-    if(res.object==="error" || res.status>=400)
-      throw new Error(res.message || JSON.stringify(res).slice(0,120));
-    cdbg("ok","SINGLE",`保存完了 id=${(res.id||"").slice(0,8)}`);
+    const res=await jsonp({action:"relay",method:"POST",path:"/v1/pages",
+      body:JSON.stringify({parent:{database_id:CIP_DB},properties:props})});
+    if(res.object==="error"||res.status>=400) throw new Error(res.message||"APIエラー");
+    cdbg("ok","SINGLE",`完了 id=${(res.id||"").slice(0,8)}`);
     toast("✅ 保存しました","ok");
     document.getElementById("s-saveSt").textContent=`✓ ${new Date().toLocaleTimeString("ja-JP")}`;
     await loadData();
   }catch(e){
-    cdbg("err","SINGLE",`保存失敗: ${e.message}`);
+    cdbg("err","SINGLE",`失敗: ${e.message}`);
     toast("保存エラー: "+e.message,"er");
     document.getElementById("s-saveSt").textContent="";
   }finally{btn.disabled=false;}
 }
 
 function resetSingle(){
-  ["s-name","s-temp","s-circ","s-prev","s-note","s-rlu","s-lim","s-correction"].forEach(id=>{
-    const el=document.getElementById(id);if(el)el.value="";
-  });
+  ["s-name","s-temp","s-circ","s-prev","s-note"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
   document.getElementById("s-equip").value="";
   document.getElementById("s-prog").selectedIndex=0;
-  document.getElementById("s-recheck").selectedIndex=0;
   document.getElementById("s-rinse").checked=true;
   document.getElementById("s-atp").checked=false;
-  document.getElementById("s-reclean").checked=false;
-  document.getElementById("s-atp-fields").style.display="none";
-  document.getElementById("s-fail-fields").style.display="none";
+  document.getElementById("s-atp-wrap").style.display="none";
   document.getElementById("s-saveSt").textContent="";
-  const now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
+  atpEntries=[]; atpIdCnt=0;
+  document.getElementById("atpList").innerHTML="";
+  document.getElementById("atpSummary").style.display="none";
+  const now=new Date(); now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
   document.getElementById("s-start").value=now.toISOString().slice(0,16);
-  const jr=document.getElementById("s-judge-result");
-  jr.style.cssText="padding:8px 12px;border-radius:var(--r3);font-size:12px;background:var(--s3);border:1px solid var(--rim);color:var(--tx3)";
-  jr.textContent="RLU値と基準値を入力すると自動判定されます";
 }
 
 // ══ LOG ══
 function renderLog(){
   const body=document.getElementById("logBody");
-  if(!logs.length){body.innerHTML=`<div class="empty">記録がありません</div>`;return;}
+  const fl=filteredLogs("logMonth");
+  if(!fl.length){body.innerHTML=`<div class="empty">記録がありません</div>`;return;}
   const groups={};
-  logs.forEach(l=>{const d=(l.start||"").slice(0,10)||"不明";
-    if(!groups[d])groups[d]=[];groups[d].push(l);});
+  fl.forEach(l=>{ const d=(l.start||"").slice(0,10)||"不明"; if(!groups[d])groups[d]=[]; groups[d].push(l); });
   let html="";
   Object.keys(groups).sort().reverse().forEach(date=>{
-    html+=`<div class="log-section-title">${date}</div>`;
+    html+=`<div class="log-section-title">📅 ${date}</div>`;
     groups[date].forEach(l=>{
       const rluD=l.rlu!=null
         ?`<span class="rlu-v ${l.judge}">${l.rlu} RLU</span>`
         :`<span class="rlu-v na">—</span>`;
       const jD=l.atp
-        ?`<span class="bsm ${l.judge==="pass"?"b-pass":"b-fail"}">${l.judge==="pass"?"✅合格":"❌不合格"}</span>`
+        ?`<span class="bsm ${l.judge==="pass"?"b-pass":"b-fail"}">${l.judge==="pass"?"✅ 合格":"❌ 不合格"}</span>`
         :`<span class="bsm b-na">ATP未</span>`;
-      html+=`<div class="log-row ${l.atp?l.judge:"na"}">
-        <div></div>
-        <div><div class="log-name">${esc(l.name)}</div>
+      const notionUrl=`https://www.notion.so/${l.id.replace(/-/g,"")}`;
+      html+=`<div class="log-row ${l.atp?l.judge:"na"}" onclick="openEditModal('${esc(l.id)}')">
+        <div>
+          <div class="log-name">${esc(l.name)}</div>
           <div class="log-sub">${esc(l.prog.split(" / ")[0]||"")} / ${esc(l.equip.split(" / ")[0]||"")}</div>
+          <div class="log-dt">${esc(l.start?l.start.slice(0,16).replace("T"," "):"")}</div>
         </div>
         ${rluD}${jD}
-        <div style="font-size:10px;color:var(--tx4)">›</div>
+        <div class="log-actions" onclick="event.stopPropagation()">
+          <a href="${notionUrl}" target="_blank" class="log-icon-btn" title="Notionで開く">↗</a>
+          <button class="log-icon-btn edit" onclick="openEditModal('${esc(l.id)}')" title="編集">✎</button>
+        </div>
       </div>`;
     });
   });
   body.innerHTML=html;
+}
+
+// ══ EDIT MODAL ══
+function updateEditEquipSelect(){
+  ["e-equip"].forEach(selId=>{
+    const sel=document.getElementById(selId); if(!sel)return;
+    const cur=sel.value;
+    sel.innerHTML='<option value="">選択してください</option>';
+    allEq().forEach(eq=>{ const o=document.createElement("option"); o.value=eq.en; o.textContent=eq.en; sel.appendChild(o); });
+    const ot=document.createElement("option"); ot.value="その他 / Other"; ot.textContent="その他 / Other"; sel.appendChild(ot);
+    if(cur) sel.value=cur;
+  });
+}
+
+function openEditModal(pageId){
+  const l=logs.find(x=>x.id===pageId);
+  if(!l){toast("記録が見つかりません","er");return;}
+  document.getElementById("editPageId").textContent=pageId.slice(0,8)+"…";
+  document.getElementById("editModal").dataset.pageId=pageId;
+  const notionUrl=`https://www.notion.so/${pageId.replace(/-/g,"")}`;
+  document.getElementById("editNotionLink").href=notionUrl;
+  document.getElementById("e-name").value=l.name||"";
+  updateEditEquipSelect();
+  document.getElementById("e-equip").value=l.equip||"";
+  document.getElementById("e-prog").value=l.prog||document.getElementById("e-prog").options[0].value;
+  document.getElementById("e-start").value=l.start?l.start.slice(0,16):"";
+  document.getElementById("e-temp").value=l.temp!=null?l.temp:"";
+  document.getElementById("e-circ").value=l.circ!=null?l.circ:"";
+  document.getElementById("e-prev").value=l.prev||"";
+  document.getElementById("e-rinse").checked=!!l.rinse;
+  document.getElementById("e-note").value=l.note||"";
+  const atpOn=!!l.atp;
+  document.getElementById("e-atp").checked=atpOn;
+  document.getElementById("e-atp-fields").style.display=atpOn?"block":"none";
+  document.getElementById("e-rlu").value=l.rlu!=null?l.rlu:"";
+  document.getElementById("e-lim").value=l.lim!=null?l.lim:"";
+  document.getElementById("e-atp-dt").value=l.atpDt?l.atpDt.slice(0,16):"";
+  document.getElementById("e-point").value=l.atpPt||"タンク内面 / Tank Interior";
+  updEditJudge();
+  document.getElementById("e-saveSt").textContent="";
+  document.getElementById("editModal").classList.add("on");
+}
+
+function closeEditModal(){
+  document.getElementById("editModal").classList.remove("on");
+}
+
+function toggleEditAtp(){
+  const on=document.getElementById("e-atp").checked;
+  document.getElementById("e-atp-fields").style.display=on?"block":"none";
+}
+
+function updEditJudge(){
+  const rlu=parseFloat(document.getElementById("e-rlu").value);
+  const lim=parseFloat(document.getElementById("e-lim").value);
+  const el=document.getElementById("e-judge-result");
+  if(isNaN(rlu)||isNaN(lim)){
+    el.style.cssText="padding:8px 12px;border-radius:var(--r3);font-size:12px;background:var(--s3);border:1px solid var(--rim);color:var(--tx3)";
+    el.textContent="RLU値と基準値を入力すると自動判定されます"; return;
+  }
+  const ok=rlu<=lim;
+  el.style.cssText=`padding:8px 12px;border-radius:var(--r3);font-size:12px;font-weight:500;border:1px solid;
+    background:${ok?"var(--gl)":"var(--rl)"};border-color:${ok?"var(--gb)":"var(--rb)"};color:${ok?"var(--gr)":"var(--rd)"}`;
+  el.textContent=ok?`✅ 合格 — RLU ${rlu} ≤ ${lim}`:`❌ 不合格 — RLU ${rlu} > ${lim}（+${Math.round(rlu-lim)}）`;
+}
+
+async function saveEdit(){
+  const pageId=document.getElementById("editModal").dataset.pageId;
+  if(!pageId){toast("ページIDがありません","er");return;}
+  const rt=v=>[{text:{content:String(v||"")}}];
+  const atpOn=document.getElementById("e-atp").checked;
+  const rlu=parseFloat(document.getElementById("e-rlu").value);
+  const lim=parseFloat(document.getElementById("e-lim").value);
+  const start=document.getElementById("e-start").value;
+  const equip=document.getElementById("e-equip").value;
+  const props={
+    "記録名":        {title:rt(document.getElementById("e-name").value.trim())},
+    "CIPプログラム": {select:{name:document.getElementById("e-prog").value}},
+    "ATP検査実施":   {checkbox:atpOn},
+    "すすぎ確認":    {checkbox:document.getElementById("e-rinse").checked},
+  };
+  if(equip) props["対象設備"]={select:{name:equip}};
+  if(start) props["実施日時"]={date:{start}};
+  const temp=parseFloat(document.getElementById("e-temp").value);
+  const circ=parseFloat(document.getElementById("e-circ").value);
+  const prev=document.getElementById("e-prev").value.trim();
+  const note=document.getElementById("e-note").value.trim();
+  if(!isNaN(temp)) props["洗浄温度（℃）"]={number:temp};
+  if(!isNaN(circ)) props["循環時間（分）"]={number:circ};
+  if(prev)         props["前工程（直前バッチ）"]={rich_text:rt(prev)};
+  if(note)         props["異常・備考"]={rich_text:rt(note)};
+  if(!isNaN(lim))  props["基準値RLU"]={number:lim};
+  if(atpOn){
+    if(!isNaN(rlu)){
+      props["RLU"]={number:rlu};
+      props["再洗浄要"]={checkbox:rlu>(isNaN(lim)?9999:lim)};
+    }
+    const atpDt=document.getElementById("e-atp-dt").value;
+    if(atpDt) props["検査日時"]={date:{start:atpDt}};
+    const pt=document.getElementById("e-point").value;
+    if(pt) props["採取ポイント"]={select:{name:pt}};
+  }
+  const btn=document.getElementById("e-saveBtn"); btn.disabled=true;
+  document.getElementById("e-saveSt").textContent="更新中…";
+  cdbg("info","EDIT",`PATCH /v1/pages/${pageId.slice(0,8)}…`);
+  try{
+    const res=await jsonp({action:"relay",method:"PATCH",path:`/v1/pages/${pageId}`,
+      body:JSON.stringify({properties:props})});
+    if(res.object==="error"||(res.status&&res.status>=400)) throw new Error(res.message||"APIエラー");
+    cdbg("ok","EDIT","更新完了");
+    toast("✅ 更新しました","ok");
+    document.getElementById("e-saveSt").textContent=`✓ ${new Date().toLocaleTimeString("ja-JP")}`;
+    await loadData();
+    closeEditModal();
+  }catch(e){
+    cdbg("err","EDIT",`失敗: ${e.message}`);
+    toast("更新エラー: "+e.message,"er");
+    document.getElementById("e-saveSt").textContent="";
+  }finally{btn.disabled=false;}
 }
 
 // ══ UTILS ══
@@ -1304,32 +1410,26 @@ function goTab(t){
     document.getElementById("nb-"+n).classList.toggle("on",n===t);
   });
   if(t==="single"){
-    const now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
-    const el=document.getElementById("s-start");
-    if(el&&!el.value) el.value=now.toISOString().slice(0,16);
+    const now=new Date(); now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
+    const el=document.getElementById("s-start"); if(el&&!el.value) el.value=now.toISOString().slice(0,16);
   }
 }
-function setLed(on,txt){
-  document.getElementById("ledDot").classList.toggle("on",on);
-  document.getElementById("ledTxt").textContent=txt;
-}
+function setLed(on,txt){ document.getElementById("ledDot").classList.toggle("on",on); document.getElementById("ledTxt").textContent=txt; }
 function toast(msg,type="ok"){
-  const t=document.getElementById("toast");
-  t.textContent=msg;t.className="toast on "+type;
+  const t=document.getElementById("toast"); t.textContent=msg; t.className="toast on "+type;
   setTimeout(()=>t.classList.remove("on"),3500);
 }
-function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function esc(s){ return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 
 // ══ DEBUG ══
 let _cdbgOpen=false;
 function cdbg(level,tag,msg){
   console[level==="err"?"error":level==="warn"?"warn":"log"](`[CIP:${tag}] ${msg}`);
-  const log=document.getElementById("cdbg-log");
-  if(!log)return;
+  const log=document.getElementById("cdbg-log"); if(!log)return;
   const ts=new Date().toLocaleTimeString("ja-JP");
-  const d=document.createElement("div");d.className="cdl";
+  const d=document.createElement("div"); d.className="cdl";
   d.innerHTML=`<span class="cdl-ts">${ts}</span><span class="cdl-tag ${level}">${esc(tag)}</span><span class="cdl-msg">${esc(String(msg))}</span>`;
-  log.appendChild(d);log.scrollTop=log.scrollHeight;
+  log.appendChild(d); log.scrollTop=log.scrollHeight;
   if(level==="err"&&!_cdbgOpen)cdbgToggle();
 }
 function cdbgToggle(){
@@ -1337,62 +1437,62 @@ function cdbgToggle(){
   document.getElementById("cdbg-panel").classList.toggle("show",_cdbgOpen);
   document.getElementById("cdbgTog").textContent=_cdbgOpen?"✕ DEBUG":"🔧 DEBUG";
 }
-function cdbgClear(){const l=document.getElementById("cdbg-log");if(l)l.innerHTML="";}
-
+function cdbgClear(){ const l=document.getElementById("cdbg-log"); if(l)l.innerHTML=""; }
 async function cdbgPing(){
-  cdbg("info","TEST","── Ping テスト ──");
-  cdbg("info","CONFIG",`GAS_URL=${GAS_URL.slice(0,70)}…`);
-  try{const d=await jsonp({action:"ping"});cdbg("ok","PING",`成功: ${JSON.stringify(d)}`);}
-  catch(e){cdbg("err","PING",`失敗: ${e.message}`);}
+  cdbg("info","TEST","── Ping ──");
+  try{ const d=await jsonp({action:"ping"}); cdbg("ok","PING",JSON.stringify(d)); }
+  catch(e){ cdbg("err","PING",e.message); }
 }
 async function cdbgQueryAll(){
-  cdbg("info","TEST","── QueryAll テスト ──");
-  cdbg("info","CONFIG",`CIP_DB=${CIP_DB}`);
+  cdbg("info","TEST","── QueryAll ──");
   try{
-    const pages=await nAll(CIP_DB);
-    cdbg("ok","QUERY",`取得: ${pages.length}件`);
-    if(pages[0])cdbg("info","QUERY",`先頭: ${(pages[0].properties?.記録名?.title||[{}])[0]?.plain_text||"?"}`);
-  }catch(e){cdbg("err","QUERY",`失敗: ${e.message}`);}
+    const pages=await nAll(CIP_DB); cdbg("ok","QUERY",`${pages.length}件`);
+    if(pages[0]) cdbg("info","QUERY",(pages[0].properties?.記録名?.title||[{}])[0]?.plain_text||"?");
+  }catch(e){ cdbg("err","QUERY",e.message); }
 }
 async function cdbgTestWrite(){
-  cdbg("info","TEST","── 書き込みテスト（1件 relay） ──");
+  cdbg("info","TEST","── 書き込みテスト ──");
   const rt=v=>[{text:{content:String(v||"")}}];
-  const now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
-  const props={
-    "記録名":        {title:rt("DEBUG-CIP-"+Date.now())},
-    "対象設備":      {select:{name:"発酵タンク / Fermentation Tank"}},
-    "CIPプログラム": {select:{name:"フルCIP（苛性→酸→殺菌） / Full CIP"}},
-    "実施日時":      {date:{start:now.toISOString().slice(0,16)}},
-    "ATP検査実施":   {checkbox:false},
-    "すすぎ確認":    {checkbox:true},
-    "基準値RLU":     {number:100},
-  };
-  const body={parent:{database_id:CIP_DB},properties:props};
-  cdbg("info","RELAY",`path=/v1/pages body_len=${JSON.stringify(body).length}bytes`);
+  const now=new Date(); now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
+  const props={"記録名":{title:rt("DEBUG-CIP-"+Date.now())},
+    "対象設備":{select:{name:"発酵タンク / Fermentation Tank"}},
+    "CIPプログラム":{select:{name:"フルCIP（苛性→酸→殺菌） / Full CIP"}},
+    "実施日時":{date:{start:now.toISOString().slice(0,16)}},
+    "ATP検査実施":{checkbox:false},"すすぎ確認":{checkbox:true},"基準値RLU":{number:100}};
   try{
-    const res=await jsonp({action:"relay",method:"POST",path:"/v1/pages",body:JSON.stringify(body)});
-    if(res.object==="error"||res.status>=400)
-      cdbg("err","WRITE",`Notion APIエラー: ${res.message||JSON.stringify(res).slice(0,120)}`);
-    else
-      cdbg("ok","WRITE",`成功 id=${(res.id||"").slice(0,8)} url=${res.url||""}`);
-  }catch(e){cdbg("err","WRITE",`失敗: ${e.message}`);}
+    const res=await jsonp({action:"relay",method:"POST",path:"/v1/pages",
+      body:JSON.stringify({parent:{database_id:CIP_DB},properties:props})});
+    if(res.object==="error"||res.status>=400) cdbg("err","WRITE",res.message||JSON.stringify(res).slice(0,120));
+    else cdbg("ok","WRITE",`id=${(res.id||"").slice(0,8)}`);
+  }catch(e){ cdbg("err","WRITE",e.message); }
 }
 async function cdbgRunAll(){
-  cdbgClear();
-  cdbg("info","ALL","════ 全テスト開始 ════");
-  await cdbgPing();await cdbgTestWrite();await cdbgQueryAll();
-  cdbg("info","ALL","════ 全テスト完了 ════");
+  cdbgClear(); cdbg("info","ALL","════ 全テスト ════");
+  await cdbgPing(); await cdbgTestWrite(); await cdbgQueryAll();
+  cdbg("info","ALL","════ 完了 ════");
+}
+
+// ══ 月セレクタ初期化 ══
+function initMonthSelectors(){
+  const ym=new Date().toISOString().slice(0,7);
+  document.getElementById("dashMonth").value=ym;
+  document.getElementById("logMonth").value=ym;
 }
 
 // ══ INIT ══
 document.addEventListener("DOMContentLoaded",()=>{
   buildGrids();
   updateSingleEquipSelect();
+  updateEditEquipSelect();
   setToday();
+  initMonthSelectors();
   loadData();
-  cdbg("info","INIT",`起動 GAS=${GAS_URL.slice(0,60)}…`);
-  cdbg("info","INIT",`CIP_DB=${CIP_DB}`);
-  cdbg("info","INIT",`設備数: brew=${BREW_EQ.length} fill=${FILL_EQ.length}`);
+  cdbg("info","INIT",`起動 brew=${BREW_EQ.length} fill=${FILL_EQ.length}`);
+});
+
+// モーダルをオーバーレイクリックで閉じる
+document.getElementById("editModal").addEventListener("click",function(e){
+  if(e.target===this) closeEditModal();
 });
 </script>
 </body>
