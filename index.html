@@ -26,7 +26,6 @@ body::before{content:'';position:fixed;inset:0;
   background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);
   pointer-events:none;z-index:9999}
 
-/* TOP */
 .top{display:flex;align-items:center;gap:11px;padding:9px 20px;
   background:linear-gradient(180deg,var(--s1),var(--s0));
   border-bottom:1px solid var(--rim);flex-shrink:0;position:relative}
@@ -47,14 +46,13 @@ body::before{content:'';position:fixed;inset:0;
 .led.on{background:var(--gr);box-shadow:0 0 5px var(--gr)}
 .led-t{font-family:var(--fm);font-size:9px;color:var(--tx3)}
 
-/* LAYOUT */
 .body{display:flex;flex:1;overflow:hidden}
 .main{flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--s5) transparent}
 .panel{display:none}.panel.on{display:block}
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-thumb{background:var(--s5);border-radius:3px}
 
-/* ═══════ DASHBOARD ═══════ */
+/* DASHBOARD */
 .dash{padding:16px 20px}
 .kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px}
 .kpi{background:var(--s1);border:1px solid var(--rim);border-radius:var(--r2);
@@ -68,7 +66,6 @@ body::before{content:'';position:fixed;inset:0;
 .kpi.c-cy .kpi-n{color:var(--cy)}.kpi.c-gr .kpi-n{color:var(--gr)}
 .kpi.c-rd .kpi-n{color:var(--rd)}.kpi.c-am .kpi-n{color:var(--am)}
 .kpi.c-pu .kpi-n{color:var(--pur)}
-
 .chart-row1{display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-bottom:10px}
 .chart-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .cc{background:var(--s1);border:1px solid var(--rim);border-radius:var(--r);padding:13px 15px}
@@ -76,7 +73,6 @@ body::before{content:'';position:fixed;inset:0;
   text-transform:uppercase;letter-spacing:.08em;font-family:var(--fm);margin-bottom:10px}
 .cc canvas{display:block}
 
-/* HEATMAP */
 .hm{display:flex;flex-direction:column;gap:5px}
 .hm-row{display:flex;align-items:center;gap:5px}
 .hm-lbl{font-family:var(--fm);font-size:9px;color:var(--tx3);width:66px;text-align:right;flex-shrink:0}
@@ -96,10 +92,8 @@ body::before{content:'';position:fixed;inset:0;
 .hm-legend span{display:inline-flex;align-items:center;gap:3px}
 .hm-swatch{width:12px;height:12px;border-radius:2px}
 
-/* ═══════ ENTRY ═══════ */
+/* ENTRY */
 .entry{padding:16px 20px;max-width:900px}
-
-/* 日付バー */
 .date-bar{display:flex;align-items:center;gap:12px;
   padding:12px 16px;background:var(--s1);border:1px solid var(--rim);
   border-radius:var(--r);margin-bottom:14px}
@@ -109,8 +103,6 @@ body::before{content:'';position:fixed;inset:0;
   outline:none;transition:border-color .15s}
 .date-bar input[type=date]:focus{border-color:var(--cy)}
 .date-name{font-size:12px;color:var(--tx2);font-family:var(--fm)}
-
-/* 共通バー */
 .common-bar{display:grid;grid-template-columns:2fr 1fr 1fr 2fr auto;gap:8px;align-items:end;
   padding:11px 14px;background:var(--s2);border:1px solid var(--rim);
   border-radius:var(--r2);margin-bottom:14px}
@@ -124,7 +116,6 @@ input,select,textarea{
 input:focus,select:focus,textarea:focus{border-color:var(--cy)}
 select option{background:var(--s2)}
 
-/* エリアセクション */
 .area{margin-bottom:14px}
 .area-hd{display:flex;align-items:center;gap:9px;
   padding:9px 13px;background:var(--s2);border:1px solid var(--rim2);
@@ -143,10 +134,9 @@ select option{background:var(--s2)}
   padding:12px;display:none}
 .area-bd.open{display:block}
 
-/* 設備グリッド */
-.eq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.eq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
 .eq-card{background:var(--s2);border:1px solid var(--rim);border-radius:var(--r2);
-  padding:10px 11px;transition:border-color .15s}
+  padding:10px 11px;transition:border-color .15s;position:relative}
 .eq-card.ok{border-color:var(--gb)}.eq-card.ng{border-color:var(--rb)}
 .eq-name{font-size:11.5px;font-weight:500;color:var(--tx);
   display:flex;align-items:center;gap:5px;margin-bottom:7px}
@@ -161,13 +151,24 @@ select option{background:var(--s2)}
 .eq-judge.ok{color:var(--gr)}.eq-judge.ng{color:var(--rd)}
 .eq-limit{font-size:9px;color:var(--tx4);font-family:var(--fm);margin-top:1px}
 
-/* 一括チェック行 */
+/* 設備削除ボタン */
+.eq-del{position:absolute;top:5px;right:5px;width:16px;height:16px;
+  border-radius:50%;background:var(--s4);border:1px solid var(--rim);
+  color:var(--tx3);font-size:10px;cursor:pointer;display:flex;align-items:center;
+  justify-content:center;line-height:1;transition:all .12s;padding:0;font-family:var(--fm)}
+.eq-del:hover{background:var(--rd);border-color:var(--rb);color:#fff}
+
+/* 設備追加フォーム */
+.eq-add-form{background:var(--s2);border:1px dashed var(--rim2);border-radius:var(--r2);
+  padding:10px 12px;margin-top:8px;display:none}
+.eq-add-form.open{display:block}
+.eq-add-row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap}
+
 .batch-ck{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;
   padding:8px 12px;background:var(--s2);border:1px solid var(--rim);border-radius:3px}
 .ck{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:12px;color:var(--tx2)}
 .ck input[type=checkbox]{width:14px;height:14px;accent-color:var(--cy);cursor:pointer}
 
-/* 保存バー */
 .save-bar{display:flex;align-items:center;gap:10px;
   padding:12px 14px;background:var(--s1);border:1px solid var(--rim);
   border-radius:var(--r2);margin-top:14px}
@@ -175,7 +176,6 @@ select option{background:var(--s2)}
 .prog-f{height:100%;background:var(--cy);border-radius:3px;transition:width .25s}
 .save-st{font-family:var(--fm);font-size:10px;color:var(--tx3)}
 
-/* BUTTONS */
 .btn{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:var(--r2);
   border:1px solid var(--rim2);background:var(--s3);color:var(--tx);font-size:12px;
   cursor:pointer;transition:all .15s;font-family:var(--ff);white-space:nowrap}
@@ -184,6 +184,9 @@ select option{background:var(--s2)}
 .btn-cy{background:var(--cl);border-color:var(--cb);color:var(--cy)}
 .btn-cy:hover{background:rgba(20,176,204,.18)}
 .btn-lg{padding:10px 22px;font-size:13px;font-weight:600}
+.btn-sm{padding:4px 10px;font-size:11px}
+.btn-rd{background:var(--rl);border-color:var(--rb);color:var(--rd)}
+.btn-rd:hover{background:rgba(217,64,64,.2)}
 
 /* LOG */
 .log-wrap{padding:16px 20px}
@@ -206,7 +209,6 @@ select option{background:var(--s2)}
 .rlu-v{font-family:var(--fm);font-size:11px;font-weight:600}
 .rlu-v.pass{color:var(--gr)}.rlu-v.fail{color:var(--rd)}.rlu-v.na{color:var(--tx3)}
 
-/* TOAST */
 .toast{position:fixed;bottom:18px;right:18px;background:var(--s2);border:1px solid var(--rim2);
   border-radius:var(--r2);padding:10px 16px;font-size:12px;z-index:300;display:none;
   align-items:center;gap:8px;box-shadow:0 6px 24px rgba(0,0,0,.5);font-family:var(--fm)}
@@ -218,7 +220,6 @@ select option{background:var(--s2)}
 @keyframes sp{to{transform:rotate(360deg)}}
 .empty{text-align:center;padding:34px;color:var(--tx3);font-size:12px}
 
-/* ══ DEBUG PANEL ══ */
 #cdbg-panel{
   position:fixed;bottom:0;left:0;right:0;
   background:#06080e;border-top:2px solid var(--cy);
@@ -254,11 +255,19 @@ select option{background:var(--s2)}
   cursor:pointer;display:flex;align-items:center;gap:5px;
 }
 .cdbg-tog:hover{background:var(--cl)}
+
+/* 設備追加モーダル風インライン */
+.eq-add-open-btn{
+  display:flex;align-items:center;justify-content:center;gap:5px;
+  width:100%;padding:8px;border:1px dashed var(--rim2);border-radius:var(--r2);
+  background:transparent;color:var(--tx3);font-size:11px;cursor:pointer;
+  transition:all .15s;margin-top:8px;font-family:var(--ff)
+}
+.eq-add-open-btn:hover{border-color:var(--cy);color:var(--cy);background:var(--cl)}
 </style>
 </head>
 <body>
 
-<!-- TOP -->
 <div class="top">
   <span class="badge">CIP / ATP</span>
   <div>
@@ -281,7 +290,7 @@ select option{background:var(--s2)}
 <div class="body">
 <div class="main">
 
-<!-- ════ DASHBOARD ════ -->
+<!-- DASHBOARD -->
 <div class="panel on" id="panel-dash">
 <div class="dash">
   <div class="kpi-row">
@@ -291,7 +300,6 @@ select option{background:var(--s2)}
     <div class="kpi c-am"><div class="kpi-n" id="k-avg">—</div><div class="kpi-l">平均RLU</div></div>
     <div class="kpi c-pu"><div class="kpi-n" id="k-rate">—</div><div class="kpi-l">合格率</div></div>
   </div>
-
   <div class="chart-row1">
     <div class="cc">
       <div class="cc-title">RLU 推移（直近40件）</div>
@@ -302,7 +310,6 @@ select option{background:var(--s2)}
       <div style="height:190px"><canvas id="cJudge"></canvas></div>
     </div>
   </div>
-
   <div class="chart-row2">
     <div class="cc">
       <div class="cc-title">設備別 平均RLU ／ 基準値</div>
@@ -321,11 +328,9 @@ select option{background:var(--s2)}
 </div>
 </div>
 
-<!-- ════ ENTRY ════ -->
+<!-- ENTRY -->
 <div class="panel" id="panel-entry">
 <div class="entry">
-
-  <!-- 日付 -->
   <div class="date-bar">
     <span style="font-family:var(--fm);font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.06em">実施日</span>
     <input type="date" id="eDate" oninput="onDateChange()">
@@ -334,9 +339,7 @@ select option{background:var(--s2)}
     <button class="btn" onclick="setToday()">今日</button>
   </div>
 
-  <!-- 共通設定 -->
-  <div style="font-size:9px;font-weight:600;color:var(--tx3);text-transform:uppercase;
-    letter-spacing:.08em;font-family:var(--fm);margin-bottom:6px">
+  <div style="font-size:9px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.08em;font-family:var(--fm);margin-bottom:6px">
     共通設定（全設備に適用）
   </div>
   <div class="common-bar">
@@ -364,14 +367,11 @@ select option{background:var(--s2)}
       <input id="cPrev" type="text" placeholder="例: ペールエール L-042">
     </div>
     <div style="display:flex;align-items:flex-end;padding-bottom:2px">
-      <label class="ck" style="font-size:12px">
-        <input type="checkbox" id="cRinse" checked style="width:14px;height:14px;accent-color:var(--cy)">
-        すすぎ確認
-      </label>
+      <label class="ck"><input type="checkbox" id="cRinse" checked style="width:14px;height:14px;accent-color:var(--cy)">すすぎ確認</label>
     </div>
   </div>
 
-  <!-- 醸造エリア一括 -->
+  <!-- 醸造エリア -->
   <div class="area">
     <div class="area-hd" onclick="toggleArea('brew')">
       <span class="area-icon">🍺</span>
@@ -382,6 +382,31 @@ select option{background:var(--s2)}
     </div>
     <div class="area-bd open" id="bd-brew">
       <div class="eq-grid" id="brewGrid"></div>
+      <button class="eq-add-open-btn" onclick="openAddForm('brew')">＋ 設備を追加</button>
+      <div class="eq-add-form" id="addForm-brew">
+        <div class="eq-add-row">
+          <div class="fg" style="flex:2;min-width:120px">
+            <div class="fl">設備名（日本語）</div>
+            <input type="text" id="addName-brew" placeholder="例: 貯蔵タンク">
+          </div>
+          <div class="fg" style="flex:2;min-width:120px">
+            <div class="fl">設備名（英語）</div>
+            <input type="text" id="addNameEn-brew" placeholder="例: Storage Tank">
+          </div>
+          <div class="fg" style="flex:1;min-width:80px">
+            <div class="fl">基準値 RLU</div>
+            <input type="number" id="addLim-brew" placeholder="200" min="1">
+          </div>
+          <div class="fg" style="flex:1;min-width:80px">
+            <div class="fl">採取ポイント</div>
+            <input type="text" id="addPt-brew" placeholder="タンク内面 / Tank Interior">
+          </div>
+          <div style="display:flex;gap:6px;align-items:flex-end;padding-bottom:2px">
+            <button class="btn btn-cy btn-sm" onclick="addEquip('brew')">追加</button>
+            <button class="btn btn-sm" onclick="closeAddForm('brew')">✕</button>
+          </div>
+        </div>
+      </div>
       <div class="batch-ck">
         <label class="ck"><input type="checkbox" id="brewAtp" checked> ATP検査実施</label>
         <label class="ck"><input type="checkbox" id="brewRinse" checked> すすぎ確認</label>
@@ -389,7 +414,7 @@ select option{background:var(--s2)}
     </div>
   </div>
 
-  <!-- 充填ライン個別 -->
+  <!-- 充填ライン -->
   <div class="area">
     <div class="area-hd" onclick="toggleArea('fill')">
       <span class="area-icon">🥫</span>
@@ -399,6 +424,31 @@ select option{background:var(--s2)}
     </div>
     <div class="area-bd open" id="bd-fill">
       <div class="eq-grid" id="fillGrid"></div>
+      <button class="eq-add-open-btn" onclick="openAddForm('fill')">＋ 設備を追加</button>
+      <div class="eq-add-form" id="addForm-fill">
+        <div class="eq-add-row">
+          <div class="fg" style="flex:2;min-width:120px">
+            <div class="fl">設備名（日本語）</div>
+            <input type="text" id="addName-fill" placeholder="例: 充填ノズルB">
+          </div>
+          <div class="fg" style="flex:2;min-width:120px">
+            <div class="fl">設備名（英語）</div>
+            <input type="text" id="addNameEn-fill" placeholder="例: Fill Nozzle B">
+          </div>
+          <div class="fg" style="flex:1;min-width:80px">
+            <div class="fl">基準値 RLU</div>
+            <input type="number" id="addLim-fill" placeholder="50" min="1">
+          </div>
+          <div class="fg" style="flex:1;min-width:80px">
+            <div class="fl">採取ポイント</div>
+            <input type="text" id="addPt-fill" placeholder="充填ノズル / Fill Nozzle">
+          </div>
+          <div style="display:flex;gap:6px;align-items:flex-end;padding-bottom:2px">
+            <button class="btn btn-cy btn-sm" onclick="addEquip('fill')">追加</button>
+            <button class="btn btn-sm" onclick="closeAddForm('fill')">✕</button>
+          </div>
+        </div>
+      </div>
       <div style="margin-top:10px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
         <div class="fg" style="flex:none">
           <div class="fl" style="margin-bottom:4px">採取ポイント</div>
@@ -417,31 +467,26 @@ select option{background:var(--s2)}
     </div>
   </div>
 
-  <!-- 備考 -->
   <div class="fg" style="margin-bottom:14px">
     <div class="fl" style="margin-bottom:4px">共通備考・異常メモ</div>
     <textarea id="cNote" placeholder="異常・特記事項（全設備共通で付記）" style="min-height:50px"></textarea>
   </div>
 
-  <!-- 保存バー -->
   <div class="save-bar">
-    <button class="btn btn-cy btn-lg" id="saveBtn" onclick="saveAll()">
-      💾 チェックした設備を保存
-    </button>
+    <button class="btn btn-cy btn-lg" id="saveBtn" onclick="saveAll()">💾 チェックした設備を保存</button>
     <button class="btn" onclick="checkAllEquips(true)">全選択</button>
     <button class="btn" onclick="checkAllEquips(false)">全解除</button>
     <button class="btn" onclick="resetEntry()">↺ リセット</button>
+    <button class="btn btn-rd btn-sm" onclick="resetEquipConfig()" title="設備一覧をデフォルトに戻す">設備リセット</button>
     <div class="prog-w" id="progW"><div class="prog-f" id="progF"></div></div>
     <span class="save-st" id="saveSt"></span>
   </div>
-
 </div>
 </div>
 
-<!-- ════ SINGLE ENTRY ════ -->
+<!-- SINGLE ENTRY -->
 <div class="panel" id="panel-single">
 <div class="entry">
-
   <div style="font-size:14px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:10px">
     ✏️ 個別記録
     <span style="font-size:11px;color:var(--tx3);font-weight:400">1設備ずつ詳細に記録</span>
@@ -456,20 +501,11 @@ select option{background:var(--s2)}
       <div class="fl">対象設備 <span style="color:var(--rd)">*</span></div>
       <select id="s-equip" onchange="onSingleEquipChange()">
         <option value="">選択してください</option>
-        <option>仕込釜 / Mash Tun</option>
-        <option>糖化槽 / Lauter Tun</option>
-        <option>煮沸釜 / Brew Kettle</option>
-        <option>ワールプール / Whirlpool</option>
-        <option>発酵タンク / Fermentation Tank</option>
-        <option>ブライトタンク / Bright Tank</option>
-        <option>充填ライン / Filling Line</option>
-        <option>ホース・配管 / Hoses & Pipes</option>
-        <option>その他 / Other</option>
       </select>
     </div>
   </div>
 
-  <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:10px;margin-bottom:10px">
+  <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;margin-bottom:10px">
     <div class="fg">
       <div class="fl">CIPプログラム <span style="color:var(--rd)">*</span></div>
       <select id="s-prog">
@@ -486,16 +522,12 @@ select option{background:var(--s2)}
       <input id="s-start" type="datetime-local">
     </div>
     <div class="fg">
-      <div class="fl">終了日時</div>
-      <input id="s-end" type="datetime-local">
-    </div>
-    <div class="fg">
       <div class="fl">洗浄温度 ℃</div>
       <input id="s-temp" type="number" placeholder="80">
     </div>
   </div>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
     <div class="fg">
       <div class="fl">循環時間 分</div>
       <input id="s-circ" type="number" placeholder="30">
@@ -504,20 +536,19 @@ select option{background:var(--s2)}
       <div class="fl">前工程バッチ</div>
       <input id="s-prev" type="text" placeholder="ペールエール L-042">
     </div>
-    <div class="fg" style="justify-content:flex-end;padding-bottom:4px">
-      <label class="ck">
-        <input type="checkbox" id="s-rinse" checked style="width:14px;height:14px;accent-color:var(--cy)">
-        すすぎ確認
-      </label>
-    </div>
+  </div>
+  <div style="margin-bottom:10px">
+    <label class="ck">
+      <input type="checkbox" id="s-rinse" checked style="width:14px;height:14px;accent-color:var(--cy)">
+      すすぎ確認
+    </label>
   </div>
 
   <!-- ATP -->
   <div style="background:var(--s2);border:1px solid var(--rim);border-radius:var(--r2);padding:12px;margin-bottom:10px">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
       <label class="ck" style="font-size:13px;font-weight:500">
-        <input type="checkbox" id="s-atp" onchange="toggleSingleAtp()"
-          style="width:14px;height:14px;accent-color:var(--cy)">
+        <input type="checkbox" id="s-atp" onchange="toggleSingleAtp()" style="width:14px;height:14px;accent-color:var(--cy)">
         ATP検査実施
       </label>
     </div>
@@ -553,7 +584,6 @@ select option{background:var(--s2)}
         background:var(--s3);border:1px solid var(--rim);color:var(--tx3)">
         RLU値と基準値を入力すると自動判定されます
       </div>
-      <!-- 不合格時 -->
       <div id="s-fail-fields" style="display:none;margin-top:10px">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
           <div class="fg">
@@ -583,35 +613,30 @@ select option{background:var(--s2)}
   </div>
 
   <div class="save-bar">
-    <button class="btn btn-cy btn-lg" id="s-saveBtn" onclick="saveSingle()">
-      💾 この記録をNotionへ保存
-    </button>
+    <button class="btn btn-cy btn-lg" id="s-saveBtn" onclick="saveSingle()">💾 この記録をNotionへ保存</button>
     <button class="btn" onclick="resetSingle()">↺ リセット</button>
     <span class="save-st" id="s-saveSt"></span>
   </div>
-
 </div>
 </div>
 
-<!-- ════ LOG ════ -->
+<!-- LOG -->
 <div class="panel" id="panel-log">
 <div class="log-wrap">
   <div class="log-toolbar">
     <div style="font-size:14px;font-weight:600">記録一覧</div>
     <div class="sp"></div>
     <button class="btn" onclick="loadData()">↺ 更新</button>
-    <a href="https://app.notion.com/p/367f5289a51c81ddb500ee2d0c569f4f"
-       target="_blank" class="btn">Notionで開く ↗</a>
+    <a href="https://app.notion.com/p/367f5289a51c81ddb500ee2d0c569f4f" target="_blank" class="btn">Notionで開く ↗</a>
   </div>
   <div id="logBody" class="empty"><span class="spin"></span>読み込み中…</div>
 </div>
 </div>
 
-</div><!-- /main -->
-</div><!-- /body -->
-<div class="toast" id="toast"></div>
+</div>
+</div>
 
-<!-- ══ DEBUG PANEL ══ -->
+<div class="toast" id="toast"></div>
 <div class="cdbg-tog" onclick="cdbgToggle()" id="cdbgTog">🔧 DEBUG</div>
 <div id="cdbg-panel">
   <div id="cdbg-bar">
@@ -631,19 +656,101 @@ select option{background:var(--s2)}
 const CIP_DB  = "90807944-c8dc-481d-a413-792f96a5b074";
 const GAS_URL = "https://script.google.com/macros/s/AKfycbyREn8C0IRF-b0MYq5l7yYugRDztxSsgVVF-kI1abgNeGIoNRNJqiILLOs1HdBO6zRiWA/exec";
 
-const BREW_EQ = [
-  {key:"mash",  name:"仕込釜",      en:"仕込釜 / Mash Tun",              lim:200, dot:"#e07020", pt:"タンク内面 / Tank Interior"},
-  {key:"laut",  name:"糖化槽",      en:"糖化槽 / Lauter Tun",            lim:200, dot:"#e8c020", pt:"タンク内面 / Tank Interior"},
-  {key:"kett",  name:"煮沸釜",      en:"煮沸釜 / Brew Kettle",           lim:200, dot:"#d94040", pt:"タンク内面 / Tank Interior"},
-  {key:"whirl", name:"ワールプール", en:"ワールプール / Whirlpool",        lim:200, dot:"#7c52f0", pt:"排出口 / Outlet"},
-  {key:"ferm",  name:"発酵タンク",   en:"発酵タンク / Fermentation Tank", lim:100, dot:"#3672e0", pt:"タンク内面 / Tank Interior"},
-  {key:"brig",  name:"ブライトタンク",en:"ブライトタンク / Bright Tank",  lim:100, dot:"#1fc47a", pt:"排出口 / Outlet"},
-  {key:"hose",  name:"ホース・配管", en:"ホース・配管 / Hoses & Pipes",   lim:100, dot:"#4a527a", pt:"ホース接続部 / Hose Connection"},
+// ══ デフォルト設備定義 ══
+const DEFAULT_BREW_EQ = [
+  {key:"mash",  name:"仕込釜",       en:"仕込釜 / Mash Tun",              lim:200, dot:"#e07020", pt:"タンク内面 / Tank Interior"},
+  {key:"laut",  name:"糖化槽",       en:"糖化槽 / Lauter Tun",            lim:200, dot:"#e8c020", pt:"タンク内面 / Tank Interior"},
+  {key:"kett",  name:"煮沸釜",       en:"煮沸釜 / Brew Kettle",           lim:200, dot:"#d94040", pt:"タンク内面 / Tank Interior"},
+  {key:"whirl", name:"ワールプール",  en:"ワールプール / Whirlpool",        lim:200, dot:"#7c52f0", pt:"排出口 / Outlet"},
+  {key:"ferm",  name:"発酵タンク",    en:"発酵タンク / Fermentation Tank", lim:100, dot:"#3672e0", pt:"タンク内面 / Tank Interior"},
+  {key:"brig",  name:"ブライトタンク",en:"ブライトタンク / Bright Tank",   lim:100, dot:"#1fc47a", pt:"排出口 / Outlet"},
+  {key:"hose",  name:"ホース・配管",  en:"ホース・配管 / Hoses & Pipes",   lim:100, dot:"#4a527a", pt:"ホース接続部 / Hose Connection"},
 ];
-const FILL_EQ = [
+const DEFAULT_FILL_EQ = [
   {key:"fill", name:"充填ライン", en:"充填ライン / Filling Line", lim:50, dot:"#d94040", pt:"充填ノズル / Fill Nozzle"},
 ];
-const ALL_EQ = [...BREW_EQ, ...FILL_EQ];
+
+// ══ 設備設定をLocalStorageで管理 ══
+const EQ_STORAGE_KEY = "cip_equip_config_v1";
+
+function loadEquipConfig() {
+  try {
+    const raw = localStorage.getItem(EQ_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      return { brew: parsed.brew || DEFAULT_BREW_EQ, fill: parsed.fill || DEFAULT_FILL_EQ };
+    }
+  } catch(e) {}
+  return { brew: [...DEFAULT_BREW_EQ], fill: [...DEFAULT_FILL_EQ] };
+}
+
+function saveEquipConfig() {
+  localStorage.setItem(EQ_STORAGE_KEY, JSON.stringify({ brew: BREW_EQ, fill: FILL_EQ }));
+}
+
+function resetEquipConfig() {
+  if (!confirm("設備リストをデフォルトに戻しますか？（追加した設備は削除されます）")) return;
+  localStorage.removeItem(EQ_STORAGE_KEY);
+  const cfg = loadEquipConfig();
+  BREW_EQ.length = 0; BREW_EQ.push(...cfg.brew);
+  FILL_EQ.length = 0; FILL_EQ.push(...cfg.fill);
+  buildGrids();
+  updateSingleEquipSelect();
+  toast("設備リストをデフォルトに戻しました", "ok");
+}
+
+const cfg0 = loadEquipConfig();
+let BREW_EQ = cfg0.brew;
+let FILL_EQ = cfg0.fill;
+
+function allEq() { return [...BREW_EQ, ...FILL_EQ]; }
+
+// ══ 設備追加・削除 ══
+function openAddForm(area) {
+  document.getElementById("addForm-"+area).classList.add("open");
+  document.getElementById("addName-"+area).focus();
+}
+function closeAddForm(area) {
+  document.getElementById("addForm-"+area).classList.remove("open");
+  ["addName","addNameEn","addLim","addPt"].forEach(f => {
+    const el = document.getElementById(f+"-"+area);
+    if(el) el.value = "";
+  });
+}
+
+function addEquip(area) {
+  const name   = document.getElementById("addName-"+area).value.trim();
+  const nameEn = document.getElementById("addNameEn-"+area).value.trim();
+  const lim    = parseInt(document.getElementById("addLim-"+area).value) || (area==="fill"?50:200);
+  const pt     = document.getElementById("addPt-"+area).value.trim() || "タンク内面 / Tank Interior";
+  if (!name) { toast("設備名を入力してください","er"); return; }
+  const en = nameEn ? name+" / "+nameEn : name;
+  const key = "custom_"+Date.now();
+  const COLORS = ["#14b0cc","#1fc47a","#e07020","#7c52f0","#3672e0","#e8c020","#d94040"];
+  const dot = COLORS[Math.floor(Math.random()*COLORS.length)];
+  const eq = { key, name, en, lim, dot, pt };
+  if (area === "brew") BREW_EQ.push(eq);
+  else FILL_EQ.push(eq);
+  saveEquipConfig();
+  closeAddForm(area);
+  buildGrids();
+  updateSingleEquipSelect();
+  toast(`「${name}」を追加しました`, "ok");
+}
+
+function removeEquip(key) {
+  const nameEl = document.getElementById("ec-"+key);
+  const name = nameEl ? nameEl.querySelector(".eq-name span")?.textContent || key : key;
+  if (!confirm(`「${name}」を設備リストから削除しますか？\n（過去の記録には影響しません）`)) return;
+  const bi = BREW_EQ.findIndex(e=>e.key===key);
+  const fi = FILL_EQ.findIndex(e=>e.key===key);
+  if (bi>=0) BREW_EQ.splice(bi,1);
+  else if (fi>=0) FILL_EQ.splice(fi,1);
+  saveEquipConfig();
+  buildGrids();
+  updateSingleEquipSelect();
+  toast("設備を削除しました","ok");
+}
 
 // ══ STATE ══
 let logs=[], charts={};
@@ -750,10 +857,11 @@ function drawJudge(pass,fail,na){
 }
 
 function drawEquip(){
-  const d=ALL_EQ.map(eq=>{
-    const rows=logs.filter(l=>l.equip===eq.en&&l.rlu!=null);
+  const eq=allEq();
+  const d=eq.map(e=>{
+    const rows=logs.filter(l=>l.equip===e.en&&l.rlu!=null);
     const avg=rows.length?Math.round(rows.reduce((s,l)=>s+l.rlu,0)/rows.length):0;
-    return{name:eq.name,avg,lim:eq.lim,color:eq.dot};
+    return{name:e.name,avg,lim:e.lim,color:e.dot};
   });
   if(charts.equip)charts.equip.destroy();
   charts.equip=new Chart(document.getElementById("cEquip").getContext("2d"),{
@@ -783,15 +891,10 @@ function drawHeatmap(){
   wrap.innerHTML="";
   const today=new Date();
   const DAYS=14;
-
-  // 日付ヘッダー行
   const hRow=document.createElement("div");
   hRow.className="hm-row";
-  const hLbl=document.createElement("div");
-  hLbl.className="hm-lbl";
-  hRow.appendChild(hLbl);
-  const hCells=document.createElement("div");
-  hCells.className="hm-cells";
+  const hLbl=document.createElement("div");hLbl.className="hm-lbl";hRow.appendChild(hLbl);
+  const hCells=document.createElement("div");hCells.className="hm-cells";
   for(let d=DAYS-1;d>=0;d--){
     const dt=new Date(today);dt.setDate(today.getDate()-d);
     const cell=document.createElement("div");
@@ -799,43 +902,32 @@ function drawHeatmap(){
     cell.innerHTML=`<span style="font-family:var(--fm);font-size:8px;color:var(--tx4)">${dt.getDate()}</span>`;
     hCells.appendChild(cell);
   }
-  hRow.appendChild(hCells);
-  wrap.appendChild(hRow);
-
-  ALL_EQ.forEach(eq=>{
-    const row=document.createElement("div");
-    row.className="hm-row";
-    const lbl=document.createElement("div");
-    lbl.className="hm-lbl";
-    lbl.textContent=eq.name;
-    row.appendChild(lbl);
-    const cells=document.createElement("div");
-    cells.className="hm-cells";
+  hRow.appendChild(hCells);wrap.appendChild(hRow);
+  allEq().forEach(eq=>{
+    const row=document.createElement("div");row.className="hm-row";
+    const lbl=document.createElement("div");lbl.className="hm-lbl";lbl.textContent=eq.name;row.appendChild(lbl);
+    const cells=document.createElement("div");cells.className="hm-cells";
     for(let d=DAYS-1;d>=0;d--){
       const dt=new Date(today);dt.setDate(today.getDate()-d);
       const ds=dt.toISOString().slice(0,10);
       const recs=logs.filter(l=>l.equip===eq.en&&l.start&&l.start.startsWith(ds));
-      const cell=document.createElement("div");
-      cell.className="hm-cell";
+      const cell=document.createElement("div");cell.className="hm-cell";
       if(!recs.length){cell.classList.add("nodata");}
       else{
         const hasFail=recs.some(l=>l.judge==="fail");
         cell.classList.add(hasFail?"fail":"pass");
         const rlus=recs.filter(l=>l.rlu!=null).map(l=>l.rlu);
         const rluTxt=rlus.length?" RLU:"+rlus.join("/"):"";
-        const tip=document.createElement("div");
-        tip.className="hm-tip";
-        tip.textContent=ds+" "+recs.length+"件"+rluTxt;
-        cell.appendChild(tip);
+        const tip=document.createElement("div");tip.className="hm-tip";
+        tip.textContent=ds+" "+recs.length+"件"+rluTxt;cell.appendChild(tip);
       }
       cells.appendChild(cell);
     }
-    row.appendChild(cells);
-    wrap.appendChild(row);
+    row.appendChild(cells);wrap.appendChild(row);
   });
 }
 
-// ══ ENTRY ══
+// ══ ENTRY グリッド構築 ══
 function buildGrids(){
   ["brew","fill"].forEach(area=>{
     const eqs=area==="brew"?BREW_EQ:FILL_EQ;
@@ -844,25 +936,27 @@ function buildGrids(){
     eqs.forEach(eq=>{
       const c=document.createElement("div");
       c.className="eq-card";c.id="ec-"+eq.key;
-      c.innerHTML=`<div class="eq-name" style="justify-content:space-between">
-        <span style="display:flex;align-items:center;gap:5px">
-          <div class="eq-dot" style="background:${eq.dot}"></div>${eq.name}
-        </span>
-        <label style="display:flex;align-items:center;gap:4px;cursor:pointer;
-          font-family:var(--fm);font-size:9px;color:var(--tx3)">
-          <input type="checkbox" id="chk-${eq.key}" checked
-            style="width:12px;height:12px;accent-color:var(--cy)"
-            onchange="toggleEqCard('${eq.key}')">
-          記録する
-        </label>
-      </div>
-      <div class="eq-inp-row">
-        <input class="eq-inp" type="number" id="rlu-${eq.key}" placeholder="RLU"
-          min="0" oninput="updCard('${eq.key}',${eq.lim})">
-        <span class="eq-unit">RLU</span>
-      </div>
-      <div class="eq-judge" id="jd-${eq.key}"></div>
-      <div class="eq-limit">基準 ≤${eq.lim} RLU</div>`;
+      c.innerHTML=`
+        <button class="eq-del" onclick="removeEquip('${eq.key}')" title="この設備を削除">×</button>
+        <div class="eq-name" style="justify-content:space-between;padding-right:16px">
+          <span style="display:flex;align-items:center;gap:5px">
+            <div class="eq-dot" style="background:${eq.dot}"></div>${eq.name}
+          </span>
+          <label style="display:flex;align-items:center;gap:4px;cursor:pointer;
+            font-family:var(--fm);font-size:9px;color:var(--tx3)">
+            <input type="checkbox" id="chk-${eq.key}" checked
+              style="width:12px;height:12px;accent-color:var(--cy)"
+              onchange="toggleEqCard('${eq.key}')">
+            記録する
+          </label>
+        </div>
+        <div class="eq-inp-row">
+          <input class="eq-inp" type="number" id="rlu-${eq.key}" placeholder="RLU"
+            min="0" oninput="updCard('${eq.key}',${eq.lim})">
+          <span class="eq-unit">RLU</span>
+        </div>
+        <div class="eq-judge" id="jd-${eq.key}"></div>
+        <div class="eq-limit">基準 ≤${eq.lim} RLU</div>`;
       grid.appendChild(c);
     });
   });
@@ -901,7 +995,6 @@ function onDateChange(){
     d.toLocaleDateString("ja-JP",{year:"numeric",month:"long",day:"numeric",weekday:"short"})+" の記録";
 }
 
-// ══ 設備カード チェック切替 ══
 function toggleEqCard(key){
   const chk=document.getElementById("chk-"+key);
   const card=document.getElementById("ec-"+key);
@@ -912,20 +1005,19 @@ function toggleEqCard(key){
 }
 
 function checkAllEquips(state){
-  ALL_EQ.forEach(eq=>{
+  allEq().forEach(eq=>{
     const chk=document.getElementById("chk-"+eq.key);
     if(chk){chk.checked=state;toggleEqCard(eq.key);}
   });
 }
 
-// ══ SAVE ALL（チェック済み設備を1件ずつrelay送信）══
+// ══ SAVE ALL ══
 async function saveAll(){
   const date=document.getElementById("eDate").value;
   if(!date){toast("実施日を選択してください","er");return;}
-
   const prog =document.getElementById("cProg").value;
-  const temp =parseFloat(document.getElementById("cTemp").value)||null;
-  const circ =parseFloat(document.getElementById("cCirc").value)||null;
+  const temp =parseFloat(document.getElementById("cTemp").value);
+  const circ =parseFloat(document.getElementById("cCirc").value);
   const prev =document.getElementById("cPrev").value;
   const note =document.getElementById("cNote").value;
   const rinse=document.getElementById("cRinse").checked;
@@ -934,8 +1026,7 @@ async function saveAll(){
   const fillPt =document.getElementById("fillPoint").value;
   const dt=date+"T09:00:00";
   const rt=v=>[{text:{content:String(v||"")}}];
-
-  const entries=ALL_EQ
+  const entries=allEq()
     .filter(eq=>document.getElementById("chk-"+eq.key)?.checked)
     .map(eq=>{
       const isBrew=BREW_EQ.some(e=>e.key===eq.key);
@@ -944,20 +1035,15 @@ async function saveAll(){
       const pt=isBrew?eq.pt:fillPt;
       return{eq,rluVal,atpOn,pt};
     });
-
   if(!entries.length){toast("記録する設備を1つ以上チェックしてください","er");return;}
-
   const btn=document.getElementById("saveBtn");
   btn.disabled=true;
   const pw=document.getElementById("progW");
   const pf=document.getElementById("progF");
   pw.style.display="block";
   document.getElementById("saveSt").textContent=`0 / ${entries.length}`;
-
   cdbg("info","SAVE",`一括保存開始 ${entries.length}件 日付=${date}`);
-
   let done=0,failed=0,failNames=[];
-
   for(const {eq,rluVal,atpOn,pt} of entries){
     try{
       const mmdd=date.slice(5).replace("-","");
@@ -966,50 +1052,44 @@ async function saveAll(){
         "記録名":        {title:rt(recName)},
         "対象設備":      {select:{name:eq.en}},
         "CIPプログラム": {select:{name:prog}},
-        "実施日時":      {date:{start:dt,is_datetime:true}},
+        "実施日時":      {date:{start:dt}},
         "ATP検査実施":   {checkbox:atpOn},
         "すすぎ確認":    {checkbox:rinse},
         "基準値RLU":     {number:eq.lim},
       };
-      if(temp!=null) props["洗浄温度（℃）"]={number:temp};
-      if(circ!=null) props["循環時間（分）"]={number:circ};
-      if(prev) props["前工程（直前バッチ）"]={rich_text:rt(prev)};
-      if(note) props["異常・備考"]={rich_text:rt(note)};
+      if(!isNaN(temp)) props["洗浄温度（℃）"]={number:temp};
+      if(!isNaN(circ)) props["循環時間（分）"]={number:circ};
+      if(prev)         props["前工程（直前バッチ）"]={rich_text:rt(prev)};
+      if(note)         props["異常・備考"]={rich_text:rt(note)};
       if(atpOn&&!isNaN(rluVal)){
         props["RLU"]          ={number:rluVal};
-        props["検査日時"]     ={date:{start:dt,is_datetime:true}};
+        props["検査日時"]     ={date:{start:dt}};
         props["採取ポイント"] ={select:{name:pt}};
         if(rluVal>eq.lim) props["再洗浄要"]={checkbox:true};
       }
-
       cdbg("info","POST",`${eq.name} → relay /v1/pages`);
       const res=await jsonp({
-        action:"relay", method:"POST", path:"/v1/pages",
-        body: JSON.stringify({parent:{database_id:CIP_DB},properties:props})
+        action:"relay",method:"POST",path:"/v1/pages",
+        body:JSON.stringify({parent:{database_id:CIP_DB},properties:props})
       });
-      if(res.object==="error"||res.status>=400){
+      if(res.object==="error"||res.status>=400)
         throw new Error(res.message||JSON.stringify(res).slice(0,80));
-      }
       cdbg("ok","SAVED",`${eq.name} id=${(res.id||"").slice(0,8)}`);
       done++;
     }catch(e2){
-      failed++;
-      failNames.push(eq.name);
+      failed++;failNames.push(eq.name);
       cdbg("err","FAIL",`${eq.name}: ${e2.message}`);
     }
     pf.style.width=Math.round((done+failed)/entries.length*100)+"%";
     document.getElementById("saveSt").textContent=`${done+failed} / ${entries.length}`;
-    await new Promise(r=>setTimeout(r,250)); // レート制限ガード
+    await new Promise(r=>setTimeout(r,250));
   }
-
-  pw.style.display="none";
-  btn.disabled=false;
-
+  pw.style.display="none";btn.disabled=false;
   if(failed===0){
     document.getElementById("saveSt").textContent=`✓ ${done}件完了 ${new Date().toLocaleTimeString("ja-JP")}`;
     toast(`✅ ${done}件を保存しました`,"ok");
     cdbg("ok","DONE",`全${done}件保存完了`);
-    await loadData(); goTab("dash");
+    await loadData();goTab("dash");
   }else{
     document.getElementById("saveSt").textContent=`${done}件完了 / ${failed}件失敗: ${failNames.join(",")}`;
     toast(`${done}件保存 / ${failed}件失敗 — デバッグパネル確認`,"er");
@@ -1018,7 +1098,7 @@ async function saveAll(){
 }
 
 function resetEntry(){
-  ALL_EQ.forEach(eq=>{
+  allEq().forEach(eq=>{
     const el=document.getElementById("rlu-"+eq.key);
     if(el)el.value="";
     const chk=document.getElementById("chk-"+eq.key);
@@ -1030,24 +1110,37 @@ function resetEntry(){
 }
 
 // ══ SINGLE ENTRY ══
-const SINGLE_LIMITS={
-  "仕込釜 / Mash Tun":200,"糖化槽 / Lauter Tun":200,
-  "煮沸釜 / Brew Kettle":200,"ワールプール / Whirlpool":200,
-  "発酵タンク / Fermentation Tank":100,"ブライトタンク / Bright Tank":100,
-  "充填ライン / Filling Line":50,"ホース・配管 / Hoses & Pipes":100,
-  "その他 / Other":200,
-};
+// 設備セレクトを設備リストから動的生成
+function updateSingleEquipSelect() {
+  const sel = document.getElementById("s-equip");
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">選択してください</option>';
+  allEq().forEach(eq => {
+    const o = document.createElement("option");
+    o.value = eq.en;
+    o.textContent = eq.en;
+    sel.appendChild(o);
+  });
+  // その他は手動追加
+  const other = document.createElement("option");
+  other.value = "その他 / Other";
+  other.textContent = "その他 / Other";
+  sel.appendChild(other);
+  // 前の選択を復元
+  if (cur) sel.value = cur;
+}
 
 function onSingleEquipChange(){
-  const eq=document.getElementById("s-equip").value;
-  const lim=SINGLE_LIMITS[eq];
-  if(lim) document.getElementById("s-lim").value=lim;
-  // 記録名を自動生成
-  const dateEl=document.getElementById("s-start");
-  const d=dateEl.value?dateEl.value.slice(0,10):new Date().toISOString().slice(0,10);
-  const shortName=eq.split(" / ")[0]||eq;
-  if(shortName)
-    document.getElementById("s-name").value=
+  const equipEn = document.getElementById("s-equip").value;
+  const eq = allEq().find(e => e.en === equipEn);
+  if (eq) {
+    document.getElementById("s-lim").value = eq.lim;
+  }
+  const start = document.getElementById("s-start").value;
+  const d = start ? start.slice(0,10) : new Date().toISOString().slice(0,10);
+  const shortName = equipEn ? equipEn.split(" / ")[0] : "";
+  if (shortName)
+    document.getElementById("s-name").value =
       `CIP-${d.slice(0,4)}-${d.slice(5,7)}${d.slice(8,10)} ${shortName}`;
   updSingleJudge();
 }
@@ -1081,62 +1174,74 @@ function updSingleJudge(){
   ff.style.display=ok?"none":"block";
 }
 
+// ══ 個別記録 保存（修正版）══
 async function saveSingle(){
-  const equip=document.getElementById("s-equip").value;
-  const prog =document.getElementById("s-prog").value;
-  const start=document.getElementById("s-start").value;
-  if(!equip||!start){toast("対象設備と実施日時は必須です","er");return;}
+  const equip = document.getElementById("s-equip").value;
+  const prog  = document.getElementById("s-prog").value;
+  const start = document.getElementById("s-start").value;
+  if(!equip){ toast("対象設備を選択してください","er"); return; }
+  if(!start){ toast("実施日時を入力してください","er"); return; }
 
-  const rt=v=>[{text:{content:String(v||"")}}];
-  const atpOn=document.getElementById("s-atp").checked;
-  const rluVal=parseFloat(document.getElementById("s-rlu").value);
-  const limVal=parseFloat(document.getElementById("s-lim").value);
-  const name=document.getElementById("s-name").value.trim()||`CIP-${start.slice(0,10).replace(/-/g,"")} ${equip.split(" / ")[0]}`;
+  const rt = v => [{text:{content:String(v||"")}}];
+  const atpOn = document.getElementById("s-atp").checked;
+  const rluVal = parseFloat(document.getElementById("s-rlu").value);
+  const limVal = parseFloat(document.getElementById("s-lim").value);
+  const name = document.getElementById("s-name").value.trim()
+    || `CIP-${start.slice(0,10).replace(/-/g,"")} ${equip.split(" / ")[0]}`;
 
-  const props={
-    "記録名":        {title:rt(name)},
-    "対象設備":      {select:{name:equip}},
-    "CIPプログラム": {select:{name:prog}},
-    "実施日時":      {date:{start:start.replace("T"," ").length<16?start+"T09:00":start,is_datetime:true}},
-    "ATP検査実施":   {checkbox:atpOn},
-    "すすぎ確認":    {checkbox:document.getElementById("s-rinse").checked},
+  // Notionに確実に存在するプロパティのみ送信
+  // （saveAll と同じプロパティセットを基本とする）
+  const props = {
+    "記録名":        {title: rt(name)},
+    "対象設備":      {select: {name: equip}},
+    "CIPプログラム": {select: {name: prog}},
+    "実施日時":      {date:   {start: start}},
+    "ATP検査実施":   {checkbox: atpOn},
+    "すすぎ確認":    {checkbox: document.getElementById("s-rinse").checked},
   };
-  const end =document.getElementById("s-end").value;
-  const temp=parseFloat(document.getElementById("s-temp").value);
-  const circ=parseFloat(document.getElementById("s-circ").value);
-  const prev=document.getElementById("s-prev").value;
-  const note=document.getElementById("s-note").value;
-  if(end)          props["終了日時"]={date:{start:end,is_datetime:true}};
-  if(!isNaN(temp)) props["洗浄温度（℃）"]={number:temp};
-  if(!isNaN(circ)) props["循環時間（分）"]={number:circ};
-  if(prev)         props["前工程（直前バッチ）"]={rich_text:rt(prev)};
-  if(note)         props["異常・備考"]={rich_text:rt(note)};
-  if(!isNaN(limVal)) props["基準値RLU"]={number:limVal};
+
+  const temp = parseFloat(document.getElementById("s-temp").value);
+  const circ = parseFloat(document.getElementById("s-circ").value);
+  const prev = document.getElementById("s-prev").value.trim();
+  const note = document.getElementById("s-note").value.trim();
+
+  if(!isNaN(temp)) props["洗浄温度（℃）"] = {number: temp};
+  if(!isNaN(circ)) props["循環時間（分）"] = {number: circ};
+  if(prev)         props["前工程（直前バッチ）"] = {rich_text: rt(prev)};
+  if(note)         props["異常・備考"] = {rich_text: rt(note)};
+  if(!isNaN(limVal)) props["基準値RLU"] = {number: limVal};
+
   if(atpOn){
     if(!isNaN(rluVal)){
-      props["RLU"]={number:rluVal};
-      if(rluVal>(isNaN(limVal)?9999:limVal)) props["再洗浄要"]={checkbox:true};
+      props["RLU"] = {number: rluVal};
+      props["再洗浄要"] = {checkbox: rluVal > (isNaN(limVal)?9999:limVal)};
     }
-    const atpDt=document.getElementById("s-atp-dt").value;
-    if(atpDt) props["検査日時"]={date:{start:atpDt,is_datetime:true}};
-    const pt=document.getElementById("s-point").value;
-    if(pt) props["採取ポイント"]={select:{name:pt}};
-    const cor=document.getElementById("s-correction").value;
-    if(cor) props["ATP是正内容"]={rich_text:rt(cor)};
-    const rck=document.getElementById("s-recheck").value;
-    if(rck) props["再検査結果"]={select:{name:rck}};
-    props["再洗浄要"]={checkbox:document.getElementById("s-reclean").checked};
+    const atpDt = document.getElementById("s-atp-dt").value;
+    if(atpDt) props["検査日時"] = {date: {start: atpDt}};
+    const pt = document.getElementById("s-point").value;
+    if(pt)    props["採取ポイント"] = {select: {name: pt}};
   }
 
-  const btn=document.getElementById("s-saveBtn");
-  btn.disabled=true;
-  document.getElementById("s-saveSt").textContent="保存中…";
+  const btn = document.getElementById("s-saveBtn");
+  btn.disabled = true;
+  document.getElementById("s-saveSt").textContent = "保存中…";
+  cdbg("info","SINGLE",`保存開始: ${name} / ${equip}`);
+  cdbg("info","SINGLE",`props keys: ${Object.keys(props).join(", ")}`);
+
   try{
-    await nPost("/v1/pages",{parent:{database_id:CIP_DB},properties:props});
+    const body = {parent:{database_id:CIP_DB}, properties:props};
+    const res = await jsonp({
+      action:"relay", method:"POST", path:"/v1/pages",
+      body: JSON.stringify(body)
+    });
+    if(res.object==="error" || res.status>=400)
+      throw new Error(res.message || JSON.stringify(res).slice(0,120));
+    cdbg("ok","SINGLE",`保存完了 id=${(res.id||"").slice(0,8)}`);
     toast("✅ 保存しました","ok");
     document.getElementById("s-saveSt").textContent=`✓ ${new Date().toLocaleTimeString("ja-JP")}`;
     await loadData();
   }catch(e){
+    cdbg("err","SINGLE",`保存失敗: ${e.message}`);
     toast("保存エラー: "+e.message,"er");
     document.getElementById("s-saveSt").textContent="";
   }finally{btn.disabled=false;}
@@ -1146,7 +1251,7 @@ function resetSingle(){
   ["s-name","s-temp","s-circ","s-prev","s-note","s-rlu","s-lim","s-correction"].forEach(id=>{
     const el=document.getElementById(id);if(el)el.value="";
   });
-  document.getElementById("s-equip").selectedIndex=0;
+  document.getElementById("s-equip").value="";
   document.getElementById("s-prog").selectedIndex=0;
   document.getElementById("s-recheck").selectedIndex=0;
   document.getElementById("s-rinse").checked=true;
@@ -1217,55 +1322,47 @@ function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").
 
 // ══ DEBUG ══
 let _cdbgOpen=false;
-
 function cdbg(level,tag,msg){
   console[level==="err"?"error":level==="warn"?"warn":"log"](`[CIP:${tag}] ${msg}`);
   const log=document.getElementById("cdbg-log");
-  if(!log) return;
+  if(!log)return;
   const ts=new Date().toLocaleTimeString("ja-JP");
-  const d=document.createElement("div");
-  d.className="cdl";
+  const d=document.createElement("div");d.className="cdl";
   d.innerHTML=`<span class="cdl-ts">${ts}</span><span class="cdl-tag ${level}">${esc(tag)}</span><span class="cdl-msg">${esc(String(msg))}</span>`;
-  log.appendChild(d);
-  log.scrollTop=log.scrollHeight;
-  if(level==="err"&&!_cdbgOpen) cdbgToggle();
+  log.appendChild(d);log.scrollTop=log.scrollHeight;
+  if(level==="err"&&!_cdbgOpen)cdbgToggle();
 }
-
 function cdbgToggle(){
   _cdbgOpen=!_cdbgOpen;
   document.getElementById("cdbg-panel").classList.toggle("show",_cdbgOpen);
   document.getElementById("cdbgTog").textContent=_cdbgOpen?"✕ DEBUG":"🔧 DEBUG";
 }
-function cdbgClear(){
-  const l=document.getElementById("cdbg-log"); if(l) l.innerHTML="";
-}
+function cdbgClear(){const l=document.getElementById("cdbg-log");if(l)l.innerHTML="";}
 
 async function cdbgPing(){
   cdbg("info","TEST","── Ping テスト ──");
   cdbg("info","CONFIG",`GAS_URL=${GAS_URL.slice(0,70)}…`);
-  try{
-    const d=await jsonp({action:"ping"});
-    cdbg("ok","PING",`成功: ${JSON.stringify(d)}`);
-  }catch(e){cdbg("err","PING",`失敗: ${e.message}`);}
+  try{const d=await jsonp({action:"ping"});cdbg("ok","PING",`成功: ${JSON.stringify(d)}`);}
+  catch(e){cdbg("err","PING",`失敗: ${e.message}`);}
 }
-
 async function cdbgQueryAll(){
   cdbg("info","TEST","── QueryAll テスト ──");
   cdbg("info","CONFIG",`CIP_DB=${CIP_DB}`);
   try{
     const pages=await nAll(CIP_DB);
     cdbg("ok","QUERY",`取得: ${pages.length}件`);
-    if(pages[0]) cdbg("info","QUERY",`先頭: ${(pages[0].properties?.記録名?.title||[{}])[0]?.plain_text||"?"}`);
+    if(pages[0])cdbg("info","QUERY",`先頭: ${(pages[0].properties?.記録名?.title||[{}])[0]?.plain_text||"?"}`);
   }catch(e){cdbg("err","QUERY",`失敗: ${e.message}`);}
 }
-
 async function cdbgTestWrite(){
   cdbg("info","TEST","── 書き込みテスト（1件 relay） ──");
   const rt=v=>[{text:{content:String(v||"")}}];
+  const now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
   const props={
     "記録名":        {title:rt("DEBUG-CIP-"+Date.now())},
     "対象設備":      {select:{name:"発酵タンク / Fermentation Tank"}},
     "CIPプログラム": {select:{name:"フルCIP（苛性→酸→殺菌） / Full CIP"}},
+    "実施日時":      {date:{start:now.toISOString().slice(0,16)}},
     "ATP検査実施":   {checkbox:false},
     "すすぎ確認":    {checkbox:true},
     "基準値RLU":     {number:100},
@@ -1273,32 +1370,29 @@ async function cdbgTestWrite(){
   const body={parent:{database_id:CIP_DB},properties:props};
   cdbg("info","RELAY",`path=/v1/pages body_len=${JSON.stringify(body).length}bytes`);
   try{
-    const res=await jsonp({
-      action:"relay",method:"POST",path:"/v1/pages",
-      body:JSON.stringify(body)
-    });
-    if(res.object==="error"||res.status>=400){
+    const res=await jsonp({action:"relay",method:"POST",path:"/v1/pages",body:JSON.stringify(body)});
+    if(res.object==="error"||res.status>=400)
       cdbg("err","WRITE",`Notion APIエラー: ${res.message||JSON.stringify(res).slice(0,120)}`);
-    }else{
+    else
       cdbg("ok","WRITE",`成功 id=${(res.id||"").slice(0,8)} url=${res.url||""}`);
-    }
   }catch(e){cdbg("err","WRITE",`失敗: ${e.message}`);}
 }
-
 async function cdbgRunAll(){
   cdbgClear();
   cdbg("info","ALL","════ 全テスト開始 ════");
-  await cdbgPing();
-  await cdbgTestWrite();
-  await cdbgQueryAll();
+  await cdbgPing();await cdbgTestWrite();await cdbgQueryAll();
   cdbg("info","ALL","════ 全テスト完了 ════");
 }
 
 // ══ INIT ══
 document.addEventListener("DOMContentLoaded",()=>{
-  buildGrids();setToday();loadData();
+  buildGrids();
+  updateSingleEquipSelect();
+  setToday();
+  loadData();
   cdbg("info","INIT",`起動 GAS=${GAS_URL.slice(0,60)}…`);
   cdbg("info","INIT",`CIP_DB=${CIP_DB}`);
+  cdbg("info","INIT",`設備数: brew=${BREW_EQ.length} fill=${FILL_EQ.length}`);
 });
 </script>
 </body>
